@@ -16,21 +16,47 @@ The images obtained from the rush experiments often contain multiple cells. Furt
 This method is based on a technique called Voronoi tesselation and doesn't depend on ny measure of the intensity. It was developed after noting that since the cargo is spread throughout the ER in the first few frames and as the ER is roughly circumnuclear, we can use this to determine the centre of the cell (roughly). Voronoi tesselation then allows us to divide the frame into areas with just one point per area, i.e. one cell per area (theoretically). More precise, given $n$ coordinates, voronoi tesselation divides the given area into $n$ pieces, where every point in a piece is closest to one coordinate. In practice this means for us that each point in a cell area is closest to its the given cell centre. Figure **ref** shows this. Each calculated cell centre is a red point and the lines depict the borders between each voronoi cell. Assuming the cells don't move too much, they don't cross the cells and thus we apply the voronoi diagram calculated in the first few frames to the entire movie.
 
 ### Intensity
-For the fitting however we wish to make a slightly better approach than a voronoi diagram. 
+For the fitting however we wish to make a slightly better approach than a voronoi diagram. As stated, we can't find the exact delineation of the cell, but looking at the intensity, we can see an 'area' of interest, separating background from the cell. Since the Golgi is quite bright in het last 200 or so frames, we consider only the intensity for the Golgi, while for the cytoplasm we consider both the intensity and its time derivative. Thus we have two analog but different processes. For the Golgi we do the following:
 
-#### Golgi
+1. Renormalize the concentration $C$ between 0 and 1.
+2. Sum all frames. One then obtains an image such as figure **ref**
+$$
+\sum_{frames}C(x,y,t)
+$$
+3. This image is thresholded, either through an otsu threshold or a manual one, until the mask roughly matches what we want. Note that extreme precision isn't required, since we just want the rough area. THis results in figure **ref**
+
+For the cytoplasm we follow the same procedure only now we take the log of sum of the product of the intensity and its time derivative:
+
+$$
+\log\left(\sum_{frames}C(x,y,t)\cdot\partial_tC(x,y,t)\right)
+$$
+We thus obtain a complete mask for the movie as shown in figure **ref**
+
+## Step 2 - Denoising
+
+In order to accurately calculate the derivatives and generally improve the quality of fitting, we wish to denoise and smooth the obtained movies. Denoising and smoothing is a subject about which many books have been written and there are hundreds of approaches. One oft-used technique is to Fourier transform the signal, cutoff all coefficients above a cutoff frequency and retransform back into the real domain. Next, a Savitzky-Golay filter can be used to finally smooth the result. However, a big issue with all these methods is their non locality. Since our movies have different scales, this is a big problem. Furthermore, they often smooth out sharp peaks. After evaluating several methods, I have settled on a relatively new method presented in **ref**.
+
+The so-called WavinPOD method combines two well-known filtering techniques, known as wavelet filtering and Proper Orthogonal Decomposition. Below we explain each separately. Our explanation is adapted from **ref** and **ref**.
 
 
-#### Cytoplasm
+### Wavelet filter {-}
+A wavelet filter is not really the appropriate name, as its more of a transform. 
+
+### Proper orthogonal decomposition {-}
+Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It's often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express a function as 
 
 
-## Denoising
 
-### Wavelet filter
 
-### Proper orthogonal decomposition
 
-## Derivatives
+
+### WavinPOD {-}
+WavinPOD combines these two techniques in the following way. First, we decompose our problem with a POD transformation. This yields a set of temporal and spatial modes. We select the most energetic modes and wavelet filter these, before transforming them back to the real domain. As shown in **ref**, combining these techniques has an advantage over others. 
+
+In our case, we select the number of modes to be used by hand (30 in the case of MANII) and apply a 3-level db4 wavelet. We use a slightly higher than necessary level to increase smoothness. In the figure below we show the result for both a pixel in time and one time snapshot. Note that the result is significantly smoother, but that smaller details have been preserved.
+
+
+## Step 3 - Derivatives
 Taking spatial and temporal derivatives of these images is not an entirely trivial operation due to the discreteness of the system. More specifically, taking numerical derivatives of data is extremely hard to do properly and becomes even harder in the presence of noise. Next to basic finite difference methods, one can for example use a linear-least-squares fitted polynomial, smoothing spline or a so-called tikhonov-regularizer **ref needed**. Each method comes with its strengths and weaknesses, but one particularly nasty thing for our context is that they don't scale well to higher dimensions and quickly become computationally expensive.
 
 Another issue related to discretization is the size of the grid w.r.t. the size of the features. To see this, we plot a 2D-gaussian with $\sigma=1$ in figure **ref**.
@@ -84,5 +110,4 @@ For the time derivative, we apply a second order accurate central derivative sch
 
 
 
-
-
+## Step 4 - Fitting

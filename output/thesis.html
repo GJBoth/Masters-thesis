@@ -162,11 +162,18 @@
                 <li><a href="#voronoi-diagram"><span class="toc-section-number">3.1.1</span> Voronoi diagram</a></li>
                 <li><a href="#intensity"><span class="toc-section-number">3.1.2</span> Intensity</a></li>
                 </ul></li>
-                <li><a href="#denoising"><span class="toc-section-number">3.2</span> Denoising</a><ul>
-                <li><a href="#savitzky--golay"><span class="toc-section-number">3.2.1</span> Savitzky- Golay</a></li>
-                <li><a href="#wavpod"><span class="toc-section-number">3.2.2</span> WavPOD</a></li>
+                <li><a href="#step-2---denoising"><span class="toc-section-number">3.2</span> Step 2 - Denoising</a><ul>
+                <li><a href="#wavelet-filter">Wavelet filter</a></li>
+                <li><a href="#proper-orthogonal-decomposition">Proper orthogonal decomposition</a></li>
+                <li><a href="#wavinpod">WavinPOD</a></li>
                 </ul></li>
-                <li><a href="#derivatives"><span class="toc-section-number">3.3</span> Derivatives</a></li>
+                <li><a href="#step-3---derivatives"><span class="toc-section-number">3.3</span> Step 3 - Derivatives</a></li>
+                <li><a href="#step-4---fitting"><span class="toc-section-number">3.4</span> Step 4 - Fitting</a></li>
+                <li><a href="#analysis-of-time-derivatives"><span class="toc-section-number">3.5</span> Analysis of time derivatives</a></li>
+                <li><a href="#analysis-of-fit"><span class="toc-section-number">3.6</span> Analysis of fit</a><ul>
+                <li><a href="#diffusion"><span class="toc-section-number">3.6.1</span> Diffusion</a></li>
+                <li><a href="#advection"><span class="toc-section-number">3.6.2</span> Advection</a></li>
+                </ul></li>
                 </ul></li>
                 <li><a href="#conclusion"><span class="toc-section-number">4</span> Conclusion</a></li>
                 <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
@@ -199,14 +206,31 @@ and add the centred logo
 <h2 id="step-1-segmentation"><span class="header-section-number">3.1</span> Step 1: Segmentation</h2>
 <p>The images obtained from the rush experiments often contain multiple cells. Furthermore, we can also segment the image into roughly three different types: 1) the background, where nothing of interest happens. No cells are present here, 2) the cytoplasm, which is the area where we want to fit our model and 3) the Golgi itself, where we do not necessarily want to fit. Unfortunately, no bright field images were available, making segmentation significantly harder, as no clear cell boundary can be observed. Further complicating the story is the large dynamic range of the movies due to the fluorescence concentrating in the Golgi. The following procedures we present have been developed to deal with these problems. Note that they are empirical methods, i.e. there’s no theoretical background as to why they <em>should</em> work. However, in practice they do and I haven’t found any other method which was able to.</p>
 <h3 id="voronoi-diagram"><span class="header-section-number">3.1.1</span> Voronoi diagram</h3>
-<p>This method is based on a technique called Voronoi tesselation and doesn’t depend on ny measure of the intensity. It was developed after noting that since the cargo is spread throughout the ER in the first few frames and as the ER is roughly circumnuclear, we can use this to determine the centre of the cell (roughly). Voronoi tesselation then allows us to divide the frame into areas with just one point per area, i.e. one cell per area (theoretically). More precise, given <span class="math inline">\(n\)</span> points, voronoi tesselation</p>
+<p>This method is based on a technique called Voronoi tesselation and doesn’t depend on ny measure of the intensity. It was developed after noting that since the cargo is spread throughout the ER in the first few frames and as the ER is roughly circumnuclear, we can use this to determine the centre of the cell (roughly). Voronoi tesselation then allows us to divide the frame into areas with just one point per area, i.e. one cell per area (theoretically). More precise, given <span class="math inline">\(n\)</span> coordinates, voronoi tesselation divides the given area into <span class="math inline">\(n\)</span> pieces, where every point in a piece is closest to one coordinate. In practice this means for us that each point in a cell area is closest to its the given cell centre. Figure <strong>ref</strong> shows this. Each calculated cell centre is a red point and the lines depict the borders between each voronoi cell. Assuming the cells don’t move too much, they don’t cross the cells and thus we apply the voronoi diagram calculated in the first few frames to the entire movie.</p>
 <h3 id="intensity"><span class="header-section-number">3.1.2</span> Intensity</h3>
-<h4 id="golgi"><span class="header-section-number">3.1.2.1</span> Golgi</h4>
-<h4 id="cytoplasm"><span class="header-section-number">3.1.2.2</span> Cytoplasm</h4>
-<h2 id="denoising"><span class="header-section-number">3.2</span> Denoising</h2>
-<h3 id="savitzky--golay"><span class="header-section-number">3.2.1</span> Savitzky- Golay</h3>
-<h3 id="wavpod"><span class="header-section-number">3.2.2</span> WavPOD</h3>
-<h2 id="derivatives"><span class="header-section-number">3.3</span> Derivatives</h2>
+<p>For the fitting however we wish to make a slightly better approach than a voronoi diagram. As stated, we can’t find the exact delineation of the cell, but looking at the intensity, we can see an ‘area’ of interest, separating background from the cell. Since the Golgi is quite bright in het last 200 or so frames, we consider only the intensity for the Golgi, while for the cytoplasm we consider both the intensity and its time derivative. Thus we have two analog but different processes. For the Golgi we do the following:</p>
+<ol type="1">
+<li>Renormalize the concentration <span class="math inline">\(C\)</span> between 0 and 1.</li>
+<li>Sum all frames. One then obtains an image such as figure <strong>ref</strong> <span class="math display">\[
+\sum_{frames}C(x,y,t)
+\]</span></li>
+<li>This image is thresholded, either through an otsu threshold or a manual one, until the mask roughly matches what we want. Note that extreme precision isn’t required, since we just want the rough area. THis results in figure <strong>ref</strong></li>
+</ol>
+<p>For the cytoplasm we follow the same procedure only now we take the log of sum of the product of the intensity and its time derivative:</p>
+<p><span class="math display">\[
+\log\left(\sum_{frames}C(x,y,t)\cdot\partial_tC(x,y,t)\right)
+\]</span> We thus obtain a complete mask for the movie as shown in figure <strong>ref</strong></p>
+<h2 id="step-2---denoising"><span class="header-section-number">3.2</span> Step 2 - Denoising</h2>
+<p>In order to accurately calculate the derivatives and generally improve the quality of fitting, we wish to denoise and smooth the obtained movies. Denoising and smoothing is a subject about which many books have been written and there are hundreds of approaches. One oft-used technique is to Fourier transform the signal, cutoff all coefficients above a cutoff frequency and retransform back into the real domain. Next, a Savitzky-Golay filter can be used to finally smooth the result. However, a big issue with all these methods is their non locality. Since our movies have different scales, this is a big problem. Furthermore, they often smooth out sharp peaks. After evaluating several methods, I have settled on a relatively new method presented in <strong>ref</strong>.</p>
+<p>The so-called WavinPOD method combines two well-known filtering techniques, known as wavelet filtering and Proper Orthogonal Decomposition. Below we explain each separately. Our explanation is adapted from <strong>ref</strong> and <strong>ref</strong>.</p>
+<h3 id="wavelet-filter" class="unnumbered">Wavelet filter</h3>
+<p>A wavelet filter is not really the appropriate name, as its more of a transform.</p>
+<h3 id="proper-orthogonal-decomposition" class="unnumbered">Proper orthogonal decomposition</h3>
+<p>Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It’s often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express a function as</p>
+<h3 id="wavinpod" class="unnumbered">WavinPOD</h3>
+<p>WavinPOD combines these two techniques in the following way. First, we decompose our problem with a POD transformation. This yields a set of temporal and spatial modes. We select the most energetic modes and wavelet filter these, before transforming them back to the real domain. As shown in <strong>ref</strong>, combining these techniques has an advantage over others.</p>
+<p>In our case, we select the number of modes to be used by hand (30 in the case of MANII) and apply a 3-level db4 wavelet. We use a slightly higher than necessary level to increase smoothness. In the figure below we show the result for both a pixel in time and one time snapshot. Note that the result is significantly smoother, but that smaller details have been preserved.</p>
+<h2 id="step-3---derivatives"><span class="header-section-number">3.3</span> Step 3 - Derivatives</h2>
 <p>Taking spatial and temporal derivatives of these images is not an entirely trivial operation due to the discreteness of the system. More specifically, taking numerical derivatives of data is extremely hard to do properly and becomes even harder in the presence of noise. Next to basic finite difference methods, one can for example use a linear-least-squares fitted polynomial, smoothing spline or a so-called tikhonov-regularizer <strong>ref needed</strong>. Each method comes with its strengths and weaknesses, but one particularly nasty thing for our context is that they don’t scale well to higher dimensions and quickly become computationally expensive.</p>
 <p>Another issue related to discretization is the size of the grid w.r.t. the size of the features. To see this, we plot a 2D-gaussian with <span class="math inline">\(\sigma=1\)</span> in figure <strong>ref</strong>.</p>
 <p>As expected, the derivative is normal to the isolines of the object. Now consider the discretized version of the object. Taking the naive spatial derivate w.r.t. to each direction means only considering a single row or column of and taking the derivative in that direction. Figure <strong>ref</strong> shows the result of this operation. An artifact is clearly visible: instead of a nice uniform derivative, we see a ‘cross’. This effect is a cause of the discretization grid being too large for some smaller, often bright, objects.</p>
@@ -243,7 +267,14 @@ and add the centred logo
 \end{bmatrix}
 \]</span></p>
 <p>Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a <span class="math inline">\(3\times3\)</span> filter here, the filter can take into account higher order schemes such as a <span class="math inline">\(5\times5\)</span> or <span class="math inline">\(7\times7\)</span>. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast.</p>
-<p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">\(5\times5\)</span> Sobel filter.</p>
+<p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">\(5\times5\)</span> Sobel filter. We analyze these in the next chapter</p>
+<h2 id="step-4---fitting"><span class="header-section-number">3.4</span> Step 4 - Fitting</h2>
+<p>Now that we have # Results data analysis</p>
+<p>Here we present the results from our analysis on the RUSH experiments. We only show the results of MANII because this is the only thing we studied.</p>
+<h2 id="analysis-of-time-derivatives"><span class="header-section-number">3.5</span> Analysis of time derivatives</h2>
+<h2 id="analysis-of-fit"><span class="header-section-number">3.6</span> Analysis of fit</h2>
+<h3 id="diffusion"><span class="header-section-number">3.6.1</span> Diffusion</h3>
+<h3 id="advection"><span class="header-section-number">3.6.2</span> Advection</h3>
 <h1 id="conclusion"><span class="header-section-number">4</span> Conclusion</h1>
 <h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
 <!-- 
