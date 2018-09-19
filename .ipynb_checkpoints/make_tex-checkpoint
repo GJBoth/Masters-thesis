@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#Merging notebooks
+nbmerge Notebooks/01_test.ipynb Notebooks/02_test.ipynb > Output/merged.ipynb
+
+#Converting to markdown
+jupyter nbconvert --to latex --template theme_tex Output/merged.ipynb

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#Converting to markdown
+jupyter nbconvert --to markdown --template theme_markdown 01_test.ipynb

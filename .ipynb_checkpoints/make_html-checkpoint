@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#Merging notebooks
+nbmerge Notebooks/01_test.ipynb Notebooks/02_test.ipynb > Notebooks/merged.ipynb
+
+#Converting to html
+jupyter nbconvert --template theme Notebooks/merged.ipynb
