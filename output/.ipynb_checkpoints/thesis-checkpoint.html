@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <meta name="generator" content="pandoc" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+                        <title>01_title_page</title>
+        <style type="text/css">code{white-space: pre;}</style>
+                                                    <style>
+            body {
+                font-family: Georgia;
+                max-width: 800px;
+                margin: 0 auto;
+                line-height: 30px;
+                font-size: 18px;
+                padding-left: 350px;
+                padding-right: 50px;
+                color: #111;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                font-family: Arial;
+            }
+            
+            h1 {
+                padding-top: 200px;
+                line-height: 50px;
+            }
+            h2 {
+                padding-top: 30px;
+            }
+            h3 {
+                padding-top: 20px;
+            }
+            h4 {
+                padding-top: 10px;
+            }
+            p {
+                text-align: justify;
+            }
+            p a {
+                word-wrap: break-word;
+                white-space: pre;
+            }
+            code {
+                word-wrap: break-word;
+            }
+            blockquote {
+                border-left: 3px solid #eee;
+                margin-left: 20px;
+                padding-left: 20px;
+            }
+            
+            ::selection {
+                background-color: #E4E4E4;
+            }
+            
+            table {
+                width: 100%;
+            }
+            table caption {
+                font-weight: bold;
+            }
+            table tr {
+                padding: 0;
+                margin: 0;
+                background-color: #f0f0f0;
+            }
+            table tr.even {
+                background-color: #fafafa;
+            }
+            table td {
+                margin: 0;
+                padding: 3px 5px;
+            }
+            
+            p span.added {
+                color: green;
+                background-color: #FFF3C5;
+            }
+            p span.removed {
+                color: red;
+                background-color: #FFF3C5;
+            }
+            
+            #title-page {
+                padding: 80px 0;
+            }
+            
+            #TOC {
+                position: fixed;
+                left: 0;
+                top: 0;
+                overflow-y: scroll;
+                height: 100%;
+                background: #fafafa;
+                max-width: 300px;
+                font-family: Arial;
+                font-size: 15px;
+                line-height: 30px;
+            }
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #ECECEC;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #B0B0B0;
+                border-radius: 8px;
+            }
+            #TOC > ul {
+                padding-right: 10px;
+            }
+            #TOC ul {
+                list-style: none;
+                padding-left: 20px;
+            }
+            #TOC ul li a {
+                text-decoration: none;
+                color: #364149;
+                text-overflow: ellipsis;
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #TOC ul li a:hover {
+                color: #008cff;
+            }
+            
+            .figure {
+                text-align: center;
+            }
+            .figure p {
+                text-align: center;
+                font-style: italic;
+            }
+            .figure img {
+                  width: 100%;
+            }
+            </style>
+                <script src="js/jquery.js"></script>
+        <script src="js/diff.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+                <!--
+                -->
+        <div id="title-page">
+            <h1>This is the title of the thesis</h1>
+            <h2>Firstname Surname</h2>
+        </div>
+                    <div id="TOC">
+                <ul>
+                <li><a href="#abstract">Abstract</a></li>
+                <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+                <li><a href="#introduction-1"><span class="toc-section-number">2</span> Introduction</a></li>
+                <li><a href="#data-processing-pipeline"><span class="toc-section-number">3</span> Data processing pipeline</a><ul>
+                <li><a href="#step-1-segmentation"><span class="toc-section-number">3.1</span> Step 1: Segmentation</a><ul>
+                <li><a href="#voronoi-diagram"><span class="toc-section-number">3.1.1</span> Voronoi diagram</a></li>
+                <li><a href="#intensity"><span class="toc-section-number">3.1.2</span> Intensity</a></li>
+                </ul></li>
+                <li><a href="#denoising"><span class="toc-section-number">3.2</span> Denoising</a><ul>
+                <li><a href="#savitzky--golay"><span class="toc-section-number">3.2.1</span> Savitzky- Golay</a></li>
+                <li><a href="#wavpod"><span class="toc-section-number">3.2.2</span> WavPOD</a></li>
+                </ul></li>
+                <li><a href="#derivatives"><span class="toc-section-number">3.3</span> Derivatives</a></li>
+                </ul></li>
+                <li><a href="#conclusion"><span class="toc-section-number">4</span> Conclusion</a></li>
+                <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
+                <li><a href="#references"><span class="toc-section-number">5</span> References</a></li>
+                </ul>
+            </div>
+                                <!-- 
+This is the Latex-heavy title page. 
+People outside UCL may want to remove the header logo 
+and add the centred logo
+-->
+
+<h1 id="abstract" class="unnumbered">Abstract</h1>
+<!-- This is the abstract -->
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam et turpis gravida, lacinia ante sit amet, sollicitudin erat. Aliquam efficitur vehicula leo sed condimentum. Phasellus lobortis eros vitae rutrum egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec at urna imperdiet, vulputate orci eu, sollicitudin leo. Donec nec dui sagittis, malesuada erat eget, vulputate tellus. Nam ullamcorper efficitur iaculis. Mauris eu vehicula nibh. In lectus turpis, tempor at felis a, egestas fermentum massa.</p>
+
+
+
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<h1 id="introduction-1"><span class="header-section-number">2</span> Introduction</h1>
+<h1 id="data-processing-pipeline"><span class="header-section-number">3</span> Data processing pipeline</h1>
+<p>In this chapter I present the work done on processing the rush movies. Several preprocssing steps hav been undertaken to improve the quality of the fit, and we present all here. Roughly, we can divide the process in four steps:</p>
+<ol type="1">
+<li>Segmentation and creation of masks</li>
+<li>Denoising of movies</li>
+<li>Calculation of spatial and temporal derivatives</li>
+<li>The actual fitting</li>
+</ol>
+<p>Below we describe each step separately.</p>
+<h2 id="step-1-segmentation"><span class="header-section-number">3.1</span> Step 1: Segmentation</h2>
+<p>The images obtained from the rush experiments often contain multiple cells. Furthermore, we can also segment the image into roughly three different types: 1) the background, where nothing of interest happens. No cells are present here, 2) the cytoplasm, which is the area where we want to fit our model and 3) the Golgi itself, where we do not necessarily want to fit. Unfortunately, no bright field images were available, making segmentation significantly harder, as no clear cell boundary can be observed. Further complicating the story is the large dynamic range of the movies due to the fluorescence concentrating in the Golgi. The following procedures we present have been developed to deal with these problems. Note that they are empirical methods, i.e. there’s no theoretical background as to why they <em>should</em> work. However, in practice they do and I haven’t found any other method which was able to.</p>
+<h3 id="voronoi-diagram"><span class="header-section-number">3.1.1</span> Voronoi diagram</h3>
+<p>This method is based on a technique called Voronoi tesselation and doesn’t depend on ny measure of the intensity. It was developed after noting that since the cargo is spread throughout the ER in the first few frames and as the ER is roughly circumnuclear, we can use this to determine the centre of the cell (roughly). Voronoi tesselation then allows us to divide the frame into areas with just one point per area, i.e. one cell per area (theoretically). More precise, given <span class="math inline"><em>n</em></span> points, voronoi tesselation</p>
+<h3 id="intensity"><span class="header-section-number">3.1.2</span> Intensity</h3>
+<h4 id="golgi"><span class="header-section-number">3.1.2.1</span> Golgi</h4>
+<h4 id="cytoplasm"><span class="header-section-number">3.1.2.2</span> Cytoplasm</h4>
+<h2 id="denoising"><span class="header-section-number">3.2</span> Denoising</h2>
+<h3 id="savitzky--golay"><span class="header-section-number">3.2.1</span> Savitzky- Golay</h3>
+<h3 id="wavpod"><span class="header-section-number">3.2.2</span> WavPOD</h3>
+<h2 id="derivatives"><span class="header-section-number">3.3</span> Derivatives</h2>
+<p>Taking spatial and temporal derivatives of these images is not an entirely trivial operation due to the discreteness of the system. More specifically, taking numerical derivatives of data is extremely hard to do properly and becomes even harder in the presence of noise. Next to basic finite difference methods, one can for example use a linear-least-squares fitted polynomial, smoothing spline or a so-called tikhonov-regularizer <strong>ref needed</strong>. Each method comes with its strengths and weaknesses, but one particularly nasty thing for our context is that they don’t scale well to higher dimensions and quickly become computationally expensive.</p>
+<p>Another issue related to discretization is the size of the grid w.r.t. the size of the features. To see this, we plot a 2D-gaussian with <span class="math inline"><em>σ</em> = 1</span> in figure <strong>ref</strong>.</p>
+<p>As expected, the derivative is normal to the isolines of the object. Now consider the discretized version of the object. Taking the naive spatial derivate w.r.t. to each direction means only considering a single row or column of and taking the derivative in that direction. Figure <strong>ref</strong> shows the result of this operation. An artifact is clearly visible: instead of a nice uniform derivative, we see a ‘cross’. This effect is a cause of the discretization grid being too large for some smaller, often bright, objects.</p>
+<p>To remedy this, one can for example artificially upscale the grid, interpolate the values inbetween, and take the derivates from this grid. This is not ideal however, since the upscaling requires a large amount of memory and is computationally expensive. Another solution which is common in image processing is applying a <em>kernel operator</em>. The advantage of a kernel operator is that it is extremely computationally cheap, as it involves convolving the original picture with a differentiation kernel. The differentiation kernel is an approximate version of a finite difference scheme. We use and show here the Sobel filter, which is the most commonly used one.</p>
+<p>In a simple finite central difference scheme, we set</p>
+<p><br /><span class="math display">$$
+\frac{dx}{dt}\approx\frac{x_{i+1}-x_{i-1}}{2h}
+$$</span><br /></p>
+<p>where <span class="math inline"><em>h</em></span> is the distance between two points. In terms of a kernel operator, this would look like (the <span class="math inline"><em>h</em></span> drops out as the distance in terms of pixels is 1):</p>
+<p><br /><span class="math display">$$\frac{1}{2}\cdot
+\begin{bmatrix}
+1 &amp; 0 &amp; -1
+\end{bmatrix}
+$$</span><br /></p>
+<p>And applying it by convoluting it to a matrix gives the x-derivative:</p>
+<p><br /><span class="math display">$$
+\partial_xA\approx A*\begin{bmatrix}
+1 &amp; 0 &amp; -1
+\end{bmatrix}
+$$</span><br /></p>
+<p>and analogous for the y-direction. However, as we’ve seen, looking at just a single row introduces cross-like artifacts. To remedy this, we wish to include diagonal pixels as well. However, the distance between the diagonal pixels and the center pixel is not 1 but <span class="math inline">$\sqrt{2}$</span> and furthermore we need to decompose is it into <span class="math inline"><em>x̂</em></span> and <span class="math inline"><em>ŷ</em></span>, introducing another factor <span class="math inline">$\sqrt{2}$</span>. Thus, one obtains the classis <span class="math inline">3 × 3</span> Sobel filter <strong>ref</strong>:</p>
+<p><br /><span class="math display">$$
+\mathbf G_x=\frac{1}{8}\cdot
+\begin{bmatrix}
+1 &amp; 0 &amp; -1\\
+2 &amp; 0 &amp; -2\\
+1 &amp; 0 &amp; -1
+\end{bmatrix}
+\mathbf G_y=\frac{1}{8}\cdot
+\begin{bmatrix}
+1 &amp; 2 &amp; 1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -2 &amp; -1
+\end{bmatrix}
+$$</span><br /></p>
+<p>Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a <span class="math inline">3 × 3</span> filter here, the filter can take into account higher order schemes such as a <span class="math inline">5 × 5</span> or <span class="math inline">7 × 7</span>. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast.</p>
+<p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">5 × 5</span> Sobel filter.</p>
+<h1 id="conclusion"><span class="header-section-number">4</span> Conclusion</h1>
+<h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
+<!-- 
+This could be a list of papers by the author for example 
+-->
+<p>Add appendix 1 here. Vivamus hendrerit rhoncus interdum. Sed ullamcorper et augue at porta. Suspendisse facilisis imperdiet urna, eu pellentesque purus suscipit in. Integer dignissim mattis ex aliquam blandit. Curabitur lobortis quam varius turpis ultrices egestas.</p>
+
+<!-- 
+Do not edit this page.
+
+References are automatically generated from the BibTex file (References.bib)
+
+...which you should create using your reference manager.
+-->
+<h1 id="references"><span class="header-section-number">5</span> References</h1>
+            </body>
+</html>
+
