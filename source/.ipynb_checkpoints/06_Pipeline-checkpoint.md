@@ -106,8 +106,9 @@ $$
 
 Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a $3\times3$ filter here, the filter can take into account higher order schemes such as a $5\times5$ or $7\times7$. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast. 
 
-For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the $5\times5$ Sobel filter.
+For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the $5\times5$ Sobel filter. We analyze these in the next chapter 
 
 
 
 ## Step 4 - Fitting
+Now that we have 
