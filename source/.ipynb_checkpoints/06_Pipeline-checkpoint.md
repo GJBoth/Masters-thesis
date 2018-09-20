@@ -111,4 +111,4 @@ For the time derivative, we apply a second order accurate central derivative sch
 
 
 ## Step 4 - Fitting
-Now that we have 
+Now that we have gathered all our data.
