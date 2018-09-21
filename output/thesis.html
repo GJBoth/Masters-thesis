@@ -169,15 +169,17 @@
                 </ul></li>
                 <li><a href="#step-3---derivatives"><span class="toc-section-number">3.3</span> Step 3 - Derivatives</a></li>
                 <li><a href="#step-4---fitting"><span class="toc-section-number">3.4</span> Step 4 - Fitting</a></li>
-                <li><a href="#analysis-of-time-derivatives"><span class="toc-section-number">3.5</span> Analysis of time derivatives</a></li>
-                <li><a href="#analysis-of-fit"><span class="toc-section-number">3.6</span> Analysis of fit</a><ul>
-                <li><a href="#diffusion"><span class="toc-section-number">3.6.1</span> Diffusion</a></li>
-                <li><a href="#advection"><span class="toc-section-number">3.6.2</span> Advection</a></li>
+                </ul></li>
+                <li><a href="#results-data-analysis"><span class="toc-section-number">4</span> Results data analysis</a><ul>
+                <li><a href="#analysis-of-time-derivatives"><span class="toc-section-number">4.1</span> Analysis of time derivatives</a></li>
+                <li><a href="#analysis-of-fit"><span class="toc-section-number">4.2</span> Analysis of fit</a><ul>
+                <li><a href="#diffusion"><span class="toc-section-number">4.2.1</span> Diffusion</a></li>
+                <li><a href="#advection"><span class="toc-section-number">4.2.2</span> Advection</a></li>
                 </ul></li>
                 </ul></li>
-                <li><a href="#conclusion"><span class="toc-section-number">4</span> Conclusion</a></li>
+                <li><a href="#conclusion"><span class="toc-section-number">5</span> Conclusion</a></li>
                 <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
-                <li><a href="#references"><span class="toc-section-number">5</span> References</a></li>
+                <li><a href="#references"><span class="toc-section-number">6</span> References</a></li>
                 </ul>
             </div>
                                 <!-- 
@@ -211,7 +213,7 @@ and add the centred logo
 <p>For the fitting however we wish to make a slightly better approach than a voronoi diagram. As stated, we can’t find the exact delineation of the cell, but looking at the intensity, we can see an ‘area’ of interest, separating background from the cell. Since the Golgi is quite bright in het last 200 or so frames, we consider only the intensity for the Golgi, while for the cytoplasm we consider both the intensity and its time derivative. Thus we have two analog but different processes. For the Golgi we do the following:</p>
 <ol type="1">
 <li>Renormalize the concentration <span class="math inline">\(C\)</span> between 0 and 1.</li>
-<li>Sum all frames. One then obtains an image such as figure <strong>ref</strong> <span class="math display">\[
+<li>Sum all frames. One then obtains an image such as figure <strong>ref</strong> <span class="math display">\[x
 \sum_{frames}C(x,y,t)
 \]</span></li>
 <li>This image is thresholded, either through an otsu threshold or a manual one, until the mask roughly matches what we want. Note that extreme precision isn’t required, since we just want the rough area. THis results in figure <strong>ref</strong></li>
@@ -269,13 +271,17 @@ and add the centred logo
 <p>Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a <span class="math inline">\(3\times3\)</span> filter here, the filter can take into account higher order schemes such as a <span class="math inline">\(5\times5\)</span> or <span class="math inline">\(7\times7\)</span>. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast.</p>
 <p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">\(5\times5\)</span> Sobel filter. We analyze these in the next chapter</p>
 <h2 id="step-4---fitting"><span class="header-section-number">3.4</span> Step 4 - Fitting</h2>
-<p>Now that we have # Results data analysis</p>
+<p>Now that we have gathered all our data we can use it to fit. We use a simple least squares method.</p>
+<h1 id="results-data-analysis"><span class="header-section-number">4</span> Results data analysis</h1>
 <p>Here we present the results from our analysis on the RUSH experiments. We only show the results of MANII because this is the only thing we studied.</p>
-<h2 id="analysis-of-time-derivatives"><span class="header-section-number">3.5</span> Analysis of time derivatives</h2>
-<h2 id="analysis-of-fit"><span class="header-section-number">3.6</span> Analysis of fit</h2>
-<h3 id="diffusion"><span class="header-section-number">3.6.1</span> Diffusion</h3>
-<h3 id="advection"><span class="header-section-number">3.6.2</span> Advection</h3>
-<h1 id="conclusion"><span class="header-section-number">4</span> Conclusion</h1>
+<p>textwidth: </p>
+<p>linewidth: </p>
+<h2 id="analysis-of-time-derivatives"><span class="header-section-number">4.1</span> Analysis of time derivatives</h2>
+<p>Ziet er goed uit chefke. <embed src="/Users/gert-janboth/PycharmProjects/Plots_report/Plots/time_derivative.pdf" /></p>
+<h2 id="analysis-of-fit"><span class="header-section-number">4.2</span> Analysis of fit</h2>
+<h3 id="diffusion"><span class="header-section-number">4.2.1</span> Diffusion</h3>
+<h3 id="advection"><span class="header-section-number">4.2.2</span> Advection</h3>
+<h1 id="conclusion"><span class="header-section-number">5</span> Conclusion</h1>
 <h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
 <!-- 
 This could be a list of papers by the author for example 
@@ -289,7 +295,7 @@ References are automatically generated from the BibTex file (References.bib)
 
 ...which you should create using your reference manager.
 -->
-<h1 id="references"><span class="header-section-number">5</span> References</h1>
+<h1 id="references"><span class="header-section-number">6</span> References</h1>
             </body>
 </html>
 

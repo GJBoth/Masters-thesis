@@ -20,7 +20,7 @@ For the fitting however we wish to make a slightly better approach than a vorono
 
 1. Renormalize the concentration $C$ between 0 and 1.
 2. Sum all frames. One then obtains an image such as figure **ref**
-$$
+$$x
 \sum_{frames}C(x,y,t)
 $$
 3. This image is thresholded, either through an otsu threshold or a manual one, until the mask roughly matches what we want. Note that extreme precision isn't required, since we just want the rough area. THis results in figure **ref**
@@ -111,4 +111,6 @@ For the time derivative, we apply a second order accurate central derivative sch
 
 
 ## Step 4 - Fitting
-Now that we have gathered all our data.
+Now that we have gathered all our data we can use it to fit. We use a simple least squares method.
+
+

@@ -111,4 +111,6 @@ For the time derivative, we apply a second order accurate central derivative sch
 
 
 ## Step 4 - Fitting
-Now that we have gathered all our data.
+Now that we have gathered all our data we can use it to fit. We use a simple least squares method.
+
+
