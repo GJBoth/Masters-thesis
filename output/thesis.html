@@ -155,7 +155,12 @@
                     <div id="TOC">
                 <ul>
                 <li><a href="#abstract">Abstract</a></li>
-                <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+                <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+                <li><a href="#quantitative-work-on-the-golgi-so-far"><span class="toc-section-number">1.1</span> Quantitative work on the Golgi so far</a></li>
+                <li><a href="#rush-system"><span class="toc-section-number">1.2</span> RUSH system</a><ul>
+                <li><a href="#man-ii"><span class="toc-section-number">1.2.1</span> Man II</a></li>
+                </ul></li>
+                </ul></li>
                 <li><a href="#introduction-1"><span class="toc-section-number">2</span> Introduction</a></li>
                 <li><a href="#data-processing-pipeline"><span class="toc-section-number">3</span> Data processing pipeline</a><ul>
                 <li><a href="#step-1-segmentation"><span class="toc-section-number">3.1</span> Step 1: Segmentation</a><ul>
@@ -177,9 +182,23 @@
                 <li><a href="#advection"><span class="toc-section-number">4.2.2</span> Advection</a></li>
                 </ul></li>
                 </ul></li>
-                <li><a href="#conclusion"><span class="toc-section-number">5</span> Conclusion</a></li>
+                <li><a href="#physics-informed-neural-networks"><span class="toc-section-number">5</span> Physics Informed Neural Networks</a><ul>
+                <li><a href="#neural-networks"><span class="toc-section-number">5.1</span> Neural Networks</a><ul>
+                <li><a href="#the-basis-the-neuron"><span class="toc-section-number">5.1.1</span> The basis: the neuron</a></li>
+                <li><a href="#network"><span class="toc-section-number">5.1.2</span> Network</a></li>
+                <li><a href="#training"><span class="toc-section-number">5.1.3</span> Training</a></li>
+                </ul></li>
+                <li><a href="#physics-informed-neural-networks-1"><span class="toc-section-number">5.2</span> Physics Informed Neural Networks</a><ul>
+                <li><a href="#the-concept"><span class="toc-section-number">5.2.1</span> The concept</a></li>
+                <li><a href="#pinns-in-practice"><span class="toc-section-number">5.2.2</span> PINNs in practice</a></li>
+                </ul></li>
+                <li><a href="#conclusion"><span class="toc-section-number">5.3</span> Conclusion</a><ul>
+                <li><a href="#weak-points-and-how-to-improve"><span class="toc-section-number">5.3.1</span> Weak points and how to improve</a></li>
+                </ul></li>
+                </ul></li>
+                <li><a href="#conclusion-1"><span class="toc-section-number">6</span> Conclusion</a></li>
                 <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
-                <li><a href="#references"><span class="toc-section-number">6</span> References</a></li>
+                <li><a href="#references"><span class="toc-section-number">7</span> References</a></li>
                 </ul>
             </div>
                                 <!-- 
@@ -194,7 +213,14 @@ and add the centred logo
 
 
 
+
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<h2 id="quantitative-work-on-the-golgi-so-far"><span class="header-section-number">1.1</span> Quantitative work on the Golgi so far</h2>
+<h2 id="rush-system"><span class="header-section-number">1.2</span> RUSH system</h2>
+<figure>
+<img src="source/figures/png/D.png" alt="text" /><figcaption>text</figcaption>
+</figure>
+<h3 id="man-ii"><span class="header-section-number">1.2.1</span> Man II</h3>
 <h1 id="introduction-1"><span class="header-section-number">2</span> Introduction</h1>
 <h1 id="data-processing-pipeline"><span class="header-section-number">3</span> Data processing pipeline</h1>
 <p>In this chapter I present the work done on processing the rush movies. Several preprocssing steps hav been undertaken to improve the quality of the fit, and we present all here. Roughly, we can divide the process in four steps:</p>
@@ -277,11 +303,41 @@ and add the centred logo
 <p>textwidth: </p>
 <p>linewidth: </p>
 <h2 id="analysis-of-time-derivatives"><span class="header-section-number">4.1</span> Analysis of time derivatives</h2>
-<p>Ziet er goed uit chefke. <embed src="/Users/gert-janboth/PycharmProjects/Plots_report/Plots/time_derivative.pdf" /></p>
+<p>Ziet er goed uit chefke.</p>
+<figure>
+<img src="/Users/gert-janboth/PycharmProjects/Plots_report/Plots/time_derivative.png" alt="Wolla zieke subscript." /><figcaption>Wolla zieke subscript.</figcaption>
+</figure>
 <h2 id="analysis-of-fit"><span class="header-section-number">4.2</span> Analysis of fit</h2>
 <h3 id="diffusion"><span class="header-section-number">4.2.1</span> Diffusion</h3>
 <h3 id="advection"><span class="header-section-number">4.2.2</span> Advection</h3>
-<h1 id="conclusion"><span class="header-section-number">5</span> Conclusion</h1>
+<h1 id="physics-informed-neural-networks"><span class="header-section-number">5</span> Physics Informed Neural Networks</h1>
+<p>In previous chapters we showed the difficulty in finding a general fit for a model to spatiotemporal data. Very recently, a set of papers introduced a new technique called Physics Informed neural networks. The set of papers show very powerful and promising results. I’ve evaluated this technique for use in fitting our model to the RUSH data. Since for many Neural networks are a new technique, this chapter is also a gentle introduction into Neural networks themself. We have three parts:</p>
+<ul>
+<li>Neural Networks</li>
+<li>Physics Informed Neural networks</li>
+<li>Conclusion</li>
+</ul>
+<p>In neural networks we introduce the ideas and some mathematics behind neural networks in Physics informed neural networks we showcase the concept using a simple toy model and in conclusion we present the evaluation of the technique.</p>
+<h2 id="neural-networks"><span class="header-section-number">5.1</span> Neural Networks</h2>
+<h3 id="the-basis-the-neuron"><span class="header-section-number">5.1.1</span> The basis: the neuron</h3>
+<p>The basic of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron has an input <span class="math inline">\(x\)</span> and transforms it to an output <span class="math inline">\(y\)</span>: <span class="math inline">\(x\to y\)</span>. This is a three step process. The input <span class="math inline">\(x\)</span> is multiplied by a factor <span class="math inline">\(a\)</span> known as a weight and adds a constant known as the bias <span class="math inline">\(b\)</span>. This serves as an input to the <em>activation function</em> <span class="math inline">\(g\)</span> of the neuron, so that <span class="math display">\[
+y = g(ax+b)
+\]</span> the role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the <span class="math inline">\(tanh(x)\)</span> function, due to its biological relevance and bounded in and outputs. Several other functions with more fsvourable properties such as lower computtational cost are available as well.</p>
+<p>A neuron always has one output, but can have multiple inputs, for example in the case of multitple neurons feeding into another one. One can also have multiple neurons in a single layer. A natural generalization is that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> become matrices and <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> vectors: <span class="math display">\[
+\vec{y} = g(A\vec{x}+B)
+\]</span> where <span class="math inline">\(g\)</span> is applied element wise. The goal of training a neural network is to find the matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> which make sure that <span class="math inline">\(y\)</span> is closest to the desired outcome.</p>
+<h3 id="network"><span class="header-section-number">5.1.2</span> Network</h3>
+<h3 id="training"><span class="header-section-number">5.1.3</span> Training</h3>
+<h2 id="physics-informed-neural-networks-1"><span class="header-section-number">5.2</span> Physics Informed Neural Networks</h2>
+<h3 id="the-concept"><span class="header-section-number">5.2.1</span> The concept</h3>
+<p>In my point of view, the power of physics informed neural networks comes from two core concepts: the physics regularization and automatic differentiation.</p>
+<p>####*</p>
+<h3 id="pinns-in-practice"><span class="header-section-number">5.2.2</span> PINNs in practice</h3>
+<h4 id="constant-d"><span class="header-section-number">5.2.2.1</span> Constant D</h4>
+<h4 id="varying-d"><span class="header-section-number">5.2.2.2</span> Varying D</h4>
+<h2 id="conclusion"><span class="header-section-number">5.3</span> Conclusion</h2>
+<h3 id="weak-points-and-how-to-improve"><span class="header-section-number">5.3.1</span> Weak points and how to improve</h3>
+<h1 id="conclusion-1"><span class="header-section-number">6</span> Conclusion</h1>
 <h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
 <!-- 
 This could be a list of papers by the author for example 
@@ -295,7 +351,7 @@ References are automatically generated from the BibTex file (References.bib)
 
 ...which you should create using your reference manager.
 -->
-<h1 id="references"><span class="header-section-number">6</span> References</h1>
+<h1 id="references"><span class="header-section-number">7</span> References</h1>
             </body>
 </html>
 

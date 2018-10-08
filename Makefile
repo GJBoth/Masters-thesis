@@ -59,7 +59,13 @@ docx:
 	--toc
 
 html:
-	pandoc "$(INPUTDIR)"/*.md \
+	rm -rf "$(INPUTDIR)"/html/
+	mkdir "$(INPUTDIR)"/html/
+	cp "$(INPUTDIR)"/*.md "$(INPUTDIR)"/html/
+
+	sed -i "" "s/pdf/png/g" "$(INPUTDIR)"/html/*.md
+
+	pandoc "$(INPUTDIR)"/html/*.md \
 	-o "$(OUTPUTDIR)/thesis.html" \
 	--standalone \
 	--template="$(STYLEDIR)/template.html" \
@@ -69,8 +75,8 @@ html:
 	--toc \
 	--number-sections\
     --mathjax
-	rm -rf "$(OUTPUTDIR)/source"
-	mkdir "$(OUTPUTDIR)/source"
-	cp -r "$(INPUTDIR)/figures" "$(OUTPUTDIR)/source/figures"
-
+	rm -rf "$(OUTPUTDIR)/source/figures"
+	mkdir "$(OUTPUTDIR)/source/figures"
+	cp -r "$(INPUTDIR)/figures/png" "$(OUTPUTDIR)/source/figures"
+	rm -rf "$(INPUTDIR)"/html/
 .PHONY: help pdf docx html tex
