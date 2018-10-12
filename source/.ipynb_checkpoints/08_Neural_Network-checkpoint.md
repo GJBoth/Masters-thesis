@@ -9,27 +9,42 @@ In previous chapters we showed the difficulty in finding a general fit for a mod
 In neural networks we introduce the ideas and some mathematics behind neural networks in Physics informed neural networks we showcase the concept using a simple toy model and in conclusion we present the evaluation of the technique. Since Neural networks are completely new concept to most, we use a light tone.
 
 ## Neural Networks
-Good source: http://neuralnetworksanddeeplearning.com/chap2.html
-
+Neural networks. Inspired by biological neural networks, but not the same!!! Started with the perceptron in the early 60's, but only one layer so nothing cool. Back propagarion rediscovered in the 80's, now recognized how to efficiently train a network, but we needed the advancements in the late 00's in GPU's for large scale NN. Ever since great advancements in engineering and slowly starting to seep into science now as well. Two main flavours: supervised and non-supervised. In non-supervised we dont tell the goal to the network, in supervised we do. We'll only focus on the last one. We start with some simple introduction to architecture and how to train them.
 
 ### Architecture
 
-The basic of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron has an input $x$ and transforms it to an output $y$: $x\to y$. This is a three step process. The input $x$ is multiplied by a factor $a$ known as a weight and adds a constant known as the bias $b$. This serves as an input to the *activation function* $g$ of the neuron, so that 
-$$
-y = g(ax+b)
-$$
-the role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the $tanh(x)$ function, due to its biological relevance and bounded in and outputs. Several other functions with more fsvourable properties such as lower computtational cost are available as well. 
+The basic building block of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron basically has several inputs and transforms them into a single output. This roughly a two step process. Immediatly going to matrix notation, given an input vector $\mathbf{x}$, the neuron multiplies the input vector by a weight matrix and adding a bias. This gives us the *weighted input* z:
 
-A neuron always has one output, but can have multiple inputs, for example in the case of multitple neurons feeding into another one. One can also have multiple neurons in a single layer. A natural generalization is that $a$ and $b$ become matrices and $x$ and $y$ vectors:
 $$
-\vec{y} = g(A\vec{x}+B)
+z = W\mathbf{x}+b
 $$
-where $g$ is applied element wise. The goal of training a neural network is to find the matrices $A$ and $B$ which make sure that $y$ is closest to the desired outcome. 
+
+The weighted input is then transformed by the neuron *activation function $\sigma$* to give the output of the neuron $a$, also known as the activation:
+
+$$
+a = \sigma(z) = \sigma(W\mathbf{x}+b)
+$$
+
+The role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the $tanh(x)$ function, due to its bounded output between -1 and 1 and easy derivative. Several other functions with more favourable properties such as lower computational cost are available as well. 
+
+Multiple neurons working in parallle constitute a layer, while multiple layers in series forms a neural network. We always have an input and input layer, and the layers inbetween are known as hidden layers. Networks with more than 1 hidden layer are known as deep neural networks. In the simplest neural network, all neurons in a layer are connected to all the neurons in the next layer. Such a network is shown in figure... We can then rewrite function ... in a matrix form. We state $a^l$ is the activation of layer $l$:
+
+$$
+a^l = \sigma(z^l) = \sigma(W^la^{l-1}+b^l)
+$$
+
+The weights $W^l$ are now the 'strength' of each neurons layer to the next. It turns out that such a network is what is known as a *universal function approximator*, meaning that with enough layers and neurons, a NN is able to approximate **any continous function**. Now that we've set up the network, we turn to training it. 
 
 ### Training 
+As the name machine learning implies, we teach a machine to perform a certain task, i.e. contrary to normal algorithms, we do not tell the machine how to do something. In the case of supervised learning, we have a set of labeled data. This means that we have some inputs which we know should lead to a desired output. The task of training then falls to adjusting the weights and biases untill we get the desired output. A measure to relate how far the given output is from the desired output is given by the *cost function*. Many different cost functions are available, each one useful for a specific task, but one of the most basic and simple ones is the mean squared error (MSE):
+
+$$
+cost_{MSE} = \frac{1}{2n}\sum_n|y-y_{pred}|^2
+$$
+where $n$ represents the sum over each training sample. Training the network thus becomes minimizing the cost function with respect to weight and bias. In general this a problem with local minima, but a solution may be found using gradient descent techniques.
 
 #### Gradient descent {-}
-As the name machine learning indicates, neural networks need to *learn*. When this nomenclature is used, it means that we need to adjust the weights and biases in the network until the output matches the wished-for output. In general this a problem with local minima, but a solution may be found using gradient descent techniques. Consider a function $f(\mathbf{x})$, we which we wish to minimize with respect to $\mathbf{x}$. One starts with an estimate of $\mathbf{x}_0$, which we iteratively refine
+ Consider a function $f(\mathbf{x})$, we which we wish to minimize with respect to $\mathbf{x}$. One starts with an estimate of $\mathbf{x}_0$, which we iteratively refine
 
 $$
 \mathbf{x}_{n+1} = \mathbf{x}_{n}-\gamma\nabla f(\mathbf{x}_n)
@@ -140,10 +155,32 @@ A classical numerical solver would take small steps in time, updating the positi
 Interestingly, we can also use this framework to fit models to spatiotemporal data by letting the coefficent of each term be a variable  w.r.t to which we minimize too. More concretely, where before the cost was a function of the weights and biases, $cost=f(w^l_{jk}, b^l_k)$, we now let it be a function of the coefficients $\lambda$ of the PDE as well: $cost=f(w^l_{jk}, b^l_k, \lambda)$. This is shown for all kinds of systems in the papers of **[ref]**. In theory however, it should also be possible to infer coefficient *fields*, both spatially and temporally varying. We can achieve this by a multi-output Neural network. Instead of outputting just $c$, we also output the coefficient at that spatiotemporal point, as shown in figure **[ref]**. We investigate this claim in the next section.
 
 ### PINNs in practice
+In this section we wish to evaluate the use of PINN's for our RUSH data. We start with a toy problem: a simple diffusive process. This has already been shown in the papers by Raissi, but it's just to show the reader. We then show the similar problem but with two different diffusion constants. This has not been shown by Raissi and we show here thats is possible to infer a coefficient field from the data using PINNS.
 
+We use the following toy problem: a 1D box, started with initial condition:
+
+$$
+c(x, 0) = e^{-\frac{(x-0.5)^2}{0.02}}
+$$
+
+and a diffusive process:
+
+$$
+\frac{\partial c}{\partial t} = \nabla \cdot[D(x)\nabla c]
+$$
+
+on the spatial domain (0,1) with boundary conditions:
+
+$$
+c(0,t) = c(1,t) = 0
+$$
+
+i.e. perectly absorbing boundary conditions. We used mathematica to solve these equations. The code is the appendix. 
 
 #### Constant D
+Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows al 
 
+![subscript](source/figures/pdf/Neural_Networkfield_constD.pdf)
 #### Varying D
 
 #### Real cell?

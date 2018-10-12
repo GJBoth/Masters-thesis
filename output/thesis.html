@@ -297,13 +297,8 @@ and add the centred logo
 <p>Now that we have gathered all our data we can use it to fit. We use a simple least squares method.</p>
 <h1 id="results-data-analysis"><span class="header-section-number">4</span> Results data analysis</h1>
 <p>Here we present the results from our analysis on the RUSH experiments. We only show the results of MANII because this is the only thing we studied.</p>
-<p>textwidth: </p>
-<p>linewidth: </p>
 <h2 id="analysis-of-time-derivatives"><span class="header-section-number">4.1</span> Analysis of time derivatives</h2>
 <p>Ziet er goed uit chefke.</p>
-<figure>
-<img src="/Users/gert-janboth/PycharmProjects/Plots_report/Plots/time_derivative.png" alt="Wolla zieke subscript." /><figcaption>Wolla zieke subscript.</figcaption>
-</figure>
 <h2 id="analysis-of-fit"><span class="header-section-number">4.2</span> Analysis of fit</h2>
 <h3 id="diffusion"><span class="header-section-number">4.2.1</span> Diffusion</h3>
 <h3 id="advection"><span class="header-section-number">4.2.2</span> Advection</h3>
@@ -316,16 +311,29 @@ and add the centred logo
 </ul>
 <p>In neural networks we introduce the ideas and some mathematics behind neural networks in Physics informed neural networks we showcase the concept using a simple toy model and in conclusion we present the evaluation of the technique. Since Neural networks are completely new concept to most, we use a light tone.</p>
 <h2 id="neural-networks"><span class="header-section-number">5.1</span> Neural Networks</h2>
+<p>Neural networks. Inspired by biological neural networks, but not the same!!! Started with the perceptron in the early 60’s, but only one layer so nothing cool. Back propagarion rediscovered in the 80’s, now recognized how to efficiently train a network, but we needed the advancements in the late 00’s in GPU’s for large scale NN. Ever since great advancements in engineering and slowly starting to seep into science now as well. Two main flavours: supervised and non-supervised. In non-supervised we dont tell the goal to the network, in supervised we do. We’ll only focus on the last one. We start with some simple introduction to architecture and how to train them.</p>
 <h3 id="architecture"><span class="header-section-number">5.1.1</span> Architecture</h3>
-<p>The basic of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron has an input <span class="math inline">\(x\)</span> and transforms it to an output <span class="math inline">\(y\)</span>: <span class="math inline">\(x\to y\)</span>. This is a three step process. The input <span class="math inline">\(x\)</span> is multiplied by a factor <span class="math inline">\(a\)</span> known as a weight and adds a constant known as the bias <span class="math inline">\(b\)</span>. This serves as an input to the <em>activation function</em> <span class="math inline">\(g\)</span> of the neuron, so that <span class="math display">\[
-y = g(ax+b)
-\]</span> the role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the <span class="math inline">\(tanh(x)\)</span> function, due to its biological relevance and bounded in and outputs. Several other functions with more fsvourable properties such as lower computtational cost are available as well.</p>
-<p>A neuron always has one output, but can have multiple inputs, for example in the case of multitple neurons feeding into another one. One can also have multiple neurons in a single layer. A natural generalization is that <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> become matrices and <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> vectors: <span class="math display">\[
-\vec{y} = g(A\vec{x}+B)
-\]</span> where <span class="math inline">\(g\)</span> is applied element wise. The goal of training a neural network is to find the matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> which make sure that <span class="math inline">\(y\)</span> is closest to the desired outcome.</p>
+<p>The basic building block of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron basically has several inputs and transforms them into a single output. This roughly a two step process. Immediatly going to matrix notation, given an input vector <span class="math inline">\(\mathbf{x}\)</span>, the neuron multiplies the input vector by a weight matrix and adding a bias. This gives us the <em>weighted input</em> z:</p>
+<p><span class="math display">\[
+z = W\mathbf{x}+b
+\]</span></p>
+<p>The weighted input is then transformed by the neuron <em>activation function <span class="math inline">\(\sigma\)</span></em> to give the output of the neuron <span class="math inline">\(a\)</span>, also known as the activation:</p>
+<p><span class="math display">\[
+a = \sigma(z) = \sigma(W\mathbf{x}+b)
+\]</span></p>
+<p>The role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the <span class="math inline">\(tanh(x)\)</span> function, due to its bounded output between -1 and 1 and easy derivative. Several other functions with more favourable properties such as lower computational cost are available as well.</p>
+<p>Multiple neurons working in parallle constitute a layer, while multiple layers in series forms a neural network. We always have an input and input layer, and the layers inbetween are known as hidden layers. Networks with more than 1 hidden layer are known as deep neural networks. In the simplest neural network, all neurons in a layer are connected to all the neurons in the next layer. Such a network is shown in figure… We can then rewrite function … in a matrix form. We state <span class="math inline">\(a^l\)</span> is the activation of layer <span class="math inline">\(l\)</span>:</p>
+<p><span class="math display">\[
+a^l = \sigma(z^l) = \sigma(W^la^{l-1}+b^l)
+\]</span></p>
+<p>The weights <span class="math inline">\(W^l\)</span> are now the ‘strength’ of each neurons layer to the next. It turns out that such a network is what is known as a <em>universal function approximator</em>, meaning that with enough layers and neurons, a NN is able to approximate <strong>any continous function</strong>. Now that we’ve set up the network, we turn to training it.</p>
 <h3 id="training"><span class="header-section-number">5.1.2</span> Training</h3>
+<p>As the name machine learning implies, we teach a machine to perform a certain task, i.e. contrary to normal algorithms, we do not tell the machine how to do something. In the case of supervised learning, we have a set of labeled data. This means that we have some inputs which we know should lead to a desired output. The task of training then falls to adjusting the weights and biases untill we get the desired output. A measure to relate how far the given output is from the desired output is given by the <em>cost function</em>. Many different cost functions are available, each one useful for a specific task, but one of the most basic and simple ones is the mean squared error (MSE):</p>
+<p><span class="math display">\[
+cost_{MSE} = \frac{1}{2n}\sum_n|y-y_{pred}|^2
+\]</span> where <span class="math inline">\(n\)</span> represents the sum over each training sample. Training the network thus becomes minimizing the cost function with respect to weight and bias. In general this a problem with local minima, but a solution may be found using gradient descent techniques.</p>
 <h4 id="gradient-descent" class="unnumbered">Gradient descent</h4>
-<p>As the name machine learning indicates, neural networks need to <em>learn</em>. When this nomenclature is used, it means that we need to adjust the weights and biases in the network until the output matches the wished-for output. In general this a problem with local minima, but a solution may be found using gradient descent techniques. Consider a function <span class="math inline">\(f(\mathbf{x})\)</span>, we which we wish to minimize with respect to <span class="math inline">\(\mathbf{x}\)</span>. One starts with an estimate of <span class="math inline">\(\mathbf{x}_0\)</span>, which we iteratively refine</p>
+<p>Consider a function <span class="math inline">\(f(\mathbf{x})\)</span>, we which we wish to minimize with respect to <span class="math inline">\(\mathbf{x}\)</span>. One starts with an estimate of <span class="math inline">\(\mathbf{x}_0\)</span>, which we iteratively refine</p>
 <p><span class="math display">\[
 \mathbf{x}_{n+1} = \mathbf{x}_{n}-\gamma\nabla f(\mathbf{x}_n)
 \]</span></p>
@@ -348,8 +356,19 @@ y = g(ax+b)
 \]</span> Using the definitions of <span class="math inline">\(z^l_{jk}\)</span>, we finally after substitution obtain:</p>
 <p><span class="math display">\[
 \delta^l_j = \sum_k\delta^{l+1}_kw^{l+1}_{kj}\sigma&#39;(z^l_j)
-\]</span></p>
-<p>We’ve skipped over a subtle but crucial part: how do we calculate the function <span class="math inline">\(g\)</span>? As stated in the previous chapter, numerical derivatives are tricky and unreliable. Since we don’t know the complete function, symbolic differentiation is also out of the picture. As it turns out, there’s a third type, known as <em>automatic differentiation</em>. Even more convenient, it turns out that what we need to compute for the backpropagation training also allows us to find the derivatives of the output with computer precision.</p>
+\]</span> Using these two equations, we can calculate the error in C due to each neuron. Finally, to calculate the <span class="math inline">\(\partial C/\partial w^l_{jk}\)</span> and<br />
+<span class="math inline">\(\partial C/\partial b^l_{j}\)</span>, we relate these to the error, again via the chain rule:</p>
+<p><span class="math display">\[
+\frac{\partial C}{\partial b^l_{j}}\frac{\partial b^l_{j}}{\partial z^l_{j}}=\frac{\partial C}{\partial b^l_{j}}=\delta^l_j
+\]</span> <span class="math display">\[
+\sum_k\frac{\partial C}{\partial w^l_{jk}}\frac{\partial w^l_{jk}}{\partial z^l_{j}}=\delta^l_j\to \frac{\partial C}{\partial w^l_{jk}}=a^{l-1}_{j}\delta^l_j
+\]</span> These four equations together make up the the backpropagation algorithm. The complete optimization of the network goes as follows: 1. Complete a forward pass, i.e., calculate the expected outcomes with the current weights and biases. 2. Calculate the error and back propagate it to obtain the gradients in the weights and biases. 3. Adjust the weights using optimizer (e.g. gradient descent) 4. Return to step 1 and redo the cycle untill convergence.</p>
+<p>Officialy, back propagation is a special case of a technique known as automatic differentiation, which is third type of differentiation, next to numeric and symbolic. It also for machine precision calculation of derivatives by writing it as a chain of simple operations combined with the chain rule, similar to backpropagation. Note that:</p>
+<p><span class="math display">\[
+\delta^0_j = \frac{\partial C}{\partial x_j}\frac{\partial x_j}{\partial z^0_j}
+\]</span> so that: <span class="math display">\[
+\frac{\partial C}{\partial x_j} = a^0_j \delta^0_j 
+\]</span> Thus when learning, we also have access to high precision derivatives with regard to each coordinate!</p>
 <h2 id="physics-informed-neural-networks-1"><span class="header-section-number">5.2</span> Physics Informed Neural Networks</h2>
 <p>On the face of things, physics and neural networks seem to satisfy two completely different goals. Whereas physics tries to build (simplified) models, neural networks try to learn a general modelless mapping from the inputs to the outputs. However, recently some approaches have emerged which fuse these seemingly opposite goals in order to do two different things:</p>
 <ol type="1">
@@ -380,12 +399,29 @@ cost = \sum_i(u_i^{in}-u^{pred}_i)^2 + \sum_ig_i^2 = MSE + PI
 <li><strong>It makes the NN more data-efficient:</strong> we can get good results with not much data.</li>
 <li><strong>It allows fitting and prediction:</strong> we can fit and predict based to the terms in <span class="math inline">\(f\)</span>.</li>
 </ol>
-<p>The first point is rather technical and interesting for more in-depth, so we’ll leave it for now. The second point is very interesting from an experimental point of view. By presupposing some structure in the data in the form of a model, we need significantly less data to get the same result. It’s also here that we see the no free lunch theorem: a price has to be paid. By encoding a model into the neural network, we lose the freedom of the neural network to map <span class="math inline">\(x,t\)</span> <span class="math inline">\(u\)</span> using any function. For us physicists however, this is actually a blessing but for applications where equationless modeling is usefull this is terrible.</p>
+<p>The first point is rather technical and interesting for more in-depth, so we’ll leave it for now. The second point is very interesting from an experimental point of view. By presupposing some structure in the data in the form of a model, we need significantly less data to get the same result. It’s also here that we see the no free lunch theorem: a price has to be paid. By encoding a model into the neural network, we lose the freedom of the neural network to map <span class="math inline">\(x,t\)</span> <span class="math inline">\(u\)</span> using any function. For us physicists however, this is actually a blessing but for applications where equationless modeling is usefull this is terrible. Note that we also circumvent the issue of numerical derivatives, since we can use the network provided automatic derivatives at machine precision. This combination provides the power of PINNs - a one-two punch consisting of physics regularization and automatic derivatives.</p>
 <h3 id="fitting-and-prediction" class="unnumbered">Fitting and prediction</h3>
 <p>Point three is however where PINNs really shine. How can the extra term we’ve included have these effects? To see this, consider the classics physics exercise of calculating the trajectory of a launched object. In this case we know the function <span class="math inline">\(g\)</span>, i.e. <span class="math inline">\(\ddot{y}=-g\)</span>. A classical numerical solver would take small steps in time, updating the position and speed of the object each step according to <span class="math inline">\(g\)</span>. A PINN however uses a completely different approach. Given the initial state of the neural network, it calculates a first trajectory but then keeps adjusting the weights of the network until the cost is minimized, i.e. <span class="math inline">\(g\)</span> goes to zero everywhere. In other words: the Neural network keeps launching the object and adjusting its internal weights until the physics are satisified at every step of the trajectory. The classical numerical approach goes for one correct try; the neural network just keeps trying until it converges on the correct solution. This approach allows us at the same time to circumvent complex discretization schemes and issues such as solutions blowing up. Such an approach is possible because of the backpropagation algorithm, which allows us to calculate the part of each neuron in the total cost and in which direction to change the weights and biases to minimize the cost.</p>
+<p>Interestingly, we can also use this framework to fit models to spatiotemporal data by letting the coefficent of each term be a variable w.r.t to which we minimize too. More concretely, where before the cost was a function of the weights and biases, <span class="math inline">\(cost=f(w^l_{jk}, b^l_k)\)</span>, we now let it be a function of the coefficients <span class="math inline">\(\lambda\)</span> of the PDE as well: <span class="math inline">\(cost=f(w^l_{jk}, b^l_k, \lambda)\)</span>. This is shown for all kinds of systems in the papers of <strong>[ref]</strong>. In theory however, it should also be possible to infer coefficient <em>fields</em>, both spatially and temporally varying. We can achieve this by a multi-output Neural network. Instead of outputting just <span class="math inline">\(c\)</span>, we also output the coefficient at that spatiotemporal point, as shown in figure <strong>[ref]</strong>. We investigate this claim in the next section.</p>
 <h3 id="pinns-in-practice"><span class="header-section-number">5.2.2</span> PINNs in practice</h3>
+<p>In this section we wish to evaluate the use of PINN’s for our RUSH data. We start with a toy problem: a simple diffusive process. This has already been shown in the papers by Raissi, but it’s just to show the reader. We then show the similar problem but with two different diffusion constants. This has not been shown by Raissi and we show here thats is possible to infer a coefficient field from the data using PINNS.</p>
+<p>We use the following toy problem: a 1D box, started with initial condition:</p>
+<p><span class="math display">\[
+c(x, 0) = e^{-\frac{(x-0.5)^2}{0.02}}
+\]</span></p>
+<p>and a diffusive process:</p>
+<p><span class="math display">\[
+\frac{\partial c}{\partial t} = \nabla \cdot[D(x)\nabla c]
+\]</span></p>
+<p>on the spatial domain (0,1) with boundary conditions:</p>
+<p><span class="math display">\[
+c(0,t) = c(1,t) = 0
+\]</span></p>
+<p>i.e. perectly absorbing boundary conditions. We used mathematica to solve these equations. The code is the appendix.</p>
 <h4 id="constant-d"><span class="header-section-number">5.2.2.1</span> Constant D</h4>
-<h4 id="varying-d"><span class="header-section-number">5.2.2.2</span> Varying D</h4>
+<p>Now consider the problem with a constant diffusion of <span class="math inline">\(D_0 = 0.01\)</span>. We simulate the data on a domain <span class="math inline">\(x:[0,1]\)</span> and <span class="math inline">\(t:[0,0.5]\)</span> we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows al</p>
+<p><img src="source/figures/png/Neural_Networkfield_constD.png" alt="subscript" /> #### Varying D</p>
+<h4 id="real-cell"><span class="header-section-number">5.2.2.2</span> Real cell?</h4>
 <h2 id="conclusion"><span class="header-section-number">5.3</span> Conclusion</h2>
 <h3 id="weak-points-and-how-to-improve"><span class="header-section-number">5.3.1</span> Weak points and how to improve</h3>
 <h1 id="conclusion-1"><span class="header-section-number">6</span> Conclusion</h1>
