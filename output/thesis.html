@@ -176,11 +176,13 @@
                 <li><a href="#step-4---fitting"><span class="toc-section-number">3.4</span> Step 4 - Fitting</a></li>
                 </ul></li>
                 <li><a href="#results-data-analysis"><span class="toc-section-number">4</span> Results data analysis</a><ul>
-                <li><a href="#analysis-of-time-derivatives"><span class="toc-section-number">4.1</span> Analysis of time derivatives</a></li>
-                <li><a href="#analysis-of-fit"><span class="toc-section-number">4.2</span> Analysis of fit</a><ul>
-                <li><a href="#diffusion"><span class="toc-section-number">4.2.1</span> Diffusion</a></li>
-                <li><a href="#advection"><span class="toc-section-number">4.2.2</span> Advection</a></li>
+                <li><a href="#general-analysis"><span class="toc-section-number">4.1</span> General analysis</a></li>
+                <li><a href="#analysis-of-time-derivatives"><span class="toc-section-number">4.2</span> Analysis of time derivatives</a></li>
+                <li><a href="#analysis-of-ls-fit"><span class="toc-section-number">4.3</span> Analysis of LS-fit</a><ul>
+                <li><a href="#diffusion"><span class="toc-section-number">4.3.1</span> Diffusion</a></li>
+                <li><a href="#advection"><span class="toc-section-number">4.3.2</span> Advection</a></li>
                 </ul></li>
+                <li><a href="#analysis-of-constrained-ls-fit"><span class="toc-section-number">4.4</span> Analysis of constrained LS-fit</a></li>
                 </ul></li>
                 <li><a href="#physics-informed-neural-networks"><span class="toc-section-number">5</span> Physics Informed Neural Networks</a><ul>
                 <li><a href="#neural-networks"><span class="toc-section-number">5.1</span> Neural Networks</a><ul>
@@ -198,7 +200,7 @@
                 </ul></li>
                 <li><a href="#conclusion-1"><span class="toc-section-number">6</span> Conclusion</a></li>
                 <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
-                <li><a href="#references"><span class="toc-section-number">7</span> References</a></li>
+                <li><a href="#references">References</a></li>
                 </ul>
             </div>
                                 <!-- 
@@ -250,8 +252,13 @@ and add the centred logo
 <p>The so-called WavinPOD method combines two well-known filtering techniques, known as wavelet filtering and Proper Orthogonal Decomposition. Below we explain each separately. Our explanation is adapted from <strong>ref</strong> and <strong>ref</strong>.</p>
 <h3 id="wavelet-filter" class="unnumbered">Wavelet filter</h3>
 <p>A wavelet filter is not really the appropriate name, as its more of a transform.</p>
+<p><strong>More about wavelet transform</strong></p>
 <h3 id="proper-orthogonal-decomposition" class="unnumbered">Proper orthogonal decomposition</h3>
-<p>Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It’s often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express a function as</p>
+<p>Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It’s often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express data as a sum of orthogonal functions, where the basis is determined from the data, i.e. we don’t impose something as a fourier basis, etc..</p>
+<p><span class="math display">\[
+f(x,t)=\sum_k g(x)h(t)
+\]</span></p>
+<p>Basically we’re trying to find the eigenfunctions of the data. Full explanation in paper <strong>ref</strong> Each eigenfunction comes with a eigenvalue, which can be interpreted as the energy of a mode. The higher the eigenvalue, the more important the mode is to the entire signal. To reduce the dimension of the data, we pick a cutoff <span class="math inline">\(k_{max}\)</span> and only use the modes <span class="math inline">\(k&lt;k_{max}\)</span>. Several methods are used to determine the cutoff, but often used is the knee-technique. When we plot the log10 spectrum in figure <strong>ref</strong>, one can often observe a ‘knee’. Usually this point is taken as the cutoff.</p>
 <h3 id="wavinpod" class="unnumbered">WavinPOD</h3>
 <p>WavinPOD combines these two techniques in the following way. First, we decompose our problem with a POD transformation. This yields a set of temporal and spatial modes. We select the most energetic modes and wavelet filter these, before transforming them back to the real domain. As shown in <strong>ref</strong>, combining these techniques has an advantage over others.</p>
 <p>In our case, we select the number of modes to be used by hand (30 in the case of MANII) and apply a 3-level db4 wavelet. We use a slightly higher than necessary level to increase smoothness. In the figure below we show the result for both a pixel in time and one time snapshot. Note that the result is significantly smoother, but that smaller details have been preserved.</p>
@@ -292,16 +299,18 @@ and add the centred logo
 \end{bmatrix}
 \]</span></p>
 <p>Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a <span class="math inline">\(3\times3\)</span> filter here, the filter can take into account higher order schemes such as a <span class="math inline">\(5\times5\)</span> or <span class="math inline">\(7\times7\)</span>. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast.</p>
-<p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">\(5\times5\)</span> Sobel filter. We analyze these in the next chapter</p>
+<p>For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the <span class="math inline">\(5\times5\)</span> Sobel filter. We analyze these in the next chapter .</p>
 <h2 id="step-4---fitting"><span class="header-section-number">3.4</span> Step 4 - Fitting</h2>
-<p>Now that we have gathered all our data we can use it to fit. We use a simple least squares method.</p>
+<p>Now that we have gathered all our data we can use it to fit. We construct a model (advection-diffusion) and then use a ‘simple’ least-squares fit to obtain an estimate of the diffusion and advection coefficients. We note two extra issues. First, a diffusion coefficient defined positive, i.e. a negative diffusion coefficient is unphysical. We thus make two different fits in the next chapter as a check: one with unconstrained variables, and one where we force <span class="math inline">\(D&gt;0\)</span>.</p>
+<p>Secondly, it’s highly plausible that the diffusion coefficient and advection are position and time dependent. One could construct the full model for this and obtain both the coefficients and their derivatives, but its highly unlikely that this will lead to consistent results and it would still need to happen locally. We thus perform a ‘moving-window-fit’, where we set the width of the time and position window around a central pixel and assume that the diffusion and velocity are smooth and constant enough in that window to ensure a decent fit. In this, it’s quite similar to a technique known in computer vision as optical flow.</p>
 <h1 id="results-data-analysis"><span class="header-section-number">4</span> Results data analysis</h1>
 <p>Here we present the results from our analysis on the RUSH experiments. We only show the results of MANII because this is the only thing we studied.</p>
-<h2 id="analysis-of-time-derivatives"><span class="header-section-number">4.1</span> Analysis of time derivatives</h2>
-<p>Ziet er goed uit chefke.</p>
-<h2 id="analysis-of-fit"><span class="header-section-number">4.2</span> Analysis of fit</h2>
-<h3 id="diffusion"><span class="header-section-number">4.2.1</span> Diffusion</h3>
-<h3 id="advection"><span class="header-section-number">4.2.2</span> Advection</h3>
+<h2 id="general-analysis"><span class="header-section-number">4.1</span> General analysis</h2>
+<h2 id="analysis-of-time-derivatives"><span class="header-section-number">4.2</span> Analysis of time derivatives</h2>
+<h2 id="analysis-of-ls-fit"><span class="header-section-number">4.3</span> Analysis of LS-fit</h2>
+<h3 id="diffusion"><span class="header-section-number">4.3.1</span> Diffusion</h3>
+<h3 id="advection"><span class="header-section-number">4.3.2</span> Advection</h3>
+<h2 id="analysis-of-constrained-ls-fit"><span class="header-section-number">4.4</span> Analysis of constrained LS-fit</h2>
 <h1 id="physics-informed-neural-networks"><span class="header-section-number">5</span> Physics Informed Neural Networks</h1>
 <p>In previous chapters we showed the difficulty in finding a general fit for a model to spatiotemporal data. Very recently, a set of papers introduced a new technique called Physics Informed neural networks. The set of papers show very powerful and promising results. I’ve evaluated this technique for use in fitting our model to the RUSH data. Since for many Neural networks are a new technique, this chapter is also a gentle introduction into Neural networks themself. We have three parts:</p>
 <ul>
@@ -419,9 +428,21 @@ c(0,t) = c(1,t) = 0
 \]</span></p>
 <p>i.e. perectly absorbing boundary conditions. We used mathematica to solve these equations. The code is the appendix.</p>
 <h4 id="constant-d"><span class="header-section-number">5.2.2.1</span> Constant D</h4>
-<p>Now consider the problem with a constant diffusion of <span class="math inline">\(D_0 = 0.01\)</span>. We simulate the data on a domain <span class="math inline">\(x:[0,1]\)</span> and <span class="math inline">\(t:[0,0.5]\)</span> we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows al</p>
-<p><img src="source/figures/png/Neural_Networkfield_constD.png" alt="subscript" /> #### Varying D</p>
-<h4 id="real-cell"><span class="header-section-number">5.2.2.2</span> Real cell?</h4>
+<h4 id="noiseless" class="unnumbered">Noiseless</h4>
+<p>Now consider the problem with a constant diffusion of <span class="math inline">\(D_0 = 0.01\)</span>. We simulate the data on a domain <span class="math inline">\(x:[0,1]\)</span> and <span class="math inline">\(t:[0,0.5]\)</span> we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows the input data and the what the network predicts. After training, the network predicts (almost exactly) what we want it to and the average error is less than 1. Ofcourse, more interesting is the inferred diffusion parameter. With a value of 0.10034, the error is roughly 0.3. This is very good, but ofcourse our data is without noise. Note however that even still is extremely good and that in their papers Raissi shows far more complex equations such as the complex Schrodinger one. Also note that the error is mostly located at areas with low signal. This is a consistent problem and must be taken into account. Powerful as they are, neural networks seem to struggle with this.</p>
+<figure>
+<img src="source/figures/png/Neural_Networkfield_constD.png" alt="subscript" /><figcaption>subscript</figcaption>
+</figure>
+<h4 id="noisy" class="unnumbered">Noisy</h4>
+<p>It becomes more interesting once we add noise. We take exactly the same problem, but now add 5% gaussian distributed white noise (e.g. <span class="math inline">\(0.05std(c)\)</span>) and let the neural network do it’s thing again. The network is now doing two things at once: it’s <em>denoising</em> the data by stating that the underlying data is of a certain model while finding the optimal model parameters. Again figure <strong>ref</strong> shows our original data and the fit.</p>
+<p>The data correctly infers the ground truth. The inferred diffusion coefficient is 0.10017, an error of <span class="math inline">\(0.17\)</span>. I just want to state that this is almost ridiculous. We have roughly 5000 points with 5 error and the network is able to infer the coefficent within 1. We also havent optimized the network in any way: it’s the most basic full connected layers with tanh activation function and we just used enough layers and neurons. It’s also a very general technique: it works for whatever PDE and data multidimensional data. We also fit the model directly to the data; circumventing the need to know boundary conditions, initial conditions etc… We can now proceed to more advanced setup.</p>
+<h4 id="varying-d"><span class="header-section-number">5.2.2.2</span> Varying D</h4>
+<p>As stated, it should be possible to infer varying coefficient fields. Instead of using a single output network, we implement of two output neural network; outputting both the coefficient and the concentration. Note that this is slightly different from what is done in this paper <strong>ref</strong>. They infer the pressure field, but this is a separate added term; its not multiplied by a spatially varying term.</p>
+<h4 id="non-varying" class="unnumbered">Non-varying</h4>
+<p>We first demonstrate this using the same data as before: so although we allow a spatially varying field, the underlying data only has a single diffusion coefficient. The coefficient is then learned through training the network and ‘corrected’ by PI-loss function. Figure <strong>ref</strong> shows our results.</p>
+<p>test reference <span class="citation" data-cites="raissi_physics_2017">(Raissi et al. 2017)</span></p>
+<p>and another one #### Varying {-}</p>
+<h4 id="real-cell"><span class="header-section-number">5.2.2.3</span> (Real cell?)</h4>
 <h2 id="conclusion"><span class="header-section-number">5.3</span> Conclusion</h2>
 <h3 id="weak-points-and-how-to-improve"><span class="header-section-number">5.3.1</span> Weak points and how to improve</h3>
 <h1 id="conclusion-1"><span class="header-section-number">6</span> Conclusion</h1>
@@ -438,7 +459,12 @@ References are automatically generated from the BibTex file (References.bib)
 
 ...which you should create using your reference manager.
 -->
-<h1 id="references"><span class="header-section-number">7</span> References</h1>
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-raissi_physics_2017">
+<p>Raissi, M., Perdikaris, P. &amp; Karniadakis, G.E., 2017. Physics Informed Deep Learning (Part II): Data-driven Discovery of Nonlinear Partial Differential Equations. <em>arXiv:1711.10566 [cs, math, stat]</em>. Available at: <a href="http://arxiv.org/abs/1711.10566" class="uri">http://arxiv.org/abs/1711.10566</a> [Accessed October 15, 2018].</p>
+</div>
+</div>
             </body>
 </html>
 

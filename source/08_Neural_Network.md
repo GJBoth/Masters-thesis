@@ -169,7 +169,7 @@ $$
 \frac{\partial c}{\partial t} = \nabla \cdot[D(x)\nabla c]
 $$
 
-on the spatial domain (0,1) with boundary conditions:
+on the spatial domain (0,1) with boundary conditions in equation :
 
 $$
 c(0,t) = c(1,t) = 0
@@ -196,7 +196,10 @@ As stated, it should be possible to infer varying coefficient fields. Instead of
 #### Non-varying {-}
 We first demonstrate this using the same data as before: so although we allow a spatially varying field, the underlying data only has a single diffusion coefficient. The coefficient is then learned through training the network and 'corrected' by PI-loss function. Figure **ref** shows our results. 
 
+test reference [@raissi_physics_2017]
 
+
+and another one 
 #### Varying {-}
 
 

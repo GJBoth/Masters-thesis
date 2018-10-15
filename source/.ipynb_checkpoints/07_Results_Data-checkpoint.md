@@ -9,7 +9,7 @@ Here we present the results from our analysis on the RUSH experiments. We only s
 
 
 
-## Analysis of fit
+## Analysis of LS-fit
 
 
 ### Diffusion
@@ -17,3 +17,4 @@ Here we present the results from our analysis on the RUSH experiments. We only s
 
 ### Advection
 
+## Analysis of constrained LS-fit
