@@ -178,12 +178,29 @@ $$
 i.e. perectly absorbing boundary conditions. We used mathematica to solve these equations. The code is the appendix. 
 
 #### Constant D
-Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows al 
+
+#### Noiseless{-}
+Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows the input data and the what the network predicts. After training, the network predicts (almost exactly) what we want it to and the average error is less than 1. Ofcourse, more interesting is the inferred diffusion parameter. With a value of 0.10034, the error is roughly 0.3. This is very good, but ofcourse our data is without noise. Note however that even still is extremely good and that in their papers Raissi shows far more complex equations such as the complex Schrodinger one. Also note that the error is mostly located at areas with low signal. This is a consistent problem and must be taken into account. Powerful as they are, neural networks seem to struggle with this.
 
 ![subscript](source/figures/pdf/Neural_Networkfield_constD.pdf)
-#### Varying D
 
-#### Real cell?
+
+#### Noisy {-}
+It becomes more interesting once we add noise. We take exactly the same problem, but now add 5% gaussian distributed white noise (e.g. $0.05std(c)$) and let the neural network do it's thing again. The network is now doing two things at once: it's *denoising* the data by stating that the underlying data is of a certain model while finding the optimal model parameters. Again figure **ref** shows our original data and the fit. 
+
+The data correctly infers the ground truth. The inferred diffusion coefficient is 0.10017, an error of $0.17$. I just want to state that this is almost ridiculous. We have roughly 5000 points with 5 error and the network is able to infer the coefficent within 1. We also havent optimized the network in any way: it's the most basic full connected layers with tanh activation function and we just used enough layers and neurons. It's also a very general technique: it works for whatever PDE and data multidimensional data. We also fit the model directly to the data; circumventing the need to know boundary conditions, initial conditions etc... We can now proceed to more advanced setup.
+
+#### Varying D
+As stated, it should be possible to infer varying coefficient fields. Instead of using a single output network, we implement of two output neural network; outputting both the coefficient and the concentration. Note that this is slightly different from what is done in this paper **ref**. They infer the pressure field, but this is a separate added term; its not multiplied by a spatially varying term. 
+
+#### Non-varying {-}
+We first demonstrate this using the same data as before: so although we allow a spatially varying field, the underlying data only has a single diffusion coefficient. The coefficient is then learned through training the network and 'corrected' by PI-loss function. Figure **ref** shows our results. 
+
+
+#### Varying {-}
+
+
+#### (Real cell?)
 
 ## Conclusion
 

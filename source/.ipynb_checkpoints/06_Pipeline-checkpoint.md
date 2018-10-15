@@ -20,7 +20,7 @@ For the fitting however we wish to make a slightly better approach than a vorono
 
 1. Renormalize the concentration $C$ between 0 and 1.
 2. Sum all frames. One then obtains an image such as figure **ref**
-$$
+$$x
 \sum_{frames}C(x,y,t)
 $$
 3. This image is thresholded, either through an otsu threshold or a manual one, until the mask roughly matches what we want. Note that extreme precision isn't required, since we just want the rough area. THis results in figure **ref**
@@ -42,13 +42,16 @@ The so-called WavinPOD method combines two well-known filtering techniques, know
 ### Wavelet filter {-}
 A wavelet filter is not really the appropriate name, as its more of a transform. 
 
+**More about wavelet transform**
+
 ### Proper orthogonal decomposition {-}
-Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It's often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express a function as 
+Proper orthogonal decomposition is a technique similar to what is known as Principal component Analysis in statistics and falls into the general category of model reduction techniques. It's often used in flow problems to extract coherent structures from turbulent flows. Simply put, in POD we wish to express data as a sum of orthogonal functions, where the basis is determined from the data, i.e. we don't impose something as a fourier basis, etc..
 
+$$
+f(x,t)=\sum_k g(x)h(t)
+$$
 
-
-
-
+Basically we're trying to find the eigenfunctions of the data. Full explanation in paper **ref** Each eigenfunction comes with a eigenvalue, which can be interpreted as the energy of a mode. The higher the eigenvalue, the more important the mode is to the entire signal. To reduce the dimension of the data, we pick a cutoff $k_{max}$ and only use the modes $k<k_{max}$. Several methods are used to determine the cutoff, but often used is the knee-technique. When we plot the log10 spectrum in figure **ref**, one can often observe a 'knee'. Usually this point is taken as the cutoff.
 
 ### WavinPOD {-}
 WavinPOD combines these two techniques in the following way. First, we decompose our problem with a POD transformation. This yields a set of temporal and spatial modes. We select the most energetic modes and wavelet filter these, before transforming them back to the real domain. As shown in **ref**, combining these techniques has an advantage over others. 
@@ -106,11 +109,11 @@ $$
 
 Although not extremely accurate, the Sobel filter seems to do the tricks for us. Several other versions such as Scharr or Prewitt exist, offering several benefits such as rotational symmetry, but we have not pursued these. They just change the coefficients. Although we have shown a $3\times3$ filter here, the filter can take into account higher order schemes such as a $5\times5$ or $7\times7$. The major benefit of the spatial derivatives as a convolution operator is its computational efficiency: convolutional operations are performed parallel and are extremely fast. 
 
-For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the $5\times5$ Sobel filter. We analyze these in the next chapter 
-
-
+For the time derivative, we apply a second order accurate central derivative scheme, while for the spatial derivatives (both first and second order) we apply the $5\times5$ Sobel filter. We analyze these in the next chapter .
 
 ## Step 4 - Fitting
-Now that we have gathered all our data we can use it to fit. We use a simple least squares method.
+Now that we have gathered all our data we can use it to fit. We construct a model (advection-diffusion) and then use a 'simple' least-squares fit to obtain an estimate of the diffusion and advection coefficients. We note two extra issues. First, a diffusion coefficient defined positive, i.e. a negative diffusion coefficient is unphysical. We thus make two different fits in the next chapter as a check: one with unconstrained variables, and one where we force $D>0$. 
+
+Secondly, it's highly plausible that the diffusion coefficient and advection are position and time dependent. One could construct the full model for this and obtain both the coefficients and their derivatives, but its highly unlikely that this will lead to consistent results and it would still need to happen locally. We thus perform a 'moving-window-fit', where we set the width of the time and position window around a central pixel and assume that the diffusion and velocity are smooth and constant enough in that window to ensure a decent fit. In this, it's quite similar to a technique known in computer vision as optical flow.
 
 
