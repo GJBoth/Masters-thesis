@@ -1,60 +1,65 @@
 # Physics Informed Neural Networks
 
-In the previous chapters we showed the difficulties in fitting a model in the form of a partial differential equation to spatio-temporal data. The method we developed was a classical numerical approach, separating the problem into several substeps such as denoising, smoothing and numerical differentiating. In the last few years machine learning has been slowly making its way into physics. Very recently, a technique generally referred to as Physics Informed Neural Networks (PINNs) have shown great promise as both tools for simulation and model fitting (@karpatne_physics-guided_2017, @sharma_weakly-supervised_2018, @pun_physically-informed_2018, @raissi_physics_2017, @raissi_physics_2017-1 ).
+In the previous chapters we showed the difficulties in fitting a model in the form of a partial differential equation to spatio-temporal data. The method we developed was a classical numerical approach, separating the problem into several substeps such as denoising, smoothing and numerical differentiating. In the last few years machine learning has been slowly making its way into physics. Very recently, a technique generally referred to as Physics Informed Neural Networks (PINNs) have shown great promise as both tools for simulation and model fitting (@karpatne_physics-guided_2017, @sharma_weakly-supervised_2018, @pun_physically-informed_2018, @raissi_physics_2017, @raissi_physics_2017-1). In this chapter, I will evaluate the use of this technique to fit the model to the RUSH data. I've divided the chapter into three parts:
 
-the difficulty in finding a general fit for a model to spatiotemporal data. Very recently, a set of papers introduced a new technique called Physics Informed neural networks. The set of papers show very powerful and promising results. I've evaluated this technique for use in fitting our model to the RUSH data. Since for many Neural networks are a new technique, this chapter is also a gentle introduction into Neural networks themself. We have three parts:
-
-* Neural Networks
-* Physics Informed Neural networks
-* Conclusion
-
-In neural networks we introduce the ideas and some mathematics behind neural networks in Physics informed neural networks we showcase the concept using a simple toy model and in conclusion we present the evaluation of the technique. Since Neural networks are completely new concept to most, we use a light tone.
+* **Neural Networks** - This part will cover the basics of neural networks: their inner workings, how to train them and other general features. 
+* **Physics Informed Neural networks** - In this second part we introduce the concept behind PINNs, use it to solve a toy problem and apply it to our RUSH data. 
+* **Conclusion** - Finally we summarize the results and observations from the previous sections.
 
 ## Neural Networks
-Neural networks. Inspired by biological neural networks, but not the same!!! Started with the perceptron in the early 60's, but only one layer so nothing cool. Back propagarion rediscovered in the 80's, now recognized how to efficiently train a network, but we needed the advancements in the late 00's in GPU's for large scale NN. Ever since great advancements in engineering and slowly starting to seep into science now as well. Two main flavours: supervised and non-supervised. In non-supervised we dont tell the goal to the network, in supervised we do. We'll only focus on the last one. We start with some simple introduction to architecture and how to train them [@raissi_physics_2017].
+Artificial Neural Networks (ANNs) are networks inspired by biological neural networks. Contrary to other ways of computing, ANNs are not specifically programmed for a task - instead, ANNs are *trained* using a set of data. Research on artificial neural networks started in the '40s but never gained any critical mass, as no efficient training algorithm was known.  Once an efficient training algorithm was found in 1975 by Werbos, interest resurged but it wasn't until the late '00s  that deep learning started gaining widespread traction. The use of GPU's allowed ANNs to be efficiently trained and widely deployed at reasonable cost.
+
+The advancements in machine learning in general and especially neural networks in the last ten years have yielded a wealth of techniques and approaches. In supervised learning, the network is given pre-labeled data so that it is trained by learning the mapping from the given inputs to the given outputs. Other types such as supervised learning, where the network needs to learns to discriminate between unlabeled data, and reinforcement learning don't have any obvious use for PINNs yet and I've thus chosen to omit them. In the next sections, I'll present the mathematics of an ANN and show how they are trained using the so-called *backpropagation* algorithm.
 
 ### Architecture
+*An excellent introduction is given by Michael Nielsen in his freely available book "Neural networks and deep learning." The following section has been strongly inspired by his presentation.*
 
-The basic building block of each type of neural network is the same: the neuron. Inspired, but not the same as a biological neural network, the neuron basically has several inputs and transforms them into a single output. This roughly a two step process. Immediatly going to matrix notation, given an input vector $\mathbf{x}$, the neuron multiplies the input vector by a weight matrix and adding a bias. This gives us the *weighted input* z:
+At the basis of each neural network lies the neuron. It transforms several inputs non-linearly into an output and we can use several neurons in parallel to create a *layer*. In turn, we several layers in series make up a network. The layers in the middle of the network are known as *hidden layers*, as shown in figure @fig:neuralnetwork
+
+![Schematic view of a neural network.](source/figures/pdf/neuralnetwork.pdf){#fig:neuralnetwork}
+
+In the schematic shown in @fig:neuralnetwork, each neuron is connected to every neuron of the previous and next layer. This is known as a *fully connected* layer. Using only this type of layers, we've created a feed-forward network and it has been proven that a single hidden layer with enough neurons is a *universal function approximator*, i.e. a neural network can represent any continuous function using enough neurons.  
+
+As stated, a neuron takes several inputs and transforms them into an output. This is a two step process, where in the first step the neuron multiplies the input vector $\mathbf{x}$ with a weight vector $w$ and adds a bias $b$:
 
 $$
-z = W\mathbf{x}+b
+z = w\mathbf{x}+b
 $${#eq:weighted_input}
 
-The weighted input [@eq:weighted_input] is then transformed by the neuron *activation function $\sigma$* to give the output of the neuron $a$, also known as the activation:
+$z$ is called the weighted input and is transformed in the second step by the neuron *activation function $\sigma$*. This in turn gives the output of the neuron $a$, also known as the activation:
 
 $$
-a = \sigma(z) = \sigma(W\mathbf{x}+b)
-$$
+a = \sigma(z) = \sigma(w\mathbf{x}+b)
+$${#eq:activation}
 
-The role of the activation function is to introduce non-linearity into the system. Many research is ongoing into different activation, but one of the most used is the $tanh(x)$ function, due to its bounded output between -1 and 1 and easy derivative. Several other functions with more favourable properties such as lower computational cost are available as well. 
-
-Multiple neurons working in parallle constitute a layer, while multiple layers in series forms a neural network. We always have an input and input layer, and the layers inbetween are known as hidden layers. Networks with more than 1 hidden layer are known as deep neural networks. In the simplest neural network, all neurons in a layer are connected to all the neurons in the next layer. Such a network is shown in figure... We can then rewrite function ... in a matrix form. We state $a^l$ is the activation of layer $l$:
+The role of the activation function is to introduce non-linearity into the system. The classical and often used activation function is the $tanh$, as it is bounded between +1 and -1. Since we're working with multiple layers, it is useful to rewrite function @eq:activation in terms of the activation $a^l$ of layer $l$:
 
 $$
-a^l = \sigma(z^l) = \sigma(W^la^{l-1}+b^l)
+a^l = \sigma(z^l) = \sigma(w^la^{l-1}+b^l)
 $$
 
-The weights $W^l$ are now the 'strength' of each neurons layer to the next. It turns out that such a network is what is known as a *universal function approximator*, meaning that with enough layers and neurons, a NN is able to approximate **any continous function**. Now that we've set up the network, we turn to training it. 
+where $w^l$ and $b^l$ are respectively the weight matrix and bias of layer $l$. 
 
 ### Training 
-As the name machine learning implies, we teach a machine to perform a certain task, i.e. contrary to normal algorithms, we do not tell the machine how to do something. In the case of supervised learning, we have a set of labeled data. This means that we have some inputs which we know should lead to a desired output. The task of training then falls to adjusting the weights and biases untill we get the desired output. A measure to relate how far the given output is from the desired output is given by the *cost function*. Many different cost functions are available, each one useful for a specific task, but one of the most basic and simple ones is the mean squared error (MSE):
+In supervised learning the task of training a machine means adjusting the weights and biases until the neural network predictions match the desired outputs. We thus need some sort of metric to define this 'distance' between prediction and desired output. Training the network than means minimizing the metric with respect to the weights and biases of the network. This metric is known as the cost function $L$ and the most used form is a mean squared error:
 
 $$
-cost_{MSE} = \frac{1}{2n}\sum_n|y-y_{pred}|^2
-$$
-where $n$ represents the sum over each training sample. Training the network thus becomes minimizing the cost function with respect to weight and bias. In general this a problem with local minima, but a solution may be found using gradient descent techniques.
+L = \frac{1}{2n}\sum_i|y_i-a^L_i|^2
+$${#eq:MSE}
 
-#### Gradient descent {-}
- Consider a function $f(\mathbf{x})$, we which we wish to minimize with respect to $\mathbf{x}$. One starts with an estimate of $\mathbf{x}_0$, which we iteratively refine
+where $n$ is the number of samples, $y_i$ the desired output of sample $i$ and $a^L_i$ the activation of the last function - the prediction of the network. Minimizing this is not trivial, as the problem can have many local minima. A solution can be found however using gradient  descent techniques.
+
+Gradient descent techniques are based on the fact that given an initial position, the fastest way to reach the minimum from that position is by following the steepest gradient. Thus, given a function $f(\mathbf{x})$ to minimize w.r.t to $\mathbf{x}$, we guess an initial position $x_n$ and iteratively change until it convergences:
 
 $$
 \mathbf{x}_{n+1} = \mathbf{x}_{n}-\gamma\nabla f(\mathbf{x}_n)
 $$
 
-untill the gradient vanishes. This position is where f is minimized w.r.t $\mathbf{x}$.$\gamma$ is known as the learning rate and sets the step rate. More advanced techniques can set a variable learning rate etc, but the basis remains similar.
+where $\gamma$ is known as the learning rate. If a global minimum exists, this technique will converge on it. More advanced versions of this technique exist which are able to deal with local minima as well, since convexity of the cost function is not at all guaranteed.
 
-#### Back propagation and automatic differentiation{-}
+Making use of gradient descent requires knowledge of the derivatives of the cost function w.r.t to the variables to be optimized. In the case of neural networks, we thus need to know the derivative w.r.t to each weight and bias. A naive finite difference scheme would quickly grow computationally untractable for even shallow networks. A solution to this problem was found by Werbos in the form of the backpropagation algorithm. Despite many years of ongoing research, it is still the go-to algorithm for each neural network implementation.
+
+#### Back propagation and automatic differentiation {-}
 In the case of neural networks we wish to minimize the cost w.r.t. to each weight $w^l_{jk}$ and bias $b^l_j$. To do this computationally is not trivial, and most of the NN field uses one algorithm: back propagation. We give a short introduction below. We want to know basically two different things:
 
 $$
