@@ -32,6 +32,7 @@ pdf:
 	--csl="$(STYLEDIR)/ref_format.csl" \
 	--highlight-style pygments \
 	--top-level-division=chapter \
+	--filter pandoc-crossref \
 	-V fontsize=12pt \
 	-V papersize=a4paper \
 	-V documentclass=harvard-thesis \
@@ -72,8 +73,10 @@ html:
 	--bibliography="$(BIBFILE)" \
 	--csl="$(STYLEDIR)/ref_format.csl" \
 	--include-in-header="$(STYLEDIR)/style.css" \
+	--top-level-division=chapter \
+	--number-sections \
+	--filter pandoc-crossref \
 	--toc \
-	--number-sections\
     --mathjax
 	rm -rf "$(OUTPUTDIR)/source/figures"
 	mkdir "$(OUTPUTDIR)/source/figures"

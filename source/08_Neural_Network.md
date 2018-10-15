@@ -9,7 +9,7 @@ In previous chapters we showed the difficulty in finding a general fit for a mod
 In neural networks we introduce the ideas and some mathematics behind neural networks in Physics informed neural networks we showcase the concept using a simple toy model and in conclusion we present the evaluation of the technique. Since Neural networks are completely new concept to most, we use a light tone.
 
 ## Neural Networks
-Neural networks. Inspired by biological neural networks, but not the same!!! Started with the perceptron in the early 60's, but only one layer so nothing cool. Back propagarion rediscovered in the 80's, now recognized how to efficiently train a network, but we needed the advancements in the late 00's in GPU's for large scale NN. Ever since great advancements in engineering and slowly starting to seep into science now as well. Two main flavours: supervised and non-supervised. In non-supervised we dont tell the goal to the network, in supervised we do. We'll only focus on the last one. We start with some simple introduction to architecture and how to train them.
+Neural networks. Inspired by biological neural networks, but not the same!!! Started with the perceptron in the early 60's, but only one layer so nothing cool. Back propagarion rediscovered in the 80's, now recognized how to efficiently train a network, but we needed the advancements in the late 00's in GPU's for large scale NN. Ever since great advancements in engineering and slowly starting to seep into science now as well. Two main flavours: supervised and non-supervised. In non-supervised we dont tell the goal to the network, in supervised we do. We'll only focus on the last one. We start with some simple introduction to architecture and how to train them [@raissi_physics_2017].
 
 ### Architecture
 
@@ -17,9 +17,9 @@ The basic building block of each type of neural network is the same: the neuron.
 
 $$
 z = W\mathbf{x}+b
-$$
+$${#eq:weighted_input}
 
-The weighted input is then transformed by the neuron *activation function $\sigma$* to give the output of the neuron $a$, also known as the activation:
+The weighted input [@eq:weighted_input] is then transformed by the neuron *activation function $\sigma$* to give the output of the neuron $a$, also known as the activation:
 
 $$
 a = \sigma(z) = \sigma(W\mathbf{x}+b)
@@ -169,23 +169,24 @@ $$
 \frac{\partial c}{\partial t} = \nabla \cdot[D(x)\nabla c]
 $$
 
-on the spatial domain (0,1) with boundary conditions in equation :
+on the spatial domain (0,1) with boundary conditions in equation [@eq:boundvalue]
 
 $$
 c(0,t) = c(1,t) = 0
-$$
+$${#eq:boundvalue}
 
 i.e. perectly absorbing boundary conditions. We used mathematica to solve these equations. The code is the appendix. 
 
 #### Constant D
 
 #### Noiseless{-}
-Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows the input data and the what the network predicts. After training, the network predicts (almost exactly) what we want it to and the average error is less than 1. Ofcourse, more interesting is the inferred diffusion parameter. With a value of 0.10034, the error is roughly 0.3. This is very good, but ofcourse our data is without noise. Note however that even still is extremely good and that in their papers Raissi shows far more complex equations such as the complex Schrodinger one. Also note that the error is mostly located at areas with low signal. This is a consistent problem and must be taken into account. Powerful as they are, neural networks seem to struggle with this.
+Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows the input data and the what the network predicts. After training, the network predicts (almost exactly) what we want it to and the average error is less than 1. Ofcourse, more interesting is the inferred diffusion parameter. With a value of 0.10034, the error is roughly 0.3. This is very good, but ofcourse our data is without noise. Note however that even still is extremely good and that in their papers Raissi shows far more complex equations such as the complex Schrodinger one. Also note that the error is mostly located at areas with low signal. This is a consistent problem and must be taken into account. Powerful as they are, neural networks seem to struggle with this [@fig:Dfield] .
 
-![subscript](source/figures/pdf/Neural_Networkfield_constD.pdf)
+![subscript](source/figures/pdf/Neural_Networkfield_constD.pdf){#fig:Dfield}
 
 
 #### Noisy {-}
+ [@fig:Dfield] 
 It becomes more interesting once we add noise. We take exactly the same problem, but now add 5% gaussian distributed white noise (e.g. $0.05std(c)$) and let the neural network do it's thing again. The network is now doing two things at once: it's *denoising* the data by stating that the underlying data is of a certain model while finding the optimal model parameters. Again figure **ref** shows our original data and the fit. 
 
 The data correctly infers the ground truth. The inferred diffusion coefficient is 0.10017, an error of $0.17$. I just want to state that this is almost ridiculous. We have roughly 5000 points with 5 error and the network is able to infer the coefficent within 1. We also havent optimized the network in any way: it's the most basic full connected layers with tanh activation function and we just used enough layers and neurons. It's also a very general technique: it works for whatever PDE and data multidimensional data. We also fit the model directly to the data; circumventing the need to know boundary conditions, initial conditions etc... We can now proceed to more advanced setup.
