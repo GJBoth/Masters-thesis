@@ -60,7 +60,7 @@
 
 \synctex=1 % turn synctex on automatically to sync between pdf viewer [andy]
 
-%   list an entire bibliography entry inline. Useful for acknowledging when my paper was previously published
+%   list an entire graphy entry inline. Useful for acknowledging when my paper was previously published
 \RequirePackage{bibentry} 
 \nobibliography*        
 

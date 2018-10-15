@@ -1,6 +1,8 @@
 # Physics Informed Neural Networks
 
-In previous chapters we showed the difficulty in finding a general fit for a model to spatiotemporal data. Very recently, a set of papers introduced a new technique called Physics Informed neural networks. The set of papers show very powerful and promising results. I've evaluated this technique for use in fitting our model to the RUSH data. Since for many Neural networks are a new technique, this chapter is also a gentle introduction into Neural networks themself. We have three parts:
+In the previous chapters we showed the difficulties in fitting a model in the form of a partial differential equation to spatio-temporal data. The method we developed was a classical numerical approach, separating the problem into several substeps such as denoising, smoothing and numerical differentiating. In the last few years machine learning has been slowly making its way into physics. Very recently, a technique generally referred to as Physics Informed Neural Networks (PINNs) have shown great promise as both tools for simulation and model fitting (@karpatne_physics-guided_2017, @sharma_weakly-supervised_2018, @pun_physically-informed_2018, @raissi_physics_2017, @raissi_physics_2017-1 ).
+
+the difficulty in finding a general fit for a model to spatiotemporal data. Very recently, a set of papers introduced a new technique called Physics Informed neural networks. The set of papers show very powerful and promising results. I've evaluated this technique for use in fitting our model to the RUSH data. Since for many Neural networks are a new technique, this chapter is also a gentle introduction into Neural networks themself. We have three parts:
 
 * Neural Networks
 * Physics Informed Neural networks
@@ -182,14 +184,18 @@ i.e. perectly absorbing boundary conditions. We used mathematica to solve these 
 #### Noiseless{-}
 Now consider the problem with a constant diffusion of $D_0 = 0.01$. We simulate the data on a domain $x:[0,1]$ and $t:[0,0.5]$ we use a spatial resolution of 0.01, giving the number of points 101 by 51, giving a total number of data points of 5151. Since the fitting is the training, we do not need to separate the data in a training and validation set. Figure ref shows the input data and the what the network predicts. After training, the network predicts (almost exactly) what we want it to and the average error is less than 1. Ofcourse, more interesting is the inferred diffusion parameter. With a value of 0.10034, the error is roughly 0.3. This is very good, but ofcourse our data is without noise. Note however that even still is extremely good and that in their papers Raissi shows far more complex equations such as the complex Schrodinger one. Also note that the error is mostly located at areas with low signal. This is a consistent problem and must be taken into account. Powerful as they are, neural networks seem to struggle with this [@fig:Dfield] .
 
-![subscript](source/figures/pdf/Neural_Networkfield_constD.pdf){#fig:Dfield}
+![Left panel: something. Right panel: something else](source/figures/pdf/error_constantD.pdf){#fig:error_constantD}
 
+Looks really nice.
 
 #### Noisy {-}
  [@fig:Dfield] 
 It becomes more interesting once we add noise. We take exactly the same problem, but now add 5% gaussian distributed white noise (e.g. $0.05std(c)$) and let the neural network do it's thing again. The network is now doing two things at once: it's *denoising* the data by stating that the underlying data is of a certain model while finding the optimal model parameters. Again figure **ref** shows our original data and the fit. 
 
 The data correctly infers the ground truth. The inferred diffusion coefficient is 0.10017, an error of $0.17$. I just want to state that this is almost ridiculous. We have roughly 5000 points with 5 error and the network is able to infer the coefficent within 1. We also havent optimized the network in any way: it's the most basic full connected layers with tanh activation function and we just used enough layers and neurons. It's also a very general technique: it works for whatever PDE and data multidimensional data. We also fit the model directly to the data; circumventing the need to know boundary conditions, initial conditions etc... We can now proceed to more advanced setup.
+
+
+![Left panel: something. Right panel: something else](source/figures/pdf/error_constantD_noisy.pdf){#fig:error_constantD_noisy}
 
 #### Varying D
 As stated, it should be possible to infer varying coefficient fields. Instead of using a single output network, we implement of two output neural network; outputting both the coefficient and the concentration. Note that this is slightly different from what is done in this paper **ref**. They infer the pressure field, but this is a separate added term; its not multiplied by a spatially varying term. 
@@ -201,10 +207,11 @@ test reference [@raissi_physics_2017]
 
 
 and another one 
+
 #### Varying {-}
 
 
-#### (Real cell?)
+#### Real cell
 
 ## Conclusion
 

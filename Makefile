@@ -29,7 +29,7 @@ pdf:
 	-o "$(OUTPUTDIR)/thesis.pdf" \
 	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" 2>pandoc.log \
-	--csl="$(STYLEDIR)/ref_format.csl" \
+	--csl="$(STYLEDIR)/nature.csl" \
 	--highlight-style pygments \
 	--top-level-division=chapter \
 	--filter pandoc-crossref \
@@ -71,7 +71,7 @@ html:
 	--standalone \
 	--template="$(STYLEDIR)/template.html" \
 	--bibliography="$(BIBFILE)" \
-	--csl="$(STYLEDIR)/ref_format.csl" \
+	--csl="$(STYLEDIR)/nature.csl" \
 	--include-in-header="$(STYLEDIR)/style.css" \
 	--top-level-division=chapter \
 	--number-sections \
