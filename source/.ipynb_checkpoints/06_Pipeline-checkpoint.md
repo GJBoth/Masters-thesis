@@ -102,19 +102,35 @@ Consider again the frame on the left of figure @fig:threeframes. Note that in ea
 The Voronoi technique works very well for an area-based approach, but for analyzing our fitting data we would like a more precise mask - although we still don't require pixel-level accuracy. From the movies, the Golgi is clearly visible and we can separate the cytoplasm from the background, with a big 'gray' area inbetween. We thus turn to an intensity based approach. We have developed the following approach for localizing the Golgi:
 
 1. Normalize the intensity $I$ between 0 and 1.
-2. Sum all the frames in time: $\sum_n I(x, y, t_n)$. A typical result is shown in figure @fig:mask. 
+2. Sum all the frames in time: $\sum_n I(x, y, t_n)$. A typical result is shown in figure @fig:mask . 
 3. Threshold the image to obtain the mask. This is either done automatically through an Otsu threshold or by manually adjusting the threshold until desired result.
 4. The mask is postprocessed by filling any potential holes inside the mask. 
 
 This procedure was unable to reliably separate the background from the cytoplasm. Noting that while the cytoplasm might not have the intensity as the golgi, its time derivative should be higher than the rest of the areas. We replace step two by $\log_{10}\left(\sum_nI(x,y,t_n)\cdot\partial_tI(x,y,t_n)\right)$, where the time derivative has been normalized between 0 and 1. Figure @fig:mask shows our final results. The upper two panels show the images obtained after performing the summing operation for the Golgi and cytoplasm respectively, while the lower left panel shows the final mask obtained after thresholding these two images. For comparison, we plot frame to compare the mask to.
 
-![](source/figures/pdf/segmenting.pdf){#fig:mask}
+![Four panels showing the different stages of making the mask. From segmenting the upper two panels we determine the golgi and active area, leading to the mask in the lower left. Compare the to the lower right.](source/figures/pdf/segmenting.pdf){#fig:mask}
 
 ## Step 4 - Fitting
-Now that we have gathered all our data we can use it to fit. We construct a model (advection-diffusion) and then use a 'simple' least-squares fit to obtain an estimate of the diffusion and advection coefficients. We note two extra issues. First, a diffusion coefficient defined positive, i.e. a negative diffusion coefficient is unphysical. We thus make two different fits in the next chapter as a check: one with unconstrained variables, and one where we force $D>0$. 
 
-Secondly, it's highly plausible that the diffusion coefficient and advection are position and time dependent. One could construct the full model for this and obtain both the coefficients and their derivatives, but its highly unlikely that this will lead to consistent results and it would still need to happen locally. We thus perform a 'moving-window-fit', where we set the width of the time and position window around a central pixel and assume that the diffusion and velocity are smooth and constant enough in that window to ensure a decent fit. In this, it's quite similar to a technique known in computer vision as optical flow.
+Having gathered all the data, the final step is to fit the model. Consider the 2D advection-diffusion equation with isotropic diffusion:
+
+$$
+\partial_t c = D\left(\frac{\partial^2c}{\partial x^2}+\frac{\partial^2c}{\partial y^2}\right) - v_x\frac{\partial c}{\partial x}-v_y\frac{\partial c}{\partial y}
+$${#eq:advdiffmodel}
+
+where we have assumed that $D, v_x$ and $v_y$ are constant. We can rewrite this as:
+
+$$
+y = D (x_1+x_2) -v_x x_3 -v_y x_4
+$$
+
+where $y = \partial_t c, x_3 = \partial_x c$ etc. Since we have determined $x_i$ and $y$, we can apply least squares to obtain $D, v_x$ and $v_y$. Note that physically we have $D>0$. Constrained least squares can be used to perform a least squares fit whilst demanding $D>0$. The results of both fits can be found in the next chapter. 
+
+We also assumed in stating [@eq:advdiffmodel] that all coefficients were constant. Not making this assumption, we would end up with a model with several extra terms such as $\partial_x D$ and $\partial_x v_x$, ignoring temporal dependence. In the least squares fitting, there's no connection between a coefficient and its derivative and thus highly likely we end up with two incompatible results. To circumvent this issue, we assume the coefficients are indeed constant and fit the model to data locally, making the assumption that the coefficients in this area are roughly constant. We perform this operation for every pixel in a sliding-window manner, as shown in figure @fig:slidingwindow. We thus end up with a fit for every pixel in our data, i.e. the velocity and diffusion field.
+
+![Schematic overview of the sliding window technique. The solid black line encompasses an area around its blue coloured central pixel and the fit output is assigned to that pixel. We then move the window (dashed black line) and perform the fit for the orange coloured pixel.](source/figures/pdf/slidingwindow.pdf){#fig:slidingwindow}
 
 
-## (Verification?)
+
+
 
