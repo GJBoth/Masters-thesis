@@ -203,6 +203,12 @@ As stated, it should be possible to infer coefficient fields by using a two outp
 
 ![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relatice error of the diffusion and concentration.](source/figures/pdf/summary_constantD_varyingPINN.pdf){#fig:summary_constantD}
 
+
+![](source/figures/pdf/summary_varyingD_varyingPINN.pdf){#fig:summary_varyingD}
+
+
+![](source/figures/pdf/projection.pdf){#fig:projectionD}
+
 #### Real cell
 
 ## Conclusion
