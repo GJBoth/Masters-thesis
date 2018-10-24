@@ -1,9 +1,22 @@
 # Introduction
 
 
-## Quantitative work on the Golgi so far
+## The golgi, biological perspective
+
+### Quantitative work on golgi so far
 
 ## RUSH system
 
-### Man II
+## Thesis
+
+
+### Image analysis
+
+
+### Physical Modeling
+
+
+### Structure and main questions
+
+
 
