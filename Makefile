@@ -35,7 +35,7 @@ pdf:
 	--filter pandoc-crossref \
 	-V fontsize=12pt \
 	-V papersize=a4paper \
-	-V documentclass=harvard-thesis \
+	-V documentclass=Dissertate \
 	-N \
 	--pdf-engine=xelatex \
 	--verbose

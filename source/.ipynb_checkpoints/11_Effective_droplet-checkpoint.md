@@ -37,7 +37,7 @@ $$
 \frac{\partial c }{\partial t} = D\nabla^2c
 $${#eq:diffusion}
 
-where we've replaced all the constant in front of the right term by $D$. We thus see that linearizing the Cahn-Hilliard equation in the bulk leads to a diffusion equation. As we've replaced a single equation by two, we need an extra set of boundary conditions at the interface.
+where we've replaced all the constant in front of the right term by $D$. We thus see that linearizing the Cahn-Hilliard equation in the bulk leads to a diffusion equation. The effective droplet theory is most accurate in predicting steady states and thus the time-dependence of @eq:diffusion is ignored. As we've replaced a single equation by two, we need an extra set of boundary conditions at the interface.
 
 ### Boundary conditions
 
@@ -80,7 +80,9 @@ $$
 
 Using this expression, we can calculate a flux on the inside of the interface $J_{in}$ and on the outside of the interface $J_{out}$. Note that in and out respectively refer to inside and outside the droplet and not to the direction of the flux. Figure @fig: eff_droplet shows a typical concentration profile of an active droplet. Observe that due to the activity of the droplet, the concentration profile inside the droplet is not flat but convex. Due to this convexity, the flux $J_{in}$ will be pointed inwards, while the flux $J_{out}$ will also be pointed inwards typically due to transport or production. Intuitively, $J_{in}$ is the flux lost due to the decay or activity in the droplet, while $J_{out}$ replaces the converted material inside with material from outside. A steady-state can be achieved once these two fluxes are equal. Note that while the system is at steady state, it is not in equilibrium, as the fluxes across the interface are not zero; the fluxes are balanced, rather than equilibrated. This is a typical characteristic of an active system.
 
-If the fluxes $J_{in}$ and $J_{out}$ are not balanced, a net flux exists, leading to either growth or decay of the droplet. We wish to derive an expression for the speed of the interface $v_n$ in terms of the fluxes across it. Consider figure @fig:interfacespeed. If we wish to move the interface a distance $\Delta x$, we need a net material gain of $\Delta x \Delta c$. This net gain is supplied by a net flux in a time $\Delta t$, so that:
+![Figure illuminating the relation between a moving interface and the fluxes across it.](source/figures/pdf/interface.pdf){#fig:interfacespeed}
+
+If the fluxes $J_{in}$ and $J_{out}$ are not balanced, a net flux exists, leading to either growth or decay of the droplet. We wish to derive an expression for interface speed $v_n$ in terms of the fluxes across it. Consider figure @fig:interfacespeed. If we wish to move the interface a distance $\Delta x$, we need a net material gain of $\Delta x \Delta c$. This net gain is supplied by a net flux in a time $\Delta t$, so that:
 
 $$
 \Delta x \Delta c = (J_{in}-J_{out})\Delta t
@@ -90,13 +92,9 @@ which can be rewritten as:
 
 $$
 \frac{\Delta x}{\Delta t} = v_n = \frac{J_{in}-J_{out}}{\Delta c}
-$$
+$${#eq:interfacespeed}
 
-Thus if $|J_{in}|<|J_{out}|, v_n>0$ and the droplet will grow and vice versa for  $|J_{in}|>|J_{out}|$.
-
-![](source/figures/pdf/interface.pdf){#fig:interfacespeed}
-
-We've derived an expression for the interface velocity in terms of the fluxes. When we have a free droplet in an environment, we have two interfaces. Thus we can define a radius $R$ which grows or decays but if the interfaces move differrently due a difference in flux, the center of mass of the droplet $x_0$ will move: an active droplet can move on its own. Consider two interfaces $v_l$ and $v_r$, where the velocity $v_l$ is the interface on the left and $v_r$ the interface on the right. If we have a droplet at $x_0$ with radius $R$ and the interfaces move with a speed $v_l$ and $v_r$, in a time $dt$ they're at:
+Thus if $|J_{in}|<|J_{out}|, v_n>0$ and the interface will move to the right. If we consider a 'free' droplet (with two interfaces in 1D), the radius of the droplet is determined by both interfaces. Since the fluxes need not be similar on both sides of the droplet, not only the radius but also the position of interfaces plays a role. We thus characterize the droplet in terms of its radius $R$ and its geometric center $x_0$. Consider a droplet of radius $R$ at position $x_0$. The left and right interfaces move respectively with velocities $v_l$ and $v_r$. In a time $dt$, the droplet than moves to a new postion $x_0+dx$ and will have a new radius $R+dR$:
 
 $$
 x_0-R+v_ldt=x_0+dx-(R+dR)
@@ -105,16 +103,17 @@ $$
 x_0+R+v_rdt=x_0+dx+(R+dR)
 $$
 
-Solving this for $dx$ and $dR$ gives:
+Solving this set of equations for $dx$ and $dR$ gives:
 
 $$
 \frac{dR}{dt}=\frac{1}{2}(v_r-v_l)
-$$
+$${#eq:radius}
+
 $$
 \frac{dx_0}{dt}=\frac{1}{2}(v_l+v_r)
-$$
+$${#eq:position}
 
-which proves that if the velocity of the interface on the left is not similar to the one on the right, the droplet will move. In terms of the fluxes, this means that the flux on one side is bigger than the other. Since the flux is dependent on the differences in concentration, this means that * a droplet in a gradient concentration moves up the gradient on its own*. This goes for any dimension, but its most easily seen in 1D: The interface on the side with the higher concentration outside experiences a larger influx, thus growing faster than the other side than the other interface. The droplet thus moves by growing on one side and decaying on the other. Writing in the frame of the droplet, we can finally write the growth speed and movement of the droplet in terms of the fluxes:
+Equations @eq:radius and @eq:position give the change in radius and position of the droplet. Note that these results are quasi-steady state: we've calculated the fluxes from stationary concentration profiles. Thus equations @eq:radius and @eq:position are best used to calculate (quasi-) steady states and not dynamics. Nevertheless, equation @eq:position shows an interesting feature: active droplets can move on their own. This movement is the result of an imbalance in fluxes between the left and right interface: the droplet center is displaced because one side of the droplet grows faster than the other.  This imbalance is caused by a concentration gradient and droplets will move up the gradient, as the flux on the high concentration side will be higher than on the low side. Finally combining eq. @eq:interfacespeed with eqs. @eq:radius and @eq:position yields the position and radius of the droplet in terms of the fluxes across its interface:
 
 $$
 \frac{dR}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=R}-J_{in}^{x=-R})+(J_{out}^{x=-R}-J_{out}^{x=R})\right] 
@@ -124,9 +123,35 @@ $$
 \frac{dx_0}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=-R}+J_{in}^{x=R})-(J_{out}^{x=-R}+J_{out}^{x=R})\right]
 $$
 
-The expressions above all describe the droplet in terms of time-derivatives, but we're interested in stable configurations. We thus look for solutions of equations with $dR/dt=0$, $dx/dt=0$. Where both   are zero, we have a droplet with a stable radius and position. 
+This completes the effective droplet model. It allows us to rewrite the non-linear Cahn-Hilliard equation into two or mroe separate linear problems with proper boundary conditions. Furthermore, these linear problems can be easily extended, such as by adding decay, sources or advection and we will do so in the next section. To solve a typical problem with the effective droplet theory, we thus perform the following steps:
 
-## Expanding effective droplet: advection and decay
+* Identify the domains and correct equations.
+* Solve equations inside each domain to obtain concentration profile.
+* Calculate the fluxes across the interfaces.
+* Obtain steady states at the balance of fluxes.
+
+In the next section we present our model for the Golgi in the effective droplet model.
+
+## Golgi as an active droplet
+
+In this section we introduce our model for Golgi biogenesis and maintenance. As stated in the previous chapter, once the microtubules are depolymerized, the Golgi ribbon breaks into separate stacks which colocate with the ERES. If we model not the complete Golgi but a single stack, we can reduce our problem to 1D, where a droplet can move from one side of the system, representing the Golgi ribbon, to the other side, representing the ERES. This simplification permits analytical tractability. We thus end up with a 1D box where the dilute phase represents the cytoplasm, while the dense phase represents a single Golgi stack. 
+
+Proteins exiting the ERES are transported towards the ER over the microtubules. This is a stochastic process with the proteins detaching from and re-attaching to the microtubules randomly. **ref** shows that such a stochastic process can reduce to a Fokker-Planck equation if the attaching and detaching is much faster than the transport itself. As the Fokker-Planck equation is functionally equivalent to an advection-diffusion equation, we hypothesize that we can model protein transport using an advection-diffusion equation. Furthermore, **ref** reports that cargo can disappear without reaching the Golgi and we thus add a decay term to the advection-diffusion equation, resulting in the final equation for the evolution of dilute phase:
+
+$$
+\frac{\partial c}{\partial t} = D \frac{\partial^2 c}{\partial x^2} - v \frac{\partial c}{\partial x} - ac
+$$
+
+We will neglect the term on the left as we're working in a quasi-static limit. The first term on the right is a diffusive, the second term advective with advection velocity $v$, while the last term represents the decay. 
+
+**ref** states that after stack-like structures are formed close to the ERES, they are transported to the ribbon by microtubules. Hence we use an advective term next to a diffusive term in the dense phase. As the dense phase represents the Golgi, we need a term to account for maturation of the proteins. Much discussion on this subject exists (see maternal vs. cisternal maturation), but we choose a simple decay-like term. This gives an expression very similar to the dilute phase ([@eq:cinside]), save for a different decay rate:
+
+$$
+D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
+$${#eq:coutside}
+
+
+
 
 We use and modify the effective droplet model as a toy model for the behaviour of the Golgi in the cytoplasm. More precisely, the Golgi apparatus in mammalians is a ribbon, consisting of multiple golgi stacks (identical) together. We model a stack as an active droplet in a concentration gradient. Our model is shown in figure . We consider a 1D box of length $L$ with an influx at $x=0$ of $J_{in}$ and a zero flux boundary at $x=L$. Inside the system is a droplet of radius $R$ at position $x_0$. Transport in the system is described by a advection-diffusion-decay equation with a diffusion constant $D$, advection speed $v$ and decay constant $a$ outside and $k$ inside the droplet. The phase separation is governed by a free energy density with two minima at $c_0^-$ (dilute phase) and $c_0^+$ (dense phase).
 We thus end up with the following set of equations and boundary conditions in a quasi steady state approach:
@@ -135,9 +160,6 @@ $$
 D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
 $${#eq:cinside}
 
-$$
-D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
-$${#eq:coutside}
 
 $$
 (-D\partial_xc+vc)|_{x=0} = J_{in}
@@ -250,9 +272,6 @@ This is all fine and dandy, but there's one problem: the lower intersection, the
 
 ## Two-component model
 Two components jeeej
-
-## Dynamic model
-Now we add time dependence through greens functions!!
 
 
 ## Conclusion
