@@ -55,3 +55,4 @@ $$
 $$
 
 which is known as the Cahn-Hilliard equation. The Cahn-hilliard equation is what governs the maze domain evolution shown in figure and is the basis for studies of phase separation. Due to its non-linearity its very hard to use, and many times a scaling relation is derived. However, since we want to include spatial inhomogenity, this probably will not work. We present a different approach using effective droplets in the next section.
+

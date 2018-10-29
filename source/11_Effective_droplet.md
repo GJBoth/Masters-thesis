@@ -1,48 +1,54 @@
 # Effective droplet
 
-Cahn-Hilliard is a beautiful theory, but not quite handy due to its non-linearity. In this chapter we show an effective droplet theory which is able to reproduce many results of the cahn-hilliard theory but in a more wieldy format. We discuss the following three sections:
+In the previous chapter we introduced the Cahn-Hilliard equation. Its non-linearity makes it extremely hard to study and in this chapter we present an approximation known as effective droplet theory. In this chapter we introduce the effective droplet approximation, discuss our models for the Golgi apparatus and show the results for these models.
+We've divided the chapter into three sections:
 
-* **Effective droplet -** Here we present the derivation of a standard effective droplet theory.
-* **Expanding effective droplet-** We discuss the effects of adding advection and decay on the phase diagram.
-* **Two-component model-** We show a two component model and several effects and behaviours of this. 
+* **Effective droplet theory -** In this section we introduce effective droplet theory.
+* **Golgi as an effective droplet-** Here we introduce our model and show 
+* **Two-component model-** This third section contains a possible extension of the effective droplet model to two-components.
+
+We end the chapter with a short summary of our conclusions.
 
 ## Effective droplet 
 
-Consider again the Cahn-Hilliard equation:
+Consider phase separation in a one-dimensional box. The system will separate into a dilute and a dense phase, separated by an interface of width $w$:
 
 $$
-\frac{\partial\phi}{\partial t} = m\nabla^2 f'(\phi) - k\nabla^4\phi
-$$ 
-
-where $f'(\phi)=\partial f/\partial \phi=\mu$ with $f$ the free energy density and $k$ is a energy-like term and $m$ a mobility term. The first term is basically the bulk energy while the second term penalizes interfaces. If we assume our interface is very thin (i.e.flat), the interface term is much smaller than the bulk term and be neglected. We also consider a double well free energy density:
-
-$$
-f(c) = \frac{b}{2\Delta c}(c-c_0^+)^2(c-c_0^-)^2
+c^*(x) = \frac{c_0^-+c_0^+}{2}+\frac{c_0^+-c_0^-}{2}\tanh\left(\frac{x}{w}\right)
 $$
 
-which gives a chemical potential $\mu$ as:
+The idea of the effective droplet model is that if the width of the interface $w$ is very small, we neglect the interfacial contribution and describe the system as two separate bulk phases. In each bulk phase we then solve a linearized version of the Cahn-Hilliard equation and match the solutions at the interface of the phases. Growth of the droplet can then be described in terms of fluxes across the interface. We show this in figure @fig:eff_droplet. 
+
+We first linearize the Cahn-Hilliard equation in the bulk phases. Consider again the Cahn-Hilliard equation, where we've changed the order parameter $\phi$ to a concentration $c$:
 
 $$
-\mu = \frac{b}{\Delta c^2}(c-c_0^+)(c-c_0^-)(2c-c_0^--c_0^+)
+\frac{\partial c }{\partial t} = -m\nabla\mathbf{J}
 $$
+$$
+\mathbf{J} = -\nabla \mu
+$$
+$$
+\mu = f'(c) - k\nabla^2c
+$${#eq:CH_bray}
 
-Putting this back into equation gives back a diffusion equation:
+where $f'(c)=\partial f/\partial c$. We're assuming an infinitely thin interface, so the interfacial term is neglegible. Linearizing the chemical potential in $c$ around the dense phase yields $\mu = f''(c_0^+)c$, so that @eq:CH_bray becomes:
 
 $$
-\partial_t c = D \nabla^2 c
-$$
+\frac{\partial c }{\partial t} = D\nabla^2c
+$${#eq:diffusion}
 
-with $D=$ and we've changed $\phi \to c$. Working with this equation is a lot easier than the full cahn-hilliard. The cahn-hilliard equation forms domains as seen in figure and this equation doesn't. We thus need to manually ensure domain formation. Assuming there is a droplet, we need the right boundary conditions to solve the system.
+where we've replaced all the constant in front of the right term by $D$. We thus see that linearizing the Cahn-Hilliard equation in the bulk leads to a diffusion equation. As we've replaced a single equation by two, we need an extra set of boundary conditions at the interface.
 
 ### Boundary conditions
 
-To calculate the boundary conditions, consider a two phase system desribed by a free energy density $f(\phi)$ with two minima $\phi_1$ and $\phi_2$. The system phase separates into two phases, so that the total free energy of the system is:
+To determine the droplet boundary conditions, consider a system which is phase separated and has an infinitely thin interface. The total free energy of the system is then:
 
 $$
 F = V_1 f(\phi_1) + V_2 f(\phi_2)
 $$
 
-We also have incompressibility ($V_1+V_2=V$) and conservation of particles ($V_1\phi_1+V_2\phi_2=V\phi$). This leaves us with two independent variables. In equilibrium, the free energy $F$ is minimized and we minimize it w.r.t to $\phi_1$ and $V_1$. This gives us to conditions:
+where $V_i$ and $\phi_i$ are respectively the volume and density of phase $i$ and $f(\phi_i)$ is the free energy density. In equilibrium, this free energy is minimized. Assuming incompressibility ($V_1+V_2=V$) and conservation of particles ($V_1\phi_1+V_2\phi_2=V\phi$), we further constrain the system to two independent variables. 
+Choosing to minimize the free energy with respect to $\phi_1$ and $V_1$ gives us two conditions:
 
 $$
 f'(\phi_1) = f'(\phi_2) = 0
@@ -52,29 +58,29 @@ $$
 0 = f(\phi_1) + f(\phi_2) + (\phi_2-\phi_1)f'(\phi_2)
 $$
 
-The first equation states that across the interface the two chemical potential $\mu(\phi)=f'(\phi)$ must be equal and the second one states that the osmotic pressure should be similar. One obvious solution is $\phi_1=\phi_2$; a completely mixed state. A solution however also exists for a free energy with two minima where the solution is the two minima; this can be found by Maxwells tangent construction.
-
-If we assume local that our system is locally (around the interface) at thermodynamic equilibrium, we can apply this solution as boundary conditions. Concretely,
+Since $f'(\phi) = \mu(\phi)$, the first condition states that both phases must have the same chemical potential, while the second one refers to the matching of osmotic pressure. One obvious solution to these equations is a completely mixed state with $\phi_1=\phi_2$. A non-trivial (phase-separated) solution exists as well, where $\phi_1$ and $\phi_2$ are the two minima of the free energy density function $f(\phi)$. In our system, this corresponds to $c_0^+$ and $c_0^-$. Assuming that our droplet is locally in thermodynamic equilibrium, we can apply this solution as boundary conditions. Concretely,
 
 $$
 c(R) = 
 \begin{cases}
-    c_0^-,& R \text{ from above}\\
-    c_0^+,& R \text{ from below}
+    c_0^-,& \text{Outside droplet}\\
+    c_0^+,& \text{Inside droplet}
 \end{cases}
 $$
 
-Now that we have derived the boundary conditions, we can finish the effective droplet model.
+Now that we have defined boundary conditions, equations such as [@eq:diffusion] can be solved. The solution will give us the concentration profile in each phase, but the droplet behaviour is determined by the fluxes across the interface. We show this in the next section. 
 
 ### Fluxes and movement of interfaces
 
-Using the boundary conditions derived in the previous section, we have the concentration profile inside and outside the droplet. The idea of effective droplet theory is to write the interface speed $v$ in terms of fluxes accross the interface. Since we've calculated the concentration, we can calculate the flux as:
+Given a concentration profile $c(x)$, the (diffusive) flux can be calculated by applying Ficks' law:
 
 $$
-J = -D\frac{\partial c}{\partial x}
+J(x) = -D\frac{\partial c}{\partial x}
 $$
- 
-in the case diffusion (Fick's law). Inside the droplet we can thus define a flux $J_{in}$ and outside the droplet a flux $J_{out}$. As we're dealing with active droplets, the flux $J_{in}$ will typically be inwards, i.e. away from the interface. The flux outside the droplet will also be inwards when stuff is typically moving into the droplet; both fluxes are thus negative. Now its visible were dealing with an *active* system: the fluxes will never become $0$, in other words we'll never reach equilibrium, but we can reach a stable state when $J_{in}=J_{out}$. If this is not the case, the interface will move. We can derive an interface speed $v$ in terms of the fluxes. Consider figure . If we wish to move the interface a distance $\Delta x$, we need a net gain of $\Delta x \delta c$. Thus, in a time $\Delta t$, we need:
+
+Using this expression, we can calculate a flux on the inside of the interface $J_{in}$ and on the outside of the interface $J_{out}$. Note that in and out respectively refer to inside and outside the droplet and not to the direction of the flux. Figure @fig: eff_droplet shows a typical concentration profile of an active droplet. Observe that due to the activity of the droplet, the concentration profile inside the droplet is not flat but convex. Due to this convexity, the flux $J_{in}$ will be pointed inwards, while the flux $J_{out}$ will also be pointed inwards typically due to transport or production. Intuitively, $J_{in}$ is the flux lost due to the decay or activity in the droplet, while $J_{out}$ replaces the converted material inside with material from outside. A steady-state can be achieved once these two fluxes are equal. Note that while the system is at steady state, it is not in equilibrium, as the fluxes across the interface are not zero; the fluxes are balanced, rather than equilibrated. This is a typical characteristic of an active system.
+
+If the fluxes $J_{in}$ and $J_{out}$ are not balanced, a net flux exists, leading to either growth or decay of the droplet. We wish to derive an expression for the speed of the interface $v_n$ in terms of the fluxes across it. Consider figure @fig:interfacespeed. If we wish to move the interface a distance $\Delta x$, we need a net material gain of $\Delta x \Delta c$. This net gain is supplied by a net flux in a time $\Delta t$, so that:
 
 $$
 \Delta x \Delta c = (J_{in}-J_{out})\Delta t
@@ -83,12 +89,12 @@ $$
 which can be rewritten as:
 
 $$
-\frac{\Delta x}{\Delta t} = v = \frac{J_{in}-J_{out}}{\Delta c}
+\frac{\Delta x}{\Delta t} = v_n = \frac{J_{in}-J_{out}}{\Delta c}
 $$
 
-Note that $in$ and $out$ here refer to at which position the flux is calculated (inside or outside the droplet) and not to the effect of the flux. In our system, $J_{in}$ will always be negative but $J_{out}$ can be both, depending on the parameters.
+Thus if $|J_{in}|<|J_{out}|, v_n>0$ and the droplet will grow and vice versa for  $|J_{in}|>|J_{out}|$.
 
-![](source/figures/pdf/interface.pdf)
+![](source/figures/pdf/interface.pdf){#fig:interfacespeed}
 
 We've derived an expression for the interface velocity in terms of the fluxes. When we have a free droplet in an environment, we have two interfaces. Thus we can define a radius $R$ which grows or decays but if the interfaces move differrently due a difference in flux, the center of mass of the droplet $x_0$ will move: an active droplet can move on its own. Consider two interfaces $v_l$ and $v_r$, where the velocity $v_l$ is the interface on the left and $v_r$ the interface on the right. If we have a droplet at $x_0$ with radius $R$ and the interfaces move with a speed $v_l$ and $v_r$, in a time $dt$ they're at:
 
