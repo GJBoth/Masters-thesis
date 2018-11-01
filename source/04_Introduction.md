@@ -1,30 +1,29 @@
 # Introduction
 
-The cell is a highly dynamic object and requires dozens of proteins for proper functioning. Most of these proteins are produced in the Endoplasmic Reticulum (ER), an organelle found in eukariotic cells around the nucleus. Secretions from the ER don't travel directly to their destination. Rather, they move through the cell to the Golgi apparatus, after which they move to their destination. The Golgi doesn't only act as some sort of sorting centre, but it also matures the proteins coming in. The Golgi apparatus is thus a key component in intracellular trafficking, more specifically the secretory pathway. Years of research have quantified key proteins for maturation and secretion, but a model coupling Golgi function and shape to transport parameters is lacking. In order to understand more about the Golgi, we believe such a model is required. In this thesis we do so. We furthermore wish to confront our model with real-life data.
-
-**NEEDS LONGER, something about biophysics? Quantitative biology? Vesicles?**
-
-This chapter serves as an introduction to the thesis. We start by painting a biological picture of the Golgi and shortly summarizing the quantitative work done on the golgi so far. Armed to the teeth with new biological knowledge, we present the framework for our thesis and give a (qualitative) background on phase separation and biological data analysis to justify our hypothesis. We end this chapter with an overview of the rest of the thesis. 
+The cell is a highly dynamic object and requires dozens of proteins for proper functioning. Most of these proteins are produced in the Endoplasmic Reticulum (ER), an organelle found in eukariotic cells around the nucleus. Secretions from the ER don't travel directly to their destination. Rather, they move through the cell to the Golgi apparatus, after which they move to their destination. The Golgi doesn't only act as some sort of sorting centre, but it also matures the proteins coming in. The Golgi apparatus is thus a key component in intracellular trafficking, more specifically the secretory pathway. Despite intense effort, an integrated model is lacking. It is exactly this model which we're pursuing in this thesis. 
 
 ## The secretory pathway: a biological perspective
 
-The long journey of a protein starts in the endoplasmatic reticulum. The ER is 
+Proteins which move through the Golgi typically start out in the endoplasmatic reticulum. The ER is network of something around the nucleus and is sort of an protein factory. THe lipids and proteins exit the ER at specific sites known as Endoplasmic reticulum exit sites, or ERES. Cargo is transported through the cell packed in a lipid bilayer - the whole package is known as a vesicle. 
 
-
-Once a vesicle is released from the ER from an ERES, it is transported by 
+Vesicles are transported by two main pathways: either diffusive through the cytoplasm or by active transport. The active transport takes place by molecular motors across microtubules. Microtubules are tube-like structures made from tubulin and stretch throughout the cell, forming a sort of protein highway. Microtubules are nucleated by objects known are MicroTubular Organization Centers (MTOC), with the centrosome being the primary one. Many evidence exists however for the Golgi also being an important MTOC. Basically like having a highway down your front door. 
 
 Many different types of cells have golgi apparatuses, with different appearances of the Golgi. It consists of several independent completely functional subunits known as stacks. In plants for example, these stacks are distributed throughtout the cell, whereas (normally) they form a single ribbon next to the nucleus in mammals. The exact reason for this is not yet known, and we leave this question for what it is. We focus only on mammalian cells.
 
 As stated, in mammalians the golgi forms a single big organelle known as a ribbon and that each ribbon consists of fully functional stacks. Each stack consists of a number of compartments known as cisternae. We show a ribbon in figure **ref** and a stack in figure **ref**. Cisternae are flattened membranes and look like a disk, so a stack is liteally a stack of these cisternae disks. The membrane is made of vesicular material from the ER. The golgi is not isotropic: absorption of vesicles happens on one side, known as the cis-face (cis-compartments) while secretion happens on another - the trans-face. Compartments inbetween are known as medial compartments. Vesicles fusing with the cis-face releasing their contents. Depending on the final location of the proteins, the proteins will be modified ('matured') and sent on. The Golgi thus acts like a post office, receiving mail and sending it on to the right receiver. 
 
-Exactly how this sorting and maturing inside the Golgi happens is not sure. Two main models are currently contenders. The first one is known as maternal (?) and assumes that the cargo proteins move through each cisterna as a multi stage step, each cisterna has a specific task and the cargo moves from one cisterna to the next. The other model is called cisternal maturation and states that each cisterna matures as a whole, moving through each step. Each model offers explanations for some observations, but not all. 
-
-Cargo exiting the Golgi is packed into a vesiscle and moves to the target
-
-
+Exactly how this sorting and maturing inside the Golgi happens is not sure. Two main models are currently contenders. The first one is known as maternal (?) and assumes that the cargo proteins move through each cisterna as a multi stage step, each cisterna has a specific task and the cargo moves from one cisterna to the next. The other model is called cisternal maturation and states that each cisterna matures as a whole, moving through each step. Each model offers explanations for some observations, but not all. Cargo is budded of from the Golgi in vesicles. These vesicles move to where they need to go, such as the plasma membrame. 
 
 ### Quantitative work on golgi so far
 One such model is offered by Hirschberg **ref** in their 1997 paper. They follow a virus fused to a fluorescent protein from the ER through the Golgi to the plasma membrane. They determine the fluorescence in each area in time. The model they've developed is simple although seems to fit quite nicely. Its a kinetic model, meaning they have a rate for each step (see figure **ref**). Although this model fits their data, their model does not take into account several crucial features such as size of the Golgi, transport properties etc. All transport from the ER to the Golgi is reduced to a single kinetic parameter. **EXPLAIN MODEL MORE CLEARLY**.
+
+## This thesis
+
+Years of research have quantified key players in the process off maturation and secretion, transport etc. A single integrated model coupling Golgi function and shape to transport parameters is lacking however. In order to understand more about the Golgi, we believe such a model is required and in this thesis we seek to fill this gaping hole in our knowledge. We hypothesize that we can describe the Golgi apparatus as a phase separated droplet. More strongly, since the Golgi matures proteins, we need a description allowing for this and thus make the droplet active - the golgi as an *active phase-separated droplet*. 
+
+We also compare the model we've developed to data. We've worked with biologists in the team of Frank Perez. They've developed a new technique known as RUSH, which allows precise timing of release of proteins from the ER and allows them to take really nice videos. In the next sections, we state why we believe we can describe the golgi as an active droplet and how we intend to perform the data analysis. 
+
+**SOMETHING ABOUT QUANTITATIVE BIOLOGY?**
 
 ### Golgi as a phase-separated droplet
 
@@ -42,11 +41,7 @@ In analysis techniques we can roughly make two categories: single particle track
 
 Other methods which don't require single particle tracking often look at correlations. The correlation function $G$ is actually connected to the local transport properties. Unfortunately we need quite a bit of data to get some decent results out of this. Furthemore, this assumes that the particles are passive, which is not a given. Other techniques requires shifting the concentration profile to find the velocity, but we don't get any diffusion from this. Authors **ref** give another methods for calcuting the derivative and minimizing this, its called PIV. All these methods are cool but still very specific. 
 
-Last years a lot of different methods for data analysis have come up. We can place the image analysis in a broader perspective to make use of these techniques. consider a movie: its taken as a number of frames, with each frame consisting of a bunch of points. We can regards each 
-
-Given we have developed a model for some phenomenon and some spatiotemporal experimental data, how do we know if the model describes the data well? This is not an entire trivial business, as the way we describe models is often in the form of a partial differential equation and the question we're actually asking is how do we know if the temporal evolution of some dataset is governed by our PDE. We have developed and evaluated two different methods for doing this. 
-
-Our first method attacks the problem rather directly, by calculating spatial and temporal derivatives directly from the data using something known as image gradients. Our second alternative method is an almost new highly experimental method based on neural networks. As it turns out, neural networks have some inherent properties which make it extremely useful for fitting models to data. 
+All these methods are very specific solutions to general problems. The basic question among all these methods is: I have a model and some data, and I want to fit the model to the data to, for example, obtain a diffusion coefficient or advection speed. Since most of the times a model is written as a partial differential equation, performing a model fit is not an entirely trivial business. In other words, if we have a model in the form of a PDE, we're actually asking if the temporal evolution of a dataset if governed by our PDE We have developed and evaluated two different methods for doing this. Our first method attacks the problem rather directly, by calculating spatial and temporal derivatives directly from the data using something known as image gradients. Our second alternative method is an almost new highly experimental method based on neural networks. As it turns out, neural networks have some inherent properties which make it extremely useful for fitting models to data. 
 
 ### Structure and main questions
 
