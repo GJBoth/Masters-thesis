@@ -8,6 +8,16 @@ In the previous chapter we developed a general system to fit our advection-diffu
 * **Section 4** is similar to section 3, only now we analyse a constrained fit with $D>0$.
 * **Section 5** summarizes our findings and presents possible improvements for the system.
 
+## Rush
+
+A technique known as RUSH (Retention Using Selective Hooks) has recently (2012) been developed in the team of Frank Perez at Institut Curie to study secretory traffic. It allows for the precise timing of the release of proteins from the endoplasmatic reticulum and can be used to follow the secretory pathway from the ER to the Golgi and even post-golgi using fluorescent live-cell imaging. 
+
+![RUSH system]()
+
+Figure **ref** shows the principle of the RUSH system. Inside a donor compartment, a hook protein in fused to a core streptavidin. A streptavidin-binding-protein (SBP) binds reversibly to the streptavidin and has both the protein to be followed attached to it (the reporter) and a fluorescent protein. Upon the addition of biotin, it binds to the streptavidin and releases the reporter complex. In this case, the reporter complex starts it secretory pathway and is released from the ER. The advantage of the RUSH system is its precise timing, non-toxicity and thats its adaptable to a wide array of cargo proteins. In this thesis we mainly focus on the $\alpha$-mannosidase-II (ManII). This cargo protein has some function inside the golgi apparatus and, contrary to most proteins, is retained in the Golgi. As it is retained in the Golgi, the movies we will analyze will only contain the transport towards the golgi, so that we don't have to separate post and pre-golgi traffic. Figure **ref** shows several frames of the ManII transport cycle. Initially, the reporter is still in the ER and no cargo is observed in the Golgi. Then we observe a rise in the Golgi, where it remains. 
+
+![Couple of frames of the ManII transport. ]()
+
 ## Analysis of fluorescence
 
 We first perform a general analysis of the fluorescence intensity. We plot the average normalized fluorescence (that is, we normalize the fluorescence between 0 and 1 to get rid of the background in our statistics, average each frame and then normalize that between 0 and 1). The average fluorescence decays with almost $30\%$, which is a lot. We can also observe two 'regimes': between frame 0 and 100 we roughly see a very strong decay and after frame 100 we see a slower decay. The first regime is where all the cargo moves towards the Golgi, showing that the assumption that $I\propto c$ might not necessarily be true, while the second regime is probably caused by fluorescence extinction. 

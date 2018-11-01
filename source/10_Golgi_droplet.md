@@ -168,6 +168,15 @@ In the next section we present our model for the Golgi in the effective droplet 
 
 ## Golgi as an active droplet
 
+* The Golgi is able to form de novo (Bevis)
+* Microtubules position the golgi near the mtoc (Sengupta)
+* Nocadazola depolymerizes microtubules -> golgi stacks move towards ERES (sengupta)
+* Golgi size is dependent on amount of trafficking (Sengupta)
+* Separate ministacks seems to be fully functional (Wei)
+* Golgi disassembly is due to imbalanced trafficking: exit from ER is blocked, while outflow still continues (Ronchi)
+* When golgi is completely cut out, stack like struct
+
+
 In this section we introduce our model for Golgi biogenesis and maintenance. Biologically, our problem encompasses four different populations: the immature cargo, the mature cargo, the Golgi, with all dissolved in the cytoplasm. The immature cargo transforms into the Golgi material, which matures into mature cargo. Similar to **ref**, we model this however in a simple manner with just the immature cargo phase separating in a dilute and dense phase and the mature cargo implicitly.
 
 As stated in the previous chapter, once the microtubules are depolymerized, the Golgi ribbon breaks into separate stacks which colocate with the ERES. If we model not the complete Golgi but a single stack, we can reduce our problem to 1D, where a droplet can move from one side of the system, representing the Golgi ribbon, to the other side, representing the ERES. This simplification permits analytical tractability. We thus end up with a 1D box where the dilute phase represents the cytoplasm, while the dense phase represents a single Golgi stack. 
