@@ -63,13 +63,13 @@ $$
 $$
 $$
 \mu = f'(c) - k\nabla^2c
-$${#eq:CH_bray}
+$$ {#eq:CH_bray}
 
 where $f'(c)=\partial f/\partial c$. We're assuming an infinitely thin interface, so the interfacial term is neglegible. Linearizing the chemical potential in $c$ around the dense phase yields $\mu = f''(c_0^+)c$, so that @eq:CH_bray becomes:
 
 $$
 \frac{\partial c }{\partial t} = D\nabla^2c
-$${#eq:diffusion}
+$$ {#eq:diffusion}
 
 where we've replaced all the constant in front of the right term by $D$. We thus see that linearizing the Cahn-Hilliard equation in the bulk leads to a diffusion equation. The effective droplet theory is most accurate in predicting steady states and thus the time-dependence of @eq:diffusion is ignored. As we've replaced a single equation by two, we need an extra set of boundary conditions at the interface.
 
@@ -126,7 +126,7 @@ which can be rewritten as:
 
 $$
 \frac{\Delta x}{\Delta t} = v_n = \frac{J_{in}-J_{out}}{\Delta c}
-$${#eq:interfacespeed}
+$$ {#eq:interfacespeed}
 
 Thus if $|J_{in}|<|J_{out}|, v_n>0$ and the interface will move to the right. If we consider a 'free' droplet (with two interfaces in 1D), the radius of the droplet is determined by both interfaces. Since the fluxes need not be similar on both sides of the droplet, not only the radius but also the position of interfaces plays a role. We thus characterize the droplet in terms of its radius $R$ and its geometric center $x_0$. Consider a droplet of radius $R$ at position $x_0$. The left and right interfaces move respectively with velocities $v_l$ and $v_r$. In a time $dt$, the droplet than moves to a new postion $x_0+dx$ and will have a new radius $R+dR$:
 
@@ -141,11 +141,11 @@ Solving this set of equations for $dx$ and $dR$ gives:
 
 $$
 \frac{dR}{dt}=\frac{1}{2}(v_r-v_l)
-$${#eq:radius}
+$$ {#eq:radius}
 
 $$
 \frac{dx_0}{dt}=\frac{1}{2}(v_l+v_r)
-$${#eq:position}
+$$ {#eq:position}
 
 Equations @eq:radius and @eq:position give the change in radius and position of the droplet. Note that these results are quasi-steady state: we've calculated the fluxes from stationary concentration profiles. Thus equations @eq:radius and @eq:position are best used to calculate (quasi-) steady states and not dynamics. Nevertheless, equation @eq:position shows an interesting feature: active droplets can move on their own. This movement is the result of an imbalance in fluxes between the left and right interface: the droplet center is displaced because one side of the droplet grows faster than the other.  This imbalance is caused by a concentration gradient and droplets will move up the gradient, as the flux on the high concentration side will be higher than on the low side. Finally combining eq. @eq:interfacespeed with eqs. @eq:radius and @eq:position yields the position and radius of the droplet in terms of the fluxes across its interface:
 
@@ -185,7 +185,7 @@ Proteins exiting the ERES are transported towards the ER over the microtubules. 
 
 $$
 D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
-$${#eq:cinside}
+$$ {#eq:cinside}
 
 We will neglect the term on the left as we're working in a quasi-static limit. The first term on the right is a diffusive, the second term advective with advection velocity $v$, while the last term represents the decay. 
 
@@ -193,7 +193,7 @@ We will neglect the term on the left as we're working in a quasi-static limit. T
 
 $$
 D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
-$${#eq:coutside}
+$$ {#eq:coutside}
 
 Note that we assume a similar diffusion coefficient in the dense and dilute phase. Choosing different diffusion coefficients would result in slighly different length scales (see next section), but would not affect the main results. As stated, we also model the mature population implicitly, in this case having the effect that the cargo lost due to the decay term exits the system. 
 
