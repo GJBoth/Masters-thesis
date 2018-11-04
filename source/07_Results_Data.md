@@ -1,6 +1,6 @@
 # Data analysis
 
-In this chapter we apply the method developed in the previous chapter to experimental data obtained using the RUSH technique. Our first section introduces the RUSH technique and discusses our model for the intracellular transport. In the following section we discuss the experimental data, investigate the fluorescence curves of several areas of interest. and gain more insight into the data by studying its time derivative. We then present a linear least squares fit and show that this can lead to unphysical results, such as a negative diffusion coefficient. This problem is fixed by modifying the least-squares fit to constrain the coefficients. 
+In this chapter we apply the method developed in the previous chapter to experimental data obtained using the RUSH technique. Our first section introduces the RUSH technique and discusses our model for the intracellular transport. In the following section we discuss the experimental data, investigate the fluorescence curves of several areas of interest. and gain more insight into the data by studying its time derivative. We then present a linear least squares fit and show that this can lead to unphysical results. We end with a short section of both recommendations for the experimentalists as well as a number of ways to improve the method.  
 
 ## Experimental data
 
@@ -38,28 +38,32 @@ Areas where the derivative is positive (thus were the concentration increases) a
 
 ## Analysis of LS-fit
 
-In this section we analyse results of the least squares fit. We've used a 7x7 window in the spatial domain to perform the sliding window operation, fitting each frame of the movie independently. We analyse the diffusion, advection and the error of our fit.
+In this section we analyse results of the least squares fit. We've used a 7x7 window in the spatial domain to perform the sliding window operation, fitting each frame of the movie independently. We analyse the diffusion, advection and the error of our fit. These fits are movies and we're hence unable to print them - please find our these movies at our GitHub. In figure @fig:diff_ls we show two typical inferred diffusion fields in the upper row, just after addition of the biotin (frame 4) and halfway to the complete saturation of the Golgi (frame 40). 
 
-![Diffusion]()
+![Diffusion](source/figures/pdf/Diff.pdf){#fig:diff_ls}
 
-![Advection]()
+Another problem is that we observe many areas with a negative -unphysical- diffusion coefficient. In the lower left panel we plot the distribution of values. Analysis shows that roughly $40\%$ of the inferred field has a negative diffusion coefficient. In the lower right panel we have calculated this fraction as a function of time. It shows that, save for a few initial frames, this fraction is not (strongly) time-dependent. Results are slightly skewed though, since many coefficients are negative but extremely close to zero (e.g $-10^{-4}​$). Negative diffusion coefficients correspond to clustering, but could also be the result of an incorrect fit. We investigate this in depth after studying the advection profiles, which we show in figure @fig:advection .
 
-![Pixel in time]()
-
-![Error]()
-
-### Diffusion
-
-### Advection
-
-### Error?
+![Advection](source/figures/pdf/Fit_LSconstrainedadvection.pdf){#fig:advection}
 
 
 
 
 
-## 
+To gain more insight into our fit, we analyze a single pixel in time. Figure @fig:timepixel shows the diffusion and advection velocities as a function of time. We've plotted a scaled and translated signal of that pixel in a black dashed line. This pixel is initially constant and then decreases to noise level. Note that initially, while the signal is constant, the diffusion constant is negative. Once the signal starts decreasing, or, in other words, cargo starts flowing from that pixel, we see a physical diffusion constant and non-zero velocities. Once the signal returns to around noise-level at pixel 50, the inferred velocities and diffusion constant seem to become random around 0. In other words, our method seems to work when cargo is flowing, but struggling when the signal is either constant or at noise level. We observe similar behaviour in other pixels, so we contribute (most of) the unphysical diffusion values to constant and noise-level signal. 
 
-## 
+![Pixel in time](source/figures/pdf/Fit_LSgeneral_fit.pdf){#fig:timepixel}
+
+This doesn't completely explain the magnitude of the coefficients though, which is significantly lower than expected. One possibility is the 'mixing' of the transport fluorescence with the fluorescence of the ER. After the addition of biotin, the fluorescent cargo gets released, but still has a finite residence time in the ER. Since the obtained images are projected over an axis, changes in fluorescence we observe can be both due to intracellular transport as well as processes inside the ER. If these processes have different timescales, this can strongly affect the inferred coefficients.
+
+Another possibility is that we've assumed that a concentration of fluorescent particles leads to some sort of 'mean-field' fluorescence which we can describe by an advection-diffusion equation. Once the size of the particles becomes on the order of the pixel size, this assumption breaks down. In the case of the ManII trafficking, the pixels are roughly two to three times the size of a vesicle, meaning that we are at the limits of the 'mean-field' assumption. 
+
+## Conclusion
+
+We've applied the method developed in the previous chapter to 
+
+Improvements to our method fall roughly into two categories. The first category concerns improvements to the calculation of the derivatives. We've implemented a rather basic 5x5 Sobel filter, but implementing more advanced methods which would result in more accurate derivatives would probably make the biggest improvement. The second category would be improve the fitting procedure. The most obvious candidate is implementing some sort of Bayesian method which would return not just the most probable coefficient, but the entire probability distribution. 
+
+
 
 
