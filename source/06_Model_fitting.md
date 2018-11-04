@@ -1,39 +1,26 @@
 # Model fitting
 
-In the introduction we stated the question: 
-
-*How can we fit a model to spatiotemporal data if that model is a PDE?*
-
-In this chapter we present the answer in the form of a system which allows us to fit PDE-models to data. We start of with a section describing the general idea and subsequent sections elaborate on each step.
-
-The system principally works for any type of data and model, but was developed originally to analyze data from the RUSH experiments. We illustrate our system with several examples and have chosen to use real data from the RUSH experiments (specifically, MANII) over synthetic data. In figure @fig:threeframes we show four typical frames of the MANII movie. Characteristically, MANII moves from the ER to the Golgi and remains there. The upper left frame shows the first frame with all the cargo in the ER, in the lower left and upper right the intermediate regime is shown (i.e. cargo moving) and in the lower right frame all the cargo has moved into the Golgi.
-
-![Four frames (t = , , ) showing a typical MANII cycle of the RUSH experiment.](source/figures/pdf/frames.pdf){#fig:threeframes}
+In this chapter we introduce the method we have developed for fitting a model in the form of a PDE to spatiotemporal data. We start with a section describing the general idea and subsequent sections elaborate on each step. The method  principaly works for any type of data and model, but was developed originally to analyze data from the RUSH experiments. We have chosen to illustrate the effects of each step with RUSH experimental data instead of synthetic data. 
 
 ## The concept
 
-Assume we have some experimental data describing some process $f(x,t)$. We have also developed a model for this process in the form of a PDE:
-
+Assume we have acces to experimental data of some process $f(x,t)$. Parallely, we have also developed a model describing this process, but it is the form of a PDE:
 $$
 \partial_t f(x,t) = \lambda_1 \nabla^2f(x,t)+\lambda_2\nabla f(x,t) +\lambda_3 f(x,t) +\lambda_4
-$${#eq:PDE}
-
-We now wish to know if this model fits the data $f(x,t)$ and the value of coefficients $\lambda_i$. To do so, consider each spatial term of $f(x,t)$ in [@eq:PDE] as some variable $x_i$ and $\partial_t f$ as $y$, so that we can rewrite it as:
-
+$$ {#eq:PDE}
+We now wish to investigate if this model fits the data $f(x,t)$ and find the optimal value of coefficients $\lambda_i$. To do so, we consider each spatial term in $f(x,t)$ in [@eq:PDE] as some variable $x_i$ but $\partial_t f$ as $y$, so that we can rewrite it as:
 $$
 y = \lambda_1 x_1+\lambda_2x_2 +\lambda_3 x_3 +\lambda_4
 $$
 
-If we have access to the variables $x_i$ and $y$, we can perform least squares fitting to obtain the coefficients $\lambda_i$. In other words, if we can calculate the spatial and temporal derivatives, we can fit the model to the data. Once we know the coefficients, we can use our model to propagate the first frame of the data and compare our model to the experimental data.
-
-Although the concept seems trivial, its implementation is all but. Data is rarely noiseless and obtaining accurate derivatives from noisy data is notoriously hard. We can also have different models in different areas of the data, so that we need to segment the data or the coefficients $\lambda_i$ might not be constant but space- and time- dependent. The process of fitting the data thus has several steps:
+If we thus can find the variables $x_i$ and $y$, we can perform some fitting procedure such as least squares to obtain the coefficients $\lambda_i$. In other words, if we can calculate the spatial and temporal derivatives of our data, we can fit the model. Although the concept seems trivial, its implementation is all but. Data is rarely noiseless and obtaining accurate derivatives from noisy data is notoriously hard, but forms the heart of our method. It's also possible to have distinct models in different areas of the data, so that we need to segment the data. Furthermore, the coefficients $\lambda_i$ might not be constant but could be space- and time- dependent. The process of fitting the data thus has several steps:
 
 1. Denoising and smoothing
 2. Calculating derivatives
 3. Segmenting
 4. Fitting
 
-In the next sections, we describe each step separately. Note that the method we present here has been developed empirically: there's no theoretical background as to why this particular combination should work optimally. Instead, it's been developed while analyzing the data, adapting each step on the go. 
+In the next sections, we describe each step separately. Note that the method we present here has been developed empirically: there's no theoretical background as to why this particular combination should work optimally. Instead, it's been developed while analyzing the data, adapting each step on the go. However, we have found several parallel to another method from machine vision known as optical flow [@barron_performance_1994, @dong_motion_2006, @vig_quantification_2016].
 
 ## Step 1 - Smoothing and denoising
 
@@ -57,9 +44,9 @@ WavinPOD combines these two techniques by applying wavelet filtering to the POD 
 ![Effect of POD with a cutoff of 27 and wavelet filtering with a  level 3 db4 wavelet. Left panel shows the result in the time domain, right panel in the spatial domain. Lines have been offset for clarity.](source/figures/pdf/filtered.pdf){#fig:filtered}
 
 ## Step 2 - Derivatives
-After having denoised the images, we calculate the spatial and temporal derivatives. Obtaining correct numerical derivatives is hard and becomes much more so in the presence of noise [@bruno_numerical_2012]. Next to a finite-difference scheme, one can for example (locally) fit a polynomial and take its derivative or use a so-called tikhonov-regularizer [@knowles_methods_nodate]. The computational cost of these methods is high however and don't scale well to dimensions higher than one. For our spatial derivatives these methods are thus not available. In fact, obtaining the gradient of a 2D discrete grid has another subtlety which we need to adress.
+After having denoised the images, we calculate the spatial and temporal derivatives. Obtaining correct numerical derivatives is hard and becomes much more so in the presence of noise [@bruno_numerical_2012]. Next to a finite-difference scheme, one can for example (locally) fit a polynomial and take its derivative or use a so-called tikhonov-regularizer [@knowles_methods_nodate]. The computational cost of these methods is high however and they don't scale well to dimensions higher than one. For our spatial derivatives these methods are thus not available. In fact, obtaining the gradient of a 2D discrete grid has another subtlety which we need to adress.
 
-Naively, one could obtain the gradient of a 2D grid by taking the derivative using a finite difference scheme with respect to the first and second axis. If there are features on the scale of the discretization ($\sim$ few pixels), such an operation will lead to artifacts and underestimate the gradient. These issues have long been known and several techniques have been developed to accurately calculate the gradient of an 'image'. The most-used one is the so-called Sobel operator. It belongs to a set of operations known as *kernel operators*. Kernel operators are expressed as a matrix and by convolving this matrix with the matrix on which the operation is to be performed, we obtain the result of the operator. We show this for the Sobel operator.
+Naively, one could obtain the gradient of a 2D grid by taking the derivative using a finite difference scheme with respect to the first and second axis. If there are features on the scale of the discretization ($\sim$ few pixels), such an operation will lead to artifacts and underestimate the gradient. These issues have long been known and several techniques have been developed to accurately calculate the gradient of an 'image'. The most-used image-gradient technique is the so-called Sobel operator. It belongs to a set of operations known as *kernel operators*. Kernel operators are expressed as a matrix and by convolving this matrix with the matrix on which the operation is to be performed, we obtain the result of the operator. We show this for the Sobel operator.
 
 Consider a basic central finite difference scheme:
 
@@ -74,19 +61,15 @@ $$\frac{1}{2}\cdot
 1 & 0 & -1
 \end{bmatrix}
 $$
-
 where we have set $h=1$, as the distance between pixels is one by definition. By convolving this matrix with the matrix $A$ we obtain the derivative of $A$:
-
 $$
 \partial_xA\approx A*\frac{1}{2}\begin{bmatrix}
 1 & 0 & -1
 \end{bmatrix}
 $$
-
 ![**Left panel:** One dimensional finite difference kernel. **Right panel:** Three by three Sobel filter](source/figures/pdf/derivative.pdf){#fig:sobel}
 
 As stated, this operation is inaccurate and introduces artifacts. To improve this, we wish to include the pixels on the diagonal of the pixel we're performing the operation on as well (see figure @fig:sobel). The distance between the diagonal pixels and the center pixel is not 1 but $\sqrt{2}$ and the diagonal gradient also needs to be decomposed into $\hat{x}$ and $\hat{y}$, introducing another factor $\sqrt{2}$. The kernel thus obtained is the classic $3\times3$ Sobel filter:
-
 $$
 \mathbf G_x=\frac{1}{8}\cdot
 \begin{bmatrix}
@@ -96,15 +79,11 @@ $$
 \end{bmatrix}
 $$
 
-Increasing the size of the Sobel filter increases its accuracy and we've implemented a 5x5 operator. Implementing the derivative operation as a kernel method is also beneficial from a computational standpoint, as convolutional operations are very efficient.
-
-As the time derivative involves just one dimension, we make use of a second order accurate central difference scheme implemented in Numpy.
+Increasing the size of the Sobel filter increases its accuracy and we've implemented a 5x5 operator. Implementing the derivative operation as a kernel method is also beneficial from a computational standpoint, as convolutional operations are very efficient. The Sobel filter is usually applied to an image and hence is often said to calculate the image-gradient, but due to its separability is possibe to scale this method to an arbitrary number of dimensions.  
 
 ## Step 3 - Segmentation
 
-In the case of the RUSH data, obtained images and movies often contain multiple cells. Each of these cells can be further segmented into two more areas of interest: the cytoplasm, which is were we want to fit our model and the Golgi apparatus. We wish to make a mask which allows us to separate the cells from the backgroud and themselves and divide each cell into cytoplasm or Golgi.
-
-Figure @fig:threeframes shows four typical frames in the MANII transport cycle. Note that no sharp edges can be observed, especially once the MANII localizes in the Golgi. No bright field images were available as well, together making use of techniques such as described in @rizk_segmentation_2014 unavailable. We have thus developed two methods which allow us to segment the image and the cells, based on Voronoi diagrams and the intensity. 
+In the case of the RUSH data, obtained images and movies often contain multiple cells. Each of these cells can be further segmented into two more areas of interest: the cytoplasm, which is were we want to fit our model and the Golgi apparatus. We wish to make a mask which allows us to separate the cells from the backgroud and themselves and divide each cell into cytoplasm or Golgi. Figure @fig:threeframes shows four typical frames in the MANII transport cycle. Note that no sharp edges can be observed, especially once the MANII localizes in the Golgi. No bright field images were available as well, together making use of techniques such as described in @rizk_segmentation_2014 unavailable. We have thus developed two methods which allow us to segment the image and the cells, based on Voronoi diagrams and the intensity. 
 
 ### Voronoi diagram
 
@@ -127,10 +106,11 @@ This procedure was unable to reliably separate the background from the cytoplasm
 
 ## Step 4 - Fitting
 
-Having gathered all the data, the final step is to fit the model. Equation @eq:PDE assumes a model with constant coefficients. In reality, coefficients will be spatially and even temporally varying. 
-To circumvent this issue, we assume the coefficients can be assumed to be locally constant. We thus assume that for a small area we can fit the model using constant coefficients. We perform this operation for every datapoint in a sliding-window manner, as shown in figure @fig:slidingwindow, thus ending up with a coefficient field.
+The final step in our method is to fit the our model to the data. By calculating the derivatives, we have reduced our PDE-model to a generic model, which allows us to use virtually any fitting method. For simplicity, we use least-squares, but one could use a Bayesian method to obtain not only the fit, but also the uncertainty. 
+
+ Equation @eq:PDE assumes a model with constant coefficients. In reality, coefficients will be spatially and even temporally varying. To circumvent this issue, we assume the coefficients can be assumed to be locally constant. We thus assume that for a small area we can fit the model using constant coefficients. We perform this operation for every datapoint in a sliding-window manner, as shown in figure @fig:slidingwindow, thus ending up with a coefficient field.
 
 ![Schematic overview of the sliding window technique. The solid black line encompasses an area around its blue coloured central pixel and the fit output is assigned to that pixel. We then move the window (dashed black line) and perform the fit for the orange coloured pixel.](source/figures/pdf/slidingwindow.pdf){#fig:slidingwindow}
 
-
+In the next chapter we apply this method to the RUSH experimental data.
 
