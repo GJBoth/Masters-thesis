@@ -1,43 +1,31 @@
-# Golgi model
+# Results model
 
-In the previous chapter we introduced the Cahn-Hilliard equation. Its non-linearity makes it extremely hard to study and in this chapter we present an approximation known as effective droplet theory. In this chapter we introduce the effective droplet approximation, discuss our models for the Golgi apparatus and show the results for these models.
-We've divided the chapter into three sections:
+The previous chapter introduced phase separation and our model for the Golgi as a phase-separated droplet. In this chapter we solve the equations and present the results and biological implications. The first section solves the model and presents the calculated fluxes through the interface. It also introduces several lengthscales and dimensionless parameters of the problem. As adding advection to an active droplet is a novel approach, we study the affect of advection in the second section. We present the full active-droplet phase diagram in the last section and discuss the biological implications. 
 
-* **Effective droplet theory -** In this section we introduce effective droplet theory.
-* **Golgi as an effective droplet-** Here we introduce our model and show 
-* **Two-component model-** This third section contains a possible extension of the effective droplet model to two-components.
+### Solving the model
 
-We end the chapter with a short summary of our conclusions.
-
-
-
-
-
-### Solution
-The general solution of equations @eq:cinside and @eq:coutside is given by:
-
+The first step is to find a general solution to equations @eq:cinside and @eq:coutside. As they are of the same form, the general solution is given by:
 $$
 c(x) = C_1e^{-\frac{x}{l^-}}+C_2e^{\frac{x}{l^+}}
-$$
+$$ {#eq:cgeneral}
 
 where we have defined $l^\pm$ as:
 
 $$
 l^\pm= \frac{2D}{\sqrt{4kD+v^2}\pm v }
-$${#eq:lengthscale}
+$$ {#eq:lengthscale}
 
-where $k$ should be replaced by $a$ outside the droplet. Note that $l^\pm$ defines the lengthscale of the problem. Without advection it simplifies to $\sqrt{D/k}$ and both lengthscales becomes similar. It is here we see that the advection combined with decay leads to some sort of 'symmetry-breaking' in the droplet and that the effect of advection is more than just translating the droplet. We study this is in the next section. Applying the boundary conditions and calculating the flux at position $x_0+R$ and $x_0-R$ gives the following fluxes outside:
-
+where $k$ should be replaced by $a$ for the concentration in the dilute phase. Note that $l^\pm$ defines the lengthscales of the problem and that due to addition of advection there are two;  without advection it simplifies to $\sqrt{D/k}$. It is here we see that the advection leads to some sort of 'symmetry-breaking' in the droplet and that the effect of advection is more than just moving the droplet. A typical concentration profile for a droplet is shown in figure **FIGURE**. We can associate $l^+$ with the right side of the well and $l^-$ with the left side. We study the effect of advection in the next section. Applying the boundary conditions and calculating the flux at position $x_0+R$ and $x_0-R$ gives the following fluxes outside:
 $$
-J_{out}^{x=-R} = J_{in}\frac{(1+\frac{l_-}{l_+})e^{\frac{-(x_0-R)}{l_-}}}{Pe_-+Pe_+\frac{l_-}{l_+}e^{\frac{-x_1}{l}}}
+J_{out}^{x=-R} = J_{in}\frac{(1+\frac{l_-}{l_+})e^{\frac{-(x_1)}{l_-}}}{Pe_-+Pe_+\frac{l_-}{l_+}e^{\frac{-x_1}{l}}}
 +\frac{c_0^{out}D}{l_+}\frac{Pe_+(1-e^{\frac{-x_1}{l}})}{1+\frac{l_-}{l_+}\frac{Pe_+}{Pe_-}e^{\frac{-x_1}{l}}}
-$${#eq:leftflux}
+$$ {#eq:leftflux}
 
 $$
 J_{out}^{x=R} = -c_0^{out}D\frac{Pe_-Pe_+(1-e^{\frac{-x_2+L}{l}})}{l_+Pe_-+e^{\frac{-x_2+L}{l}}l_-Pe_+}
-$${#eq:rightflux}
+$$ {#eq:rightflux}
 
-where we have introduced the coordinates $x_1$ and $x_2$, which are defined respectively as $x_0\pm R$ and correspdon to the left and right interface. We have also defined the Peclet-like numbers $Pe^\pm$:
+where we have introduced the coordinates $x_1$ and $x_2$, which are defined respectively as $x_0\pm R$ and correspond to the position of the left and right interface. We have also defined the Peclet-like numbers $Pe^\pm$:
 
 $$
 Pe^\pm = 1 \mp \frac{vl^\pm}{D}
@@ -45,8 +33,7 @@ $$
 
 and a new combined lengthscale $l = \frac{l^+l^-}{l^++l^-} = 1/l^++1/l^-$. The flux on the left of the droplet consists of two terms, with the first one accounting for the influx and the second one for the interface with the droplet. The flux on the right is clearly similar, but lacks a second term since we've set a zero-flux boundary at $x=L$.
 
-We now turn to the fluxes on the inside of the droplet. In this case however, the fluxes on the left and right side of the droplet are not of particular importance; considering equations @eq:radius and @eq:position, we're interested in their sum and difference. Introducing $J_{Rad} = J_{in}^{x=R}-J_{in}^{x=-R}$ and $J_{Pos} = J_{in}^{x=R}+J_{in}^{x=-R}$, we obain:
-
+We now turn to the fluxes on the inside of the droplet. These fluxes separately are not particularly insightful, but, considering equations @eq:radius and @eq:position, we can study their sum and difference. Introducing $J_{rad} = J_{in}^{x=R}-J_{in}^{x=-R}$ and $J_{pos} = J_{in}^{x=R}+J_{in}^{x=-R}$, we obain:
 $$
 J_{rad} = \frac{-2c_0^+D}{l}\frac{\sinh\frac{R}{l^-}\sinh\frac{R}{l^+}}{\sinh\frac{R}{l}}
 $$
@@ -55,17 +42,14 @@ $$
 J_{pos} = 2c_0^{in}D\left[\frac{Pe_-}{l_-}\frac{\sinh\frac{R}{l_+}\cosh\frac{R}{l_-}}{\sinh\frac{R}{l}}-\frac{Pe_+}{l_+}\frac{\sinh\frac{R}{l_-}\cosh\frac{R}{l_+}}{\sinh\frac{R}{l}}\right]
 $$
 
-The equation for the radius can also be interpreted as the maturation flux. It contains an important point with respect to the validity of effective droplet theory. Consider the limit of $R\to\infty$:
-
+The flux $J_{rad}$ is the total flux lost due to maturation, while the flux $J_{pos}$ is the difference in fluxes due to maturation on both sides of the droplet, which is clearly visible in its symmetric construction. $J_{rad}$ contains an important point about the validity of effective droplet theory. Consider it in the limit of $R\to\infty$:
 $$
 \lim_{R\to\infty} = -2c_0^+\sqrt{kD}
-$${#eq:radiuslimit}
+$$ {#eq:radiuslimit}
 
-where for simplicity we have set the advection speed $v$ to zero. For an active droplet one would expect the maturation flux to scale with the radius. However, equation @eq:radiuslimit shows that the maturation flux saturates. The answer to this conundrum is found by studying the concentration profile in the droplet. For $R\gg l$, the concentration in the center of the drop goes to zero, which is unphysical and an artifact of the effective droplet model. Thus effective droplet theory is only valid in the region $R\ll l$. When advection is added back into the mix this point is slightly more nuanced, as advection changes the concentration profile. We show this in the next section.
+where for simplicity we have neglected advection. As we have included a maturation term, we would expect the flux due to maturation to scale with $R$, which indeed for small $R$ it does. However, equation @eq:radiuslimit tells us that the maturation flux saturates. Consider again equation @eq:ceq and note that inside the droplet the concentration is convex and decays on a lengthscale $l$. If $R\gg l$, the concentration in the centre of the droplet will go to zero and hence the maturation flux will saturate.  Thus, effective droplet theory is only valid in the region for $R<l$. When we include advection the point is slighly more subtle as advection changes the internal concentration profile of the droplet. We investigate this in the next section. 
 
-The equation for the positional flux hints at the effects of the advection and maturation. In a droplet without decay, the concentration profile would be flat and the positional flux would be proportional to $c_0^+v$. Equation  tells a different story. We investigate this in depth in the next section.
-
-### No decay in the dilute phase: the effect of advection
+### The effect of advection
 
 We first study the effect of advection on the droplet by setting the decay in the dilute phase to zero. In this case the flux on the outside of the droplet becomes position-independent:
 
@@ -123,7 +107,7 @@ First consider the line $dR/dt=0$, a droplet with stable radius. We observe that
 This is all fine and dandy, but there's one problem: the lower intersection, the stable point, is unphysical. We characterize the droplet in terms of its center of mass $x_0$ and radius $R$, meaning that the left interface is at a position $x_0-R$. The red line in the plots shows the line $x_0=R$ and everything below this line is unphysical, as it means the left interface is at a position $x_0-R<$, past the system edge. Why does this happen? First, in a dynamical description this wouldn't happen, as the left interface boundary condition prevents moving past. In a static description this can however since we specify the edge of the system as a flux boundary condition. Inspection of the concentration (see figure ) learns that the droplet moves on top of the source: the flux inside the droplet at a point is similar to the boundary condition. In 2D this wouldnt be a problem but in our 1D description it is as the BC is specified as a flux and not as a source. That means we're left with just an unstable point. Why is this point unstable? Investigating the fluxes shows that despite the decay the left interface is an order of magnitude bigger than the right interface, thus behaviour is mainly determined by the left interface. Once the left interface starts moving due to a perturbation, the rest follows. 
 
 
-## Two-component model
+## 
 Two components jeeej
 
 
