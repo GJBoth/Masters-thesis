@@ -1,81 +1,131 @@
 # Introduction to Golgi as a phase separated droplet
 
-In this second part of the thesis we develop a model linkingthe Golgi function and size to protein transport. Special attention will be devoted to adding spatial dependence, as this is what current models are lacking. IN the first section we justify our choice of a phase-separated droplet from a biological perspective. In the second section we present a short primer on phase-separation theory before presenting an approximation which makes the theory analytically tractable. We end with a section which sets up our model, which we solve and analyze in the next chapter.
+In this second part of the thesis we develop a model linking the Golgi function and size to the properties of the intracellular transport. We start with a general section on phase separation, followed by a section where we introduce an approximation. This approximation, known as the effective-droplet approximation, makes phase separation analytically tractable. We then introduce our model and its biological justification. The results of our model will be presented in the next section. 
 
 
 ## Phase separation
 
-Consider a mixture of two molecules, type A and B. One is the solvent and one the solute. One can then try and use statistical mechanics to derive a mean-field model and get all sorts of cool results. This is quite complex and not particulally enlightening for us. Instead, we follow a method devised by Landau. We know that phase separation occurs when the free energy has two convex region, so we can construct a free energy density function $f$ with two minima in a minimalist way as:
-
+Consider a mixture of two molecules, type A and B, with underling interaction strengths $\chi_{ij}$. Depending on the strength and sign of these interactions, the system is either in a mixed state with a constant concentration of A and B, or in a phase-separated state. Landau showed that instead of a complete statistical description, phase separation could be modeled by a system with a double well free energy function [@bray_theory_2002]. We can define an *order parameter* $c=N_A/N_B$ which describes the state of the system and define a free energy density function $f(c)$ with minima at $c_0^-$ and $c_0^+$:
 $$
 f(c) = \frac{b}{2(\Delta c)^2}(c-c_0^-)^2(c-c_0^+)^2
 $$
 
-where $b$ characterizes interactions, $\Delta c = |c_0^--c_0^+|$, and $c_0^\pm$ is where the two minima of the function are located. Figure shows this free enery function. A free energy like this leads to phase separation into a dense and dilute phase. The interface has surface tension, so when we calculate the full free energy of the system we add a term for the interface:
+where $b$ characterizes the strength of molecular interactions and $\Delta c = |c_0^--c_0^+|$. Once the system phase separates, the system will have two areas of concentration $c_0^+$ and $c_0^-$ with a boundary inbetween. Associated with this boundary is a surface tension, so that the full free energy of the system becomes
 
 $$
-F(c) = \int dV (f(c)+\frac{1}{2}\kappa \nabla^2c)
+F(c) = \int dV (f(c)+\frac{1}{2}\kappa (\nabla c)^2
 $$
 
-We thus have constructed a Landau free energy with order parameter c. The first term accounts for the bulk energy, while the second term penalizes interfaces. Suittable choices of parameter lead either to a mixed state, where $\bar{c}=constant$ in the whole system, or to a phase separated state such as shown in figure. When we quench a system from a mixed state into a phase-separated state, this happens through a process called *coarsening dynamics*. Basically small domains form and these keep growing, showing a maze-like structure as in figure .... In liquid-liquid phase separation, the order parameter is conserved, as the molecules cant just change. The phases then exchange diffusion-like and can only exchange locally, so we state that:
+To find the equilibrium concentration profile, we minimize this free energy:
 
+$$
+\frac{\delta F}{\delta c} = f'(c)-k\nabla^2c=\mu(x) =0
+$$ {#eq:euler}
+
+where $\delta F/\delta c$ is a functional derivative, as we minimize with respect to the concentration *profile*. Solving such an equation is generally not possible due to the third order terms of the free energy density function, but in 1D equation @eq:euler has been solved to yield:
+$$
+c(x) = \frac{c_0^-+c_0^+}{2}+\frac{c_0^+-c_0^-}{2}\tanh\left(\frac{x}{w}\right)
+$$ {#eq:domainwall}
+where $w=\sqrt{\kappa/b}$ is the width of the boundary. When we quench a system from a mixed stated into a phase separated state (a process known as spinodal decomposition), the actual concentration profile is a far cry from equation @eq:domainwall. Inside the system, maze-like domains form and keep growing untill a single dense and dilute phase are left. This is shown in figure @fig:maze.
+
+![Cahn hilliard domains](source/figures/png/CahnHilliard.png){#fig:maze}
+
+In this process, the dynamics need to be taken explicitly into account. In the case of liquid-liquid phase separation, the order parameter $c$ is conserved, as a molecule of type A cannot change into type B. This means that the order parameter can only exchange locally, so that:
 $$
 \partial_t c = -\nabla \cdot \mathbf{j}
 $$
 
-where $\mathbf{j}$ is a flux. We know that $\mathbf{j}$ is related to the to the chemical potential through:
+where $\mathbf{j}$ is a flux. We can relate the flux to the chemical potential:
 
 $$
-j = -\Lambda \nabla \mu
+j = -m \nabla \mu
 $$
 
-where $\Lambda$ is an Onsager coefficient. We also know that $\mu = \delta F/ \delta \phi$ so that we end up with
+where $m$ is a coefficient characterizing the mobility. Equation @eq:euler also gives us an expression for the chemical potential, so that we finally obtain the *Cahn-Hilliard equation*:
 
 $$
-\frac{\partial \phi}{\partial t} = m \nabla^2 \frac{\delta F}{\delta \phi}
+\frac{\partial c}{\partial t}=m\nabla^2[f'(c)-k\nabla^2c]
 $$
 
-where $\delta/\delta \phi$ is a functional derivative. Given the landau free energy in eq , we obtain:
+It is this equation which governs the behaviour observed in figure @fig:maze. Due to its non-linearity and fourth order derivatives simply solving the Cahn-Hilliard is usually forsaken in favour of deriving a scaling relation, which relates the domain growth speed $dR/dt$ to the domain size $R$ or some other system parameters. 
+
+## Golgi as an active droplet
+
+ In the introduction we justified using a phase-separation approach. In this section we develop our model for the Golgi from biological considerations, but having established the mathematical background of phase separation, we parallely present the mathematical description. 
+
+We can recognize four different populations in our system: immature cargo -heading to the Golgi-,  mature cargo, -originating from the Golgi and which is produced from immature cargo in the golgi-, the Golgi itself and the cytoplasm, which acts as the solute. We start by reducing this set of populations to a system described by a single concentration $c$. Assuming maturation from the Golgi as a oneway process, i.e. immature cargo turns into mature cargo but not otherwise, and no interaction between the mature and immature cargo during intracellular transport, we can ignore the mature cargo. Modeling the solvent implicitly, the immature cargo in the cytoplasm is then represented by a dilute phase in some concentration $c$, while the Golgi is described by a dense phase in the same concentration.**FIGURE?**
+
+Upon adding the drug nocadazole to mammalian cells, the microtubules are depolymerized and the Golgi ribbon breaks up into separate stacks. These stacks are fully functional [@wei_unraveling_2010] and move away from their perinuclear location to colocate with an ERES. If we model not the complete Golgi but a single stack, we can reduce our problem to 1D, where a stack can move from one side of the system, representing the Golgi ribbon, to the other side, representing the ERES. As each stack is fully functional, we make no simplifications with respect to the function of the Golgi. For now, we model the maturation as a decay-like term inside the dense phase, so that the equations for phase separation become:
+$$
+\frac{\partial c}{\partial t} = -\nabla J -kc\\
+J = - m \nabla \mu\\
+\mu = f'(c) - \kappa\nabla^2 c
+$$
+where $k$ is a decay constant which is non-zero in the dense phase. 
+
+* The Golgi is able to form de novo (Bevis)
+* Microtubules position the golgi near the mtoc (Sengupta)
+* Nocadazola depolymerizes microtubules -> golgi stacks move towards ERES (sengupta)
+* Golgi size is dependent on amount of trafficking (Sengupta)
+* Separate ministacks seems to be fully functional (Wei)
+* Golgi disassembly is due to imbalanced trafficking: exit from ER is blocked, while outflow still continues (Ronchi)
+* When golgi is completely cut out, stack like struct
+
+
+
+
+
+
+Proteins exiting the ERES are transported towards the ER over the microtubules. This is a stochastic process with the proteins detaching from and re-attaching to the microtubules randomly. **ref** shows that such a stochastic process can reduce to a Fokker-Planck equation if the attaching and detaching is much faster than the transport itself. As the Fokker-Planck equation is functionally equivalent to an advection-diffusion equation, we hypothesize that we can model protein transport using an advection-diffusion equation. Furthermore, **ref** reports that cargo can disappear without reaching the Golgi and we thus add a decay term to the advection-diffusion equation, resulting in the final equation for the evolution of dilute phase:
 
 $$
-\frac{\partial \phi}{\partial t}=m\nabla^2[f'(\phi)-k\nabla^2\phi]
+D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
+$$ {#eq:cinside}
+
+We will neglect the term on the left as we're working in a quasi-static limit. The first term on the right is a diffusive, the second term advective with advection velocity $v$, while the last term represents the decay. 
+
+**ref** states that after stack-like structures are formed close to the ERES, they are transported to the ribbon by microtubules. Hence we use an advective term next to a diffusive term in the dense phase. As the dense phase represents the Golgi, we need a term to account for maturation of the proteins. Much discussion on this subject exists (see maternal vs. cisternal maturation), but we choose a simple decay-like term. This gives an expression very similar to the dilute phase ([@eq:cinside]), save for a different decay rate:
+
+$$
+D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
+$$ {#eq:coutside}
+
+Note that we assume a similar diffusion coefficient in the dense and dilute phase. Choosing different diffusion coefficients would result in slighly different length scales (see next section), but would not affect the main results. As stated, we also model the mature population implicitly, in this case having the effect that the cargo lost due to the decay term exits the system. 
+
+We now turn to the boundary values. As demanded by the effective droplet model, we set at the interface between the droplet and the dilute phase:
+
+$$
+c(x_0\pm R)=
+\begin{cases}
+    c_0^-,& \text{inside of interface}\\
+    c_0^+,& \text{outside of interface}
+\end{cases}
 $$
 
-which is known as the Cahn-Hilliard equation. The Cahn-hilliard equation is what governs the maze domain evolution shown in figure and is the basis for studies of phase separation. Due to its non-linearity its very hard to use, and many times a scaling relation is derived. However, since we want to include spatial inhomogenity, this probably will not work. We present a different approach using effective droplets in the next section.
+Our system is a 1D box of length $L$, with the left boundary representing the ERES, modeled as a source, and the right boundary a zero-flux boundary, so that all cargo exits the system either through decay in the dilute phase or maturation in the dense phase:
+
+$$
+(-D\partial_xc+vc)|_{x=0} = J_{in}
+$$
+
+$$
+(-D\partial_xc+vc)|_{x=L} = 0
+$$
+
+
+
+We solve this set of equations in the next section.
+
+
 
 ## Effective droplet 
 
-Consider phase separation in a one-dimensional box. The system will separate into a dilute and a dense phase, separated by an interface of width $w$:
-
-$$
-c^*(x) = \frac{c_0^-+c_0^+}{2}+\frac{c_0^+-c_0^-}{2}\tanh\left(\frac{x}{w}\right)
-$$
-
-The idea of the effective droplet model is that if the width of the interface $w$ is very small, we neglect the interfacial contribution and describe the system as two separate bulk phases. In each bulk phase we then solve a linearized version of the Cahn-Hilliard equation and match the solutions at the interface of the phases. Growth of the droplet can then be described in terms of fluxes across the interface. We show this in figure @fig:eff_droplet. 
-
-We first linearize the Cahn-Hilliard equation in the bulk phases. Consider again the Cahn-Hilliard equation, where we've changed the order parameter $\phi$ to a concentration $c$:
-
-$$
-\frac{\partial c }{\partial t} = -m\nabla\mathbf{J}
-$$
-$$
-\mathbf{J} = -\nabla \mu
-$$
-$$
-\mu = f'(c) - k\nabla^2c
-$$ {#eq:CH_bray}
-
-where $f'(c)=\partial f/\partial c$. We're assuming an infinitely thin interface, so the interfacial term is neglegible. Linearizing the chemical potential in $c$ around the dense phase yields $\mu = f''(c_0^+)c$, so that @eq:CH_bray becomes:
-
+Consider again equation @eq:domainwall. If $w\ll1$, we can approximate the system by describing it as two bulk phases, separated by an interface. In each bulk phase we solve a linearized version of the chemical potential and match these two solutions at the interface. The droplet growth can then be written in terms of the fluxes across the interface. Linearizing the chemical potential yields a diffusion equation:
 $$
 \frac{\partial c }{\partial t} = D\nabla^2c
 $$ {#eq:diffusion}
 
-where we've replaced all the constant in front of the right term by $D$. We thus see that linearizing the Cahn-Hilliard equation in the bulk leads to a diffusion equation. The effective droplet theory is most accurate in predicting steady states and thus the time-dependence of @eq:diffusion is ignored. As we've replaced a single equation by two, we need an extra set of boundary conditions at the interface.
-
-### Boundary conditions
-
-To determine the droplet boundary conditions, consider a system which is phase separated and has an infinitely thin interface. The total free energy of the system is then:
+where we've absorbed all the coefficients into a single coefficient $D​$. To determine the droplet boundary conditions, we assume the system is in thermodynamic equilibrium consider a system which is phase separated and has an infinitely thin interface. The total free energy of the system is then:
 
 $$
 F = V_1 f(\phi_1) + V_2 f(\phi_2)
@@ -165,59 +215,4 @@ This completes the effective droplet model. It allows us to rewrite the non-line
 * Obtain steady states at the balance of fluxes.
 
 In the next section we present our model for the Golgi in the effective droplet model.
-
-## Golgi as an active droplet
-
-* The Golgi is able to form de novo (Bevis)
-* Microtubules position the golgi near the mtoc (Sengupta)
-* Nocadazola depolymerizes microtubules -> golgi stacks move towards ERES (sengupta)
-* Golgi size is dependent on amount of trafficking (Sengupta)
-* Separate ministacks seems to be fully functional (Wei)
-* Golgi disassembly is due to imbalanced trafficking: exit from ER is blocked, while outflow still continues (Ronchi)
-* When golgi is completely cut out, stack like struct
-
-
-In this section we introduce our model for Golgi biogenesis and maintenance. Biologically, our problem encompasses four different populations: the immature cargo, the mature cargo, the Golgi, with all dissolved in the cytoplasm. The immature cargo transforms into the Golgi material, which matures into mature cargo. Similar to **ref**, we model this however in a simple manner with just the immature cargo phase separating in a dilute and dense phase and the mature cargo implicitly.
-
-As stated in the previous chapter, once the microtubules are depolymerized, the Golgi ribbon breaks into separate stacks which colocate with the ERES. If we model not the complete Golgi but a single stack, we can reduce our problem to 1D, where a droplet can move from one side of the system, representing the Golgi ribbon, to the other side, representing the ERES. This simplification permits analytical tractability. We thus end up with a 1D box where the dilute phase represents the cytoplasm, while the dense phase represents a single Golgi stack. 
-
-Proteins exiting the ERES are transported towards the ER over the microtubules. This is a stochastic process with the proteins detaching from and re-attaching to the microtubules randomly. **ref** shows that such a stochastic process can reduce to a Fokker-Planck equation if the attaching and detaching is much faster than the transport itself. As the Fokker-Planck equation is functionally equivalent to an advection-diffusion equation, we hypothesize that we can model protein transport using an advection-diffusion equation. Furthermore, **ref** reports that cargo can disappear without reaching the Golgi and we thus add a decay term to the advection-diffusion equation, resulting in the final equation for the evolution of dilute phase:
-
-$$
-D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
-$$ {#eq:cinside}
-
-We will neglect the term on the left as we're working in a quasi-static limit. The first term on the right is a diffusive, the second term advective with advection velocity $v$, while the last term represents the decay. 
-
-**ref** states that after stack-like structures are formed close to the ERES, they are transported to the ribbon by microtubules. Hence we use an advective term next to a diffusive term in the dense phase. As the dense phase represents the Golgi, we need a term to account for maturation of the proteins. Much discussion on this subject exists (see maternal vs. cisternal maturation), but we choose a simple decay-like term. This gives an expression very similar to the dilute phase ([@eq:cinside]), save for a different decay rate:
-
-$$
-D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
-$$ {#eq:coutside}
-
-Note that we assume a similar diffusion coefficient in the dense and dilute phase. Choosing different diffusion coefficients would result in slighly different length scales (see next section), but would not affect the main results. As stated, we also model the mature population implicitly, in this case having the effect that the cargo lost due to the decay term exits the system. 
-
-We now turn to the boundary values. As demanded by the effective droplet model, we set at the interface between the droplet and the dilute phase:
-
-$$
-c(x_0\pm R)=
-\begin{cases}
-    c_0^-,& \text{inside of interface}\\
-    c_0^+,& \text{outside of interface}
-\end{cases}
-$$
-
-Our system is a 1D box of length $L$, with the left boundary representing the ERES, modeled as a source, and the right boundary a zero-flux boundary, so that all cargo exits the system either through decay in the dilute phase or maturation in the dense phase:
-
-$$
-(-D\partial_xc+vc)|_{x=0} = J_{in}
-$$
-
-$$
-(-D\partial_xc+vc)|_{x=L} = 0
-$$
-
-
-
-We solve this set of equations in the next section.
 

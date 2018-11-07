@@ -43,14 +43,18 @@ pdf:
 tex:
 	pandoc "$(INPUTDIR)"/*.md \
 	-o "$(OUTPUTDIR)/thesis.tex" \
-	--bibliography="$(BIBFILE)" \
+	--template="$(STYLEDIR)/template.tex" \
+	--bibliography="$(BIBFILE)" 2>pandoc.log \
+	--csl="$(STYLEDIR)/nature.csl" \
+	--highlight-style pygments \
+	--top-level-division=chapter \
+	--filter pandoc-crossref \
 	-V fontsize=12pt \
 	-V papersize=a4paper \
-	-V documentclass=harvard-thesis \
-	--top-level-division=chapter \
+	-V documentclass=Dissertate \
 	-N \
-	--csl="$(STYLEDIR)/ref_format.csl" \
-	--latex-engine=xelatex
+	--pdf-engine=xelatex \
+	--verbose
 
 docx:
 	pandoc "$(INPUTDIR)"/*.md \

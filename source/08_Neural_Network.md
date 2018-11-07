@@ -16,7 +16,7 @@ The advancements in machine learning in general and especially neural networks i
 
 At the basis of each neural network lies the neuron. It transforms several inputs non-linearly into an output and we can use several neurons in parallel to create a *layer*. In turn, we several layers in series make up a network. The layers in the middle of the network are known as *hidden layers*, as shown in figure @fig:neuralnetwork
 
-![Schematic view of a neural network.](source/figures/pdf/neuralnetwork.pdf){#fig:neuralnetwork}
+![Schematic view of a neural network.](source/figures/pdf/neuralnetwork.pdf){width=50%}
 
 In the schematic shown in @fig:neuralnetwork, each neuron is connected to every neuron of the previous and next layer. This is known as a *fully connected* layer. Using only this type of layers, we've created a feed-forward network and it has been proven that a single hidden layer with enough neurons is a *universal function approximator*, i.e. a neural network can represent any continuous function using enough neurons.  
 
@@ -24,13 +24,13 @@ As stated, a neuron takes several inputs and transforms them into an output. Thi
 
 $$
 z = w\mathbf{x}+b
-$${#eq:weighted_input}
+$$ {#eq:weighted_input}
 
 $z$ is called the weighted input and is transformed in the second step by the neuron *activation function $\sigma$*. This in turn gives the output of the neuron $a$, also known as the activation:
 
 $$
 a = \sigma(z) = \sigma(w\mathbf{x}+b)
-$${#eq:activation}
+$$ {#eq:activation}
 
 The role of the activation function is to introduce non-linearity into the system. The classical and often used activation function is the $tanh$, as it is bounded between +1 and -1. Since we're working with multiple layers, it is useful to rewrite function @eq:activation in terms of the activation $a^l$ of layer $l$:
 
@@ -45,7 +45,7 @@ In supervised learning the task of training a machine means adjusting the weight
 
 $$
 \mathcal{L} = \frac{1}{2n}\sum_i|y_i-a^L_i|^2
-$${#eq:MSE}
+$$ {#eq:MSE}
 
 where $n$ is the number of samples, $y_i$ the desired output of sample $i$ and $a^L_i$ the activation of the last function - the prediction of the network. Minimizing this is not trivial, as the problem can have many local minima. A solution can be found however using gradient  descent techniques.
 
@@ -76,7 +76,7 @@ However, the second term is always zero except when $j=k$, so the summation can 
 
 $$
 \delta^L_j =  |a^L_j-y_j|\sigma'(z^L_j)
-$${#eq:backprop1}
+$$ {#eq:backprop1}
 
 Equation @eq:backprop1 relates the error in the output layer to its inputs. This in turn is a function of all the previous inputs and errors and we thus need to find an expression relating the error in layer $l$ with the error in an layer $l+1$. Since we have an expression for the error in the last layer, we propagate the error going down the layers, hence the name *back*propagation. Again using the chain rule gives:
 
@@ -88,17 +88,17 @@ Using equation @eq:weighted_input, we obtain after substitution:
 
 $$
 \delta^l_j = \sum_k\delta^{l+1}_kw^{l+1}_{kj}\sigma'(z^l_j)
-$${#eq:backprop2}
+$$ {#eq:backprop2}
 
 Using equations @eq:backprop1 and @eq:backprop2 , we can calculate the error in C due to each neuron. Finally, we need to relate the error in each error to  $\partial C/\partial w^l_{jk}$ and $\partial C/\partial b^l_{j}$. Making use yet again gives us the last two backpropagation relations:
 
 $$
 \frac{\partial C}{\partial b^l_{j}}\frac{\partial b^l_{j}}{\partial z^l_{j}}=\frac{\partial C}{\partial b^l_{j}}=\delta^l_j
-$${#eq:backprop3}
+$$ {#eq:backprop3}
 
 $$
 \sum_k\frac{\partial C}{\partial w^l_{jk}}\frac{\partial w^l_{jk}}{\partial z^l_{j}}=\delta^l_j\to \frac{\partial C}{\partial w^l_{jk}}=a^{l-1}_{j}\delta^l_j
-$${#eq:backprop4}
+$$ {#eq:backprop4}
 
 Now that we now that all back propagation equations, we state the algorithm. It consists of four steps:
 
@@ -143,7 +143,7 @@ where $f$ is a function of $u$ or its spatial derivatives. Rewriting it as:
 
 $$
 g = 0 = -\partial_t u + f(1, u, u_x, u_xx, u^2, ...)
-$${#eq:PIcost}
+$$ {#eq:PIcost}
 
 we see that in order to satisfy the PDE, $g\to0$. The idea of PINNs is to add this function $g$ to the costfunction of the neural network:
 
@@ -201,13 +201,15 @@ The inferred diffusion constant is $D_0 = 0.10052$, giving an error of $0.52\%$.
 #### Varying D
 As stated, it should be possible to infer coefficient fields by using a two output neural network. One output predicts the concentration while the other predicts the diffusion coefficient. Such a network is indeed capable of generating the right coefficient field as shown in figure @fig:summary_constantD . Here the network has been trained on the constant diffusion coefficient data we used before including $5\%$ white noise, so that we should observe a diffusion field constant at $D(x,t) = D_0 = 0.1$. In the upper left we show the data on which the network is trained, with the upper right panel the predicted concentration profile, which shows a very good match. In the lower right panel we show the inferred diffusion field. We observe a good match in the middle of the plot, but the neural network again struggles in areas with low concentration, such as the lower left and right area. A more quantitative analysis of the predicted diffusion and concentration is presented in the lower left corner. Here we plot the Cumulative Distribution Function (CDF) of the absolute relative error. Note that the PINN predicts the concentration very well, but struggles more with the diffusion coefficient. This is expected, as the mean squared error of the cost function is quite explicit in its use of the concentration, whereas the diffusion coefficient is determined self-consistently in the PI part. We also observed similar but distinctive results in different runs, owing to the non-convexity of the problem. Overall the result is still remarkable, given that we've inferred a diffusion field from just concentration data with $5\%$ noise.
 
-![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relatice error of the diffusion and concentration.](source/figures/pdf/summary_constantD_varyingPINN.pdf){#fig:summary_constantD}
+![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_constantD_varyingPINN.pdf){#fig:summary_constantD}
+
+In figure @fig:summary_varyingD we show a similar analysis for a non-constant diffusion field. We've simulated data with a diffusion in the form of a $\tanh(x)$. Remarkably, the neural network is able to infer the field with reasonable accuracy, although it required a more sizeable dataset of 50000 points. Figure @fig:projectionD studies the inferred diffusion profiles in depth by projecting them along the time axis. Here we observe the strongest dissonance close to the edges, which, again, is where the concentration is low. Nonetheless, we've proven that a neural network is able to  infer a coefficient field with reasonable accuracy from noisy data!
 
 
-![](source/figures/pdf/summary_varyingD_varyingPINN.pdf){#fig:summary_varyingD}
+![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_varyingD_varyingPINN.pdf){#fig:summary_varyingD}
 
 
-![](source/figures/pdf/projection.pdf){#fig:projectionD}
+![Projection of the inferred diffusion profile along the time axis.](source/figures/pdf/projection.pdf){#fig:projectionD}
 
 #### Real cell
 
