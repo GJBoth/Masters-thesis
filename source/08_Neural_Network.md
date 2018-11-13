@@ -12,7 +12,7 @@ Normally when programming a computer to perform some task, we break the problem 
 ### Architecture
 *An excellent introduction is given by Michael Nielsen in his freely available book "Neural networks and deep learning." The following section has been strongly inspired by his presentation.*
 
-At the basis of each neural network lies the neuron. It transforms several inputs into an output in a two-step process. In the first step, the inputs $ \mathbf{x}$ are multiplied with a weight vector $w$ and a bias $b$ is added:
+At the basis of each neural network lies the neuron. It transforms several inputs into an output in a two-step process. In the first step, the inputs $x$ are multiplied with a weight vector $w$ and a bias $b$ is added:
 $$
 z = w\mathbf{x}+b
 $$
@@ -45,11 +45,11 @@ $$
 \mathbf{x}_{n+1} = \mathbf{x}_{n}-\gamma\nabla f(\mathbf{x}_n)
 $$ {#eq:gradientdescent}
 
- $\gamma$ is known as the learning rate and sets the 'stepsize'. Although this is an iterative technique, if the minimization problem is convex (i.e. no local minima), gradient descent is guaranteed to converge to it. Note that gradient descent requires calculation of the derivative w.r.t to the variables of the function to be minimized. In other words, one needs to know the derivative of the cost function w.r.t each of the weights and biases in the network. A naive finite difference scheme would quickly grow computationally untractable, even for networks with just two hidden layers. Alternatives to gradient descent exist, but all require calculation of the derivatives. In the next section we present an algorithm known as *backpropagation* which is able to efficiently calculate these derivatives. 
+ $\gamma$ is known as the learning rate and sets the 'stepsize'. Although this is an iterative technique, if the minimization problem is convex (i.e. no local minima), gradient descent is guaranteed to converge to it. Note that gradient descent requires calculation of the derivative w.r.t to the variables of the function to be minimized. In other words, one needs to know the derivative of the cost function w.r.t each of the weights and biases in the network. A naive finite difference scheme would quickly grow computationally untractable, even for networks with just two hidden layers. Alternatives to gradient descent exist, but all require calculation of the derivatives. In the next section we present an algorithm which is able to efficiently calculate these derivatives. 
 
 #### Back propagation and automatic differentiation {-}
-As we wish to minimize the cost function w.r.t. to each weight $w$ and bias $b$ using gradient descent, we need to find the derivative of the cost function w.r.t to each. Our argument simplifies if we move away from vector notation and introduce $w^l_{jk}$, the weight of the $j$-th neuron in layer $l-1$ to neuron $k$ in layer $l$ and $b^l_j$, the bias of the neuron $j$ in the $l$-th layer. We introduce the error of neuron $j$ in layer $l$ as:
 
+In this section we introduce the so-called *backpropagation* algorithm. The backpropagation algorithm allows for the efficient calculation of the cost function derivatives in a neural network. For simplicity, we move away from a vector notation and introduce $w^l_{jk}$, the weight of the $k$-th neuron in layer $l-1$ to neuron $j$ in layer $l$ and $b^l_j$, the bias of the neuron $j$ in the $l$-th layer. We introduce the error of neuron $j$ in layer $l$ as:
 $$
 \delta^l_j=\frac{\partial C}{\partial z^l_j}
 $$
@@ -57,19 +57,18 @@ $$
 We can rewrite this using the chain rule as:
 
 $$
-\delta^l_j = \sum_k \frac{\partial C}{\partial a^l_{jk}}\frac{\partial a^l_{jk}}{\partial z^l_{j}} 
+\delta^l_j = \sum_k \frac{\partial C}{\partial a^l_{k}}\frac{\partial a^l_{k}}{\partial z^l_{j}}
 $$
 
-However, the second term is always zero except when $j=k$, so the summation can be dropped. Remembering [@eq:activation], we note that $\partial a^l_{jk}/\partial z^l_{j} = \sigma'(z^l_j)$. For the last layer $l = L$, the first term turns into the derivative of the cost function, finally giving us:
+The second term on the right is always zero except when $j=k$, so the summation can be dropped.  Given equation [@eq:activation], we note that $\partial a^l_{j}/\partial z^l_{j} = \sigma'(z^l_j)$. For the last layer $l = L$, we can directly calculate the derivative, resulting in:
 
 $$
 \delta^L_j =  |a^L_j-y_j|\sigma'(z^L_j)
 $$ {#eq:backprop1}
 
-Equation @eq:backprop1 relates the error in the output layer to its inputs. This in turn is a function of all the previous inputs and errors and we thus need to find an expression relating the error in layer $l$ with the error in an layer $l+1$. Since we have an expression for the error in the last layer, we propagate the error going down the layers, hence the name *back*propagation. Again using the chain rule gives:
-
+Equation @eq:backprop1 relates the error in the output layer to its activation and weighted input. Again using the chain rule, we can express the error in a layer $l$, $\delta^{l}_j$ ,in terms of the error in the next layer, $\delta^{l+1}_j$:
 $$
-\delta^l_j = \sum_k \frac{\partial C}{\partial z^{l+1}_{jk}}\frac{\partial z^{l+1}_{jk}}{\partial z^l_{j}} = \sum_k \delta^{l+1}_k\frac{\partial z^{l+1}_{jk}}{\partial z^l_{j}}
+\delta^l_j = \sum_k \frac{\partial C}{\partial z^{l+1}_{k}}\frac{\partial z^{l+1}_{k}}{\partial z^l_{j}} = \sum_k \delta^{l+1}_k\frac{\partial z^{l+1}_{k}}{\partial z^l_{j}}
 $$
 
 Using equation @eq:weighted_input, we obtain after substitution:
@@ -78,90 +77,75 @@ $$
 \delta^l_j = \sum_k\delta^{l+1}_kw^{l+1}_{kj}\sigma'(z^l_j)
 $$ {#eq:backprop2}
 
-Using equations @eq:backprop1 and @eq:backprop2 , we can calculate the error in C due to each neuron. Finally, we need to relate the error in each error to  $\partial C/\partial w^l_{jk}$ and $\partial C/\partial b^l_{j}$. Making use yet again gives us the last two backpropagation relations:
-
+Equation @eq:backprop1 gives us the error in the final layer, while equation @eq:backprop2 allows us to propagate the error back through the network - hence the algorithm is named backpropagation. Two more expressions are needed to relate the error in each neuron $\delta^l_j$ to the derivatives w.r.t. the weights and biases. Making use yet again of the chain rule gives the last two backpropagation relations:
 $$
 \frac{\partial C}{\partial b^l_{j}}\frac{\partial b^l_{j}}{\partial z^l_{j}}=\frac{\partial C}{\partial b^l_{j}}=\delta^l_j
 $$ {#eq:backprop3}
 
 $$
-\sum_k\frac{\partial C}{\partial w^l_{jk}}\frac{\partial w^l_{jk}}{\partial z^l_{j}}=\delta^l_j\to \frac{\partial C}{\partial w^l_{jk}}=a^{l-1}_{j}\delta^l_j
+\delta^l_j=\sum_k\frac{\partial C}{\partial w^l_{jk}}\frac{\partial w^l_{jk}}{\partial z^l_{j}}\to \frac{\partial C}{\partial w^l_{jk}}=a^{l-1}_{k}\delta^l_j
 $$ {#eq:backprop4}
 
-Now that we now that all back propagation equations, we state the algorithm. It consists of four steps:
+Given the four fundamental backpropagation relations, we state the algorithm. It consists of four steps:
 
-1. Complete a forward pass, i.e., calculate the expected outcomes with the current weights and biases.
-2. Calculate the error using [@eq:backprop1] and do a backward pass to obtain the error in each neuron using [@eq:backprop2]. This can be used to calculate the gradients using [@eq:backprop3] and [@eq:backprop4]
-3. Adjust the weights and biases using the choosen optimizer (e.g. gradient descent)
-4. Return to step 1 until the optimization problem converges.
+1. Complete a forward pass, i.e., calculate $a^L_j$.
+2. Calculate the error in the final layer using [@eq:backprop1]  and propagate it backwards using [@eq:backprop2] to obtain the error in each neuron. Using [@eq:backprop3] and [@eq:backprop4], calculate the derivatives required for the minimizer.
+3. Perform a minimization step (e.g. equation @eq:gradientdescent) and update the weights and biases. 
+4. Return to step one until the minimization algorithm in step three converges.
 
-Mathematically, back propagation is a special case of a technique known as automatic differentiation. Automatic differentiation is a third type of differentiation, next to numeric and symbolic. It allows for machine precision calculation of derivatives by writing it as a chain of simple operations combined with the chain rule, similar to backpropagation. Note that:
-
+Mathematically, back propagation is a version of a more general technique known as automatic differentiation. Suppose we want to calculate the derivative of some data $f(x)$. Symbolic differentiation would give the most precise answer, but often the function $f$ is not known. Furthermore, even if $f$ would be known, it quickly becomes too hard to calculate a symbolic derivative of a complex function $f$. One could then turn to numerical differentiation using some finite difference scheme or locally fitting a polynomial whose derivative is then calculated. All these methods require relative closely spaced data and are very sensitive to noise. Automatic differentiation allows for the high precision calculation of numerical derivatives. At its fundamental level, any computational operation, no matter how complex, is a long string of elementary operations whose derivative is easily determined. Using the chain rule, we can then calculate the derivative of any computation in terms of these smaller elementary operations. To see this, consider a function $f(x) = a + bx$. Writing this in terms of elementary operations gives:
 $$
-\delta^0_j = \frac{\partial C}{\partial x_j}\frac{\partial x_j}{\partial z^0_j}
+f(x) = a+bx = w_1+ w_2w_3=w_1+w_4=w_5
 $$
-
-so that:
-
+The derivative of each subexpression $w_i$ is easily calculated: 
 $$
-\frac{\partial C}{\partial x_j} = a^0_j \delta^0_j 
+w_1' = 0, w_2'= 0, w_3'=1,w_4'=w_2'w_3+w_2w_3', w_5'=w_4'+w_1'
 $$
-
-Thus neural networks also give us access to high precision derivatives with regard to each coordinate. 
+The derivative of $f$ is then:
+$$
+f' = w_5' = w_4'+w_1' = (w_2'w_3+w_2w_3')+w_1'
+$$ {#eq:autodiff}
+We have thus expressed the derivative of $f$ in quantities we know and indeed, after filling in the remaining derivatives we obtain $f' = w_2 =b$. Note the similarity to backpropagation; in automatic differentiation we are only interested in the final expression on the right of equation @eq:autodiff, whereas in backpropagation we wish to know the intermediate derivatives (i.e. $w_5', w_4'$) too. Back propagation is thus a version of automatic differentiation in which the intermediate values are calculated too. In the next section we show that automatic differentiation enables easy encoding of physics into a neural network, leading to a so-called Physics Informed Neural Network (PINN).
 
 ## Physics Informed Neural Networks
 
-On the face of things, the goal of physics and neural networks are oppsite: whereas physics tries to build an understanding of things using models to make predictions, neural networks learn a *modelless* mapping to make predictions. Recent advancements however have merged the two approaches together in a concept known as Physics Informed Neural Networks (@raissi_physics_2017-1, @raissi_physics_2017). In this approach, we encode physical laws into the network, so that the network respects the physics. This can be used to both numerically solve equations or fit a model to spatiotemporal data. Even more so, it should allow us to infer coefficient fields. 
+In this section we introduce Physics Informed Neural Networks (PINNs), a recently developed technique[@raissi_physics_2017-1], [@raissi_physics_2017] which merges physical models and neural networks. We first introduce how PINNs encode physical laws and models in neural networks and discuss why this yields such a powerful technique. This is illustrated by applying it to a simple diffusive process and show that even in the presence of noise, PINNs can accurately infer a (spatially-varying) diffusion constant. We then apply a PINN to the RUSH data and end the chapter with our conclusions.
 
 ### The concept
-Consider a set of 1D+1 spatiotemporal data, consisting of some property $u(x,t)$ at coordinates $(x,t)$. The neural network can be learned the underlying physics by minimizing the cost function:
-
+Consider a set of spatiotemporal experimental data, $u(x,t)$ and a model which describes the temporal evolution of this dataset:
 $$
-\mathcal{L} = \frac{1}{2n}\sum_i|u_i-a^L_i|^2
-$$
+\partial_t u = \lambda_1 + \lambda_2 u + \lambda_3\nabla u + \lambda_4 \nabla^2 u = f(1, u, u_x, ...)
+$$ {#eq:PDE}
+We now wish to know which value for the parameters $\lambda_i$ best describes the dataset $u(x,t)$. Naively, one could train a neural network on a training set created by numerically solving @eq:PDE for different values $\lambda_{i}$ and then feed this network the experimental data $u(x,t)$. Although theoretically this yields the correct result, for complex processes such as a Navier-Stokes flow or the Schrodinger equation this quickly grows intractable due to the massive amount of training data required for an accurate prediction. 
 
-The process of learning requires a lot of data and is prone to overfitting. 
-Now assume that we know that $u(x,t)$ is governed by some process which is written as a partial differential equation:
-
+PINNs circumvent this issue by directly encoding physical laws and models such as @eq:PDE into the neural network. We can write any PDE as:
 $$
-\partial_t u = f(1, u, u_x, u_xx, u^2, ...)
-$$
-
-where $f$ is a function of $u$ or its spatial derivatives. Rewriting it as:
-
-$$
-g = 0 = -\partial_t u + f(1, u, u_x, u_xx, u^2, ...)
+g = -\partial_t u + f(1, u, u_x, u_xx, u^2, ...)
 $$ {#eq:PIcost}
 
-we see that in order to satisfy the PDE, $g\to0$. The idea of PINNs is to add this function $g$ to the costfunction of the neural network:
-
+This function $g$ can be added to the costfunction, because to satisfy the PDE, $g \to 0$:
 $$
-\mathcal{L} = \frac{1}{2n}\sum_i|u_i-a^L_i|^2 + \lambda\sum_i|g_i|^2 = MSE + \lambda PI
+\mathcal{L} = \frac{1}{2n}\sum_i|u_i-a^L_i|^2 + \frac{l}{n}\sum_i|g_i|^2
 $$
 
-where $\lambda$ sets the effective strength of the two terms. Observe that the cost function is higher if the PDE is not satisfied. Minimizing the costfunction will thus mean minimizing $g$ and hence satisfying the PDE. We effectively penalize solutions not satisfying the physics we put in equation @eq:PIcost; the added term acts a 'physics-regularizer'. Concretely, the adding of physics contrains the solution space, preventing overfitting and making the neural network much more data efficient. The most useful feature however is that we don't need a vast set of training data to train the network, as we solve the problem *by* training the network. 
+where $l$ sets the effective strength of the two terms. By adding  $g$ to the cost function, it acts as 'physics-regularizer' and unphysical solutions are penalized; we have thus encoded the physics directly into the neural network. Note that while we know the form of $g$, its coefficients $\lambda_i$ are unknown. However, we can treat the coefficients as variables of the cost function, i.e. $\mathcal{L}(w^l,b^l, \lambda)$ and thus by training the network on the dataset $u(x,t)$, we automatically infer the coefficients. Consequently, we don't need a vast set of training data, as we solve the problem *by* training the network. 
 
-We can also remove the mean squared error term from the cost function and add initial and boundary conditions, similar to the PI term. If we now train the network, it will learn the solution to the given PDE whilst respecting the given boundary and initial conditions. This alternative means of numerically solving a model doesn't need advanced meshing of the problem domain or carefully constructed (unstable) discretization schemes, as it requires the physics to be fullfilled at every point in the spatiotemporal domain. A useful analogy here is calculating the trajectory of a launched object. A classical numerical solver would take small steps in time, updating the position and speed of the object each step. A PINN however uses a completely different approach. Given the initial (random) state of the neural network, it calculates a first trajectory and keeps adjusting the weights of the network until the cost is minimized, i.e. until we obtain a solution satisfying the included physics and initial and boundary conditions. 
-A classical numerical approach tries once using a correct and methodical approach, whereas a PINN tries many times until the result satisfies its constraints.
+Theoretically, PINNs should not only be able to infer constant coefficients, but also coefficient *fields*. Instead of treating the coefficients as a variable to be optimized, we add another output to the network. Such a network is known as a multi-output PINN and the difference between a single and multi output network is shown in figure @fig:PINN. PINNs can also be used to numerically solve PDEs. By removing the mean squared error term from the cost function but adding initial values and boundary conditions, training the network will now result in the network learning the solution to the PDE $g$, whilst respecting the given boundary and initial conditions. This alternative means of numerically solving a model doesn't need advanced meshing of the problem domain required in computational fluid dynamics or carefully constructed (yet often unstable) discretization schemes, as it requires the physics to be fullfilled at every point in the spatiotemporal domain. 
 
-We can also use this framework to fit models to spatiotemporal data by letting the coefficient of each term be a variable to be minimized as well. More concretely, where before the cost was a function of the weights and biases, $\mathcal{L}=f(w^l, b^l)$, we now let it be a function of the coefficients $\lambda$ of the PDE as well: $\mathcal{L}=f(w^l, b^l, \lambda_1, \lambda_2,...)$. This is shown for several PDEs such as the Burgers, Schrodinger or Navier-Stokes equation in the papers of M. Raissi(@raissi_physics_2017-1, @raissi_physics_2017). In the case of the Navier-Stokes equation, it's shown that it's also possible to infer the pressure field, which appears as a separate term. This is achieved by adding another output neuron to the PINN (shown in figure @fig:PINN), so that it predicts both the pressure and the flow. In theory it should also be possible to infer spatially and temporally varying *coefficient* fields. We investigate this claim in the next section.
-
-![Left panel: a normal single output PINN. Right panel: a multi-output PINN. The network now also predicts the coefficients values at each data point.](source/figures/pdf/PINN.pdf){#fig:PINN}
+![**Left panel:** a single output PINN. **Right panel:** A multi-output PINN. The network now also predicts the coefficients values at each data point.](source/figures/pdf/PINN.pdf){#fig:PINN}
 
 ### PINNs in practice
-We now wish to evaluate the use of PINNs to analyze the RUSH data. Using a diffusive process as a toy problem, we first show how PINNs are able to accurately determine the diffusion constant, even in the presence of noise. Next, we prove that PINNs are indeed capable of inferring coefficient fields and finish by analyzing some parts of the RUSH data.
 
-In our toy problem we have an initial concentration profile:
-
+Before applying a PINN to the RUSH data, we study a toy problem to gain more insight into its behaviour. We also prove that a PINN is able to correctly infer a coefficient field from noisy data. Our toy problem of an initial gaussian 1D concentration profile:
 $$
-c(x, 0) = e^{-\frac{(x-0.5)^2}{0.02}}
+c(x, 0) = e^{-\frac{(x-x_0)^2}{2\sigma}}
 $$
 
-diffusing in a 1D box according to:
+with $x_ = 0.5$ and $\sigma =0.01$ diffusing in a box of length $L$ according to:
 
 $$
 \frac{\partial c(x,t)}{\partial t} = \nabla \cdot[D(x)\nabla c(x,t)]
-$$
+$$ {#eq:toyproblem}
 
 on the spatial domain $[0,1]$ with perfectly absorbing boundaries at the edges of the domain:
 
@@ -169,29 +153,27 @@ $$
 c(0,t) = c(1,t) = 0
 $$
 
-If $D(x) = D$, this problem has an analytical solution through a Greens function. If the diffusion coefficient is spatially dependent though, the problem needs to be solved numerically. The code used to generate our data can be found in the appendix. Although this toy problem is simple and in 1D, our results easily generalize to higher dimenions and complexity at the cost of higher computational cost.
+If $D(x) = D$, this problem can be solved using a Greens function. Although being a simple problem, it contains all the essential features of a PINN. For the application of a PINN to more complex systems such as the Burgers, Schrodinger or Navier-Stokes equations, we refer the reader to the papers of M. Raissi et al (@raissi_physics_2017-1, @raissi_physics_2017). 
 
 #### Constant diffusion coefficient
 
-We now consider the mentioned problem with a diffusion coefficient of $D(x) = D_0 = 0.1$ and simulate it between $t=0$ and $t=0.5$. Using a spatial and temporal resolution of 0.01, we have a datagrid of 101 by 51, so that our total dataset consists of 5151 samples. The neural network consists of 6 hidden layers of 20 neurons each and $\lambda=1$. Figure @fig:constantD shows the ground truth for the problem and the absolute error of the neural network. 
+We first numerically solve equation @eq:toyproblem with a diffusion coefficient of $D(x) = D_0 = 0.1$ between $t=0$ and $t=0.5$. Using a spatial and temporal resolution of 0.01, our total dataset consists of 5151 samples, while we have configured the neural network with 6 hidden layers of 20 neurons each and have set $\lambda=1$. The left panel of figure @fig:constantD shows the ground truth (i.e. the numerical solution of equation @eq:toyproblem) and the absolute error w.r.t to the groundtruth of the neural network output. 
 
 ![**Left panel**: Simulated ground truth of the problem. **Right panel**: The absolute error of neural network. Note that most of the error is located at areas with low concentration, i.e. signal.](source/figures/pdf/error_constantD.pdf){#fig:constantD}
 
-The predicted diffusion coefficient is $D_{pred} = 0.100026$, giving an error of $0.026\%$. In @raissi_physics_2017-1, the authors obtain similar accuracies for significantly more complex problems such as the Schrodinger equation, which means that our accurate inference is not just due to the simplicity of the problem. Furthermore, Raissi et al. show that the result is robust w.r.t the architecture of the network.
-From the absolute error we observe that the error seems to be higher in areas with low concentration. This is a feature we've consistently observed: in areas with low 'signal', the neural network seems to struggle. 
+The inferred diffusion coefficient is $D_{pred} = 0.100026$: an error of $0.026\%$. From the absolute error we observe that the error seems to localize in areas with low concentration. This is a feature we've consistently observed: in areas with low 'signal', the neural network struggles. Considering that in these areas there is simply not much data to learn from, this is not unexpected. 
 
-As good as these results are, the input data is noiseless and thus of limited practical interest. We now show that PINNs perform equally well with noisy data by adding $5\%$ white noise to the data and performing the same procedure. The network is now doing two tasks in parallel: it's both denoising the data and performing a model fit. In the left panel of figure @fig:error_constantD_noisy we show the concentration profile at times $t = 0, 0.1$ and $0.5$, with the prediction of the PINN superimposed in black dashed lines at each time. On the right panel we show again the absolute error from the ground truth. Observe the similarities with the noiseless case: most of the error localizes in areas wit low concentration.
+The input data of the previous problem is noiseless and thus of limited practical interest. We add $5\%$ white noise to the data of the previous problem and train the network on this noisy dataset. Note that the network is now doing two tasks in parallel: it's both denoising the data and performing a fit. In the left panel of figure @fig:error_constantD_noisy we show the concentration profile at times $t = 0, 0.1$ and $0.5$, with the prediction of the PINN superimposed in black dashed lines at each time. On the right panel we show the absolute error with respect to the ground truth. Observe that   the error again localizes in areas with low concentration. The inferred diffusion constant is $D_0 = 0.10052$: an error of $0.52\%$. Although the error is an order of magnitude higher compared to the noiseless data, an error of less than $1\%$ is extremely impressive.
 
-![**Left panel**: The original noisy concentration profile with the neural network inferred denoised version super imposed. **Right panel**: The absolute error of neural network with respect to the ground truth. Note that most of the error is located at areas with low concentration.](source/figures/pdf/error_constantD_noisy.pdf){#fig:error_constantD_noisy}
+![**Left panel**: The original noisy concentration profile at several times with the neural network inferred denoised version superimposed. **Right panel**: The absolute error of neural network with respect to the ground truth. Note that most of the error is located at areas with low concentration.](source/figures/pdf/error_constantD_noisy.pdf){#fig:error_constantD_noisy}
 
-The inferred diffusion constant is $D_0 = 0.10052$, giving an error of $0.52\%$. Although the error is slightly higher than in the noiseless version, it's extremely impressive that we obtain the diffusion constant to this precision.
+#### Varying coefficients
 
-#### Varying D
-As stated, it should be possible to infer coefficient fields by using a two output neural network. One output predicts the concentration while the other predicts the diffusion coefficient. Such a network is indeed capable of generating the right coefficient field as shown in figure @fig:summary_constantD . Here the network has been trained on the constant diffusion coefficient data we used before including $5\%$ white noise, so that we should observe a diffusion field constant at $D(x,t) = D_0 = 0.1$. In the upper left we show the data on which the network is trained, with the upper right panel the predicted concentration profile, which shows a very good match. In the lower right panel we show the inferred diffusion field. We observe a good match in the middle of the plot, but the neural network again struggles in areas with low concentration, such as the lower left and right area. A more quantitative analysis of the predicted diffusion and concentration is presented in the lower left corner. Here we plot the Cumulative Distribution Function (CDF) of the absolute relative error. Note that the PINN predicts the concentration very well, but struggles more with the diffusion coefficient. This is expected, as the mean squared error of the cost function is quite explicit in its use of the concentration, whereas the diffusion coefficient is determined self-consistently in the PI part. We also observed similar but distinctive results in different runs, owing to the non-convexity of the problem. Overall the result is still remarkable, given that we've inferred a diffusion field from just concentration data with $5\%$ noise.
+As stated, it should be possible to infer coefficient fields by using a two output neural network. We first test this on the noisy constant diffusion ($D_0=0.1$) dataset of the previous problem. In this case, while the neural network is allowed to assign a different diffusion constant to each point in the spatiotemporal domain, it should return $D=0.1$ for each. Figure  @fig:summary_constantD shows a summary of the results in four panels. In the upper left we show the data on which the network is trained, while the upper right panel shows the predicted concentration profile. Note the excellent match between the two. In the lower right panel we show the inferred diffusion field. We observe a good match in the middle of the plot, but the neural network again struggles in areas with low concentration, such as close to the edges of the system. A more quantitative analysis of the predicted diffusion and concentration is presented in the lower left corner. Here we plot the Cumulative Distribution Function (CDF) of the absolute relative error of both the concentration and the diffusion constant. Note that the PINN predicts the concentration very well, with roughly $80\%$ of the points having less than $5\%$ error, but struggles more with the diffusion coefficient. Given that the diffusion coefficient is inferred self-consistently thorugh its role in the physics-informed part of the cost function, this is not unexpected. 
 
 ![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_constantD_varyingPINN.pdf){#fig:summary_constantD}
 
-In figure @fig:summary_varyingD we show a similar analysis for a non-constant diffusion field. We've simulated data with a diffusion in the form of a $\tanh(x)$. Remarkably, the neural network is able to infer the field with reasonable accuracy, although it required a more sizeable dataset of 50000 points. Figure @fig:projectionD studies the inferred diffusion profiles in depth by projecting them along the time axis. Here we observe the strongest dissonance close to the edges, which, again, is where the concentration is low. Nonetheless, we've proven that a neural network is able to  infer a coefficient field with reasonable accuracy from noisy data!
+In figure @fig:summary_varyingD we show a similar analysis for data with a non-constant diffusion field. Equation @eq:toymodel has been numerically solved on a grid consisting of 50000 points and diffusion constant profile $D(x) = 0.2 + 0.1\tanh(x)$. Remarkably, the neural network is able to accurately infer the network with $85\%$ of the diffusion field having an error of less than $10\%$. In figure @fig:projectionD we show the inferred diffusion profiles in more detail by projecting them along the time axis. Observe that, yet again, the error is largest where the signal is lowest. Nonetheless, we've proven that a neural network is able to accurately infer a coefficient field from noisy data. 
 
 
 ![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_varyingD_varyingPINN.pdf){#fig:summary_varyingD}
