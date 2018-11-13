@@ -51,35 +51,34 @@ where for simplicity we have neglected advection. As we have included a maturati
 
 ### The effect of advection
 
-We first study the effect of advection on the droplet by setting the decay in the dilute phase to zero. In this case the flux on the outside of the droplet becomes position-independent:
+In this section we investigate the effect of advection on an active droplet. Naively, one would expect advection to move the droplet with a velocity $v$, and indeed, for a passive droplet this happens. As the concentration profile is flat inside a passive droplet, the only non-zero flux is due to advection: $J_{adv}=c_0^+v$ . Putting this into equations @eq:pos and @eq:rad yields $dR/dt=0, dx_0/dt=vc/\Delta c\approx v$ in the limit of strong phase separation ($c_0^+\gg c_0^-$). In an active droplet advection has another effect of 'breaking the symmetry' of the droplet. To see this, consider again the convex concentration profile of an active droplet without advection. The diffusive fluxes point inwards from the interfaces; the magnitude is equal, but they are aligned antiparallel. Contrary to diffusion, the advective fluxes at the interfaces are aligned parallelly. This means that the net flux on both interfaces is different, as shown in figure **FIGURE**, which shows that advection in a droplet doesn't just translate it. We now quantify this effect. 
 
-$$
-J_{in}^{x=-R} = J_{in}
-$$
+![Figure about fluxes in droplet]()
 
+Without loss of generality, we assume that the flux is location independent and equal in magnitude:
 $$
-J_{out}^{x=R} = 0
-$$
-
-This is expected, as the cargo can only exit the system by decaying inside the droplet. The equationa for the flux in the droplet remain unchanged because they are independent of the decay outside. Developing the internal droplet fluxes for $R\ll l^\pm$ gives:
-
-$$
-J_{rad}\approx -2 c_0^+kR
+J_{out}^{x=-R} = J_{in}
 $$
 
 $$
-J_{pos}\approx
+J_{out}^{x=R} =-J_{in}
 $$
 
-Combining these equations gives us expressions for the growth rate and speed of the droplet:
+The equations for the flux in the droplet remain unchanged as they are independent of the transport parameters. Developing the internal droplet fluxes for $R\ll l^\pm$ gives:
 
 $$
-\frac{dR}{dt}=
+J_{rad}\approx -2 c_0^+kR \left(1 - \frac{k R^2}{3D}\right)
 $$
 
 $$
-\frac{dx_0}{dt}=
-$$
+J_{pos}\approx2 c_0^+v \left(1- \frac{k R^2}{3D}\right)
+$$ {#eq:posfluxapprox}
+
+Observe that in a third order approximation in $R$, the maturation flux is not affected by the advection, which, in turn means that the droplet size is independent if $R\ll l^\pm$. Higher orders however do show a dependency on the velocity and we investigate this numerically below. Interestingly, the positional flux is modified by the same factor as the maturation flux, thus showing a similar size-dependency. Equation @eq:posfluxapprox shows that, compared to a passive droplet, activity actually decreases the positional flux by a factor $kR^2/3D$, meaning that an active droplet in a flow will move slower than a passive droplet. 
+
+We now move our attention to the effect of the advection on the concentration profile inside the droplet. 	
+
+but that the activity of our droplet reduces $J_{pos}$. Consider figure **FIGURE**, where we have plotted the lengtscales $l^\pm$ and $l$ as a function of the advection velocity. Observe that $l_+$ decreases with $v$, while $l_-$ increases. We can associate these lengthscales with each interface of the droplet. As the lengthscales change, the location of the minimum concentration changes too and furthermore increases; advection increases the minimum concentration. 
 
 
 Armed with these equations we can study the effect of advection. In figure .. we show the minimum concentration, $dx_0/dt$ and $dR/dt$ as a function of $R$ and $v$. 

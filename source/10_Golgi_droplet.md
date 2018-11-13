@@ -118,11 +118,11 @@ $$
 Solving this set of equations for $dx$ and $dR$ gives:
 
 $$
-\frac{dR}{dt}=\frac{1}{2}(v_r-v_l)
+\frac{dR}{dt}=\frac{1}{2\Delta c}(v_r-v_l)
 $$ {#eq:radius}
 
 $$
-\frac{dx_0}{dt}=\frac{1}{2}(v_l+v_r)
+\frac{dx_0}{dt}=\frac{1}{2\Delta c}(v_l+v_r)
 $$ {#eq:position}
 
 Combining these equations with equation @eq:interfacespeed finally relates the growth and movement of the droplet to the fluxes across the interface:

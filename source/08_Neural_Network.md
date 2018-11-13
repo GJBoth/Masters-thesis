@@ -1,63 +1,51 @@
 # Physics Informed Neural Networks
 
-In the previous chapters we showed the difficulties in fitting a model in the form of a partial differential equation to spatio-temporal data. The method we developed was a classical numerical approach, separating the problem into several substeps such as denoising, smoothing and numerical differentiating. In the last few years machine learning has been slowly making its way into physics. Very recently, a technique generally referred to as Physics Informed Neural Networks (PINNs) have shown great promise as both tools for simulation and model fitting (@karpatne_physics-guided_2017, @sharma_weakly-supervised_2018, @pun_physically-informed_2018, @raissi_physics_2017, @raissi_physics_2017-1). In this chapter, I will evaluate the use of this technique to fit the model to the RUSH data. I've divided the chapter into three parts:
+In the previous chapters we showed the difficulties in fitting a model in the form of a partial differential equation to spatio-temporal data. The method we developed was a classical numerical approach, separating the problem into several substeps such as denoising, smoothing and numerical differentiation. In this chapter we present an alternative technique, generally referred to as Physics Informed Neural Networks (PINNs), which has already shown impressive performance in fitting models and numerically solving equations[@karpatne_physics-guided_2017], [@sharma_weakly-supervised_2018],[@pun_physically-informed_2018],[@raissi_physics_2017],[@raissi_physics_2017-1]. As neural networks are a new technique in phyics, this chapter also served as introduction to neural networks in general. The chapter thus has the following structure:
 
-* **Neural Networks** - This part will cover the basics of neural networks: their inner workings, how to train them and other general features. 
+* **Neural Networks** - This part will cover the basics of neural networks: their inner workings, training and other general features. 
 * **Physics Informed Neural networks** - In this second part we introduce the concept behind PINNs, use it to solve a toy problem and apply it to our RUSH data. 
 * **Conclusion** - Finally we summarize the results and observations from the previous sections.
 
 ## Neural Networks
-Artificial Neural Networks (ANNs) are networks inspired by biological neural networks. Contrary to other ways of computing, ANNs are not specifically programmed for a task - instead, ANNs are *trained* using a set of data. Research on artificial neural networks started in the '40s but never gained any critical mass, as no efficient training algorithm was known.  Once an efficient training algorithm was found in 1975 by Werbos, interest resurged but it wasn't until the late '00s  that deep learning started gaining widespread traction. The use of GPU's allowed ANNs to be efficiently trained and widely deployed at reasonable cost.
-
-The advancements in machine learning in general and especially neural networks in the last ten years have yielded a wealth of techniques and approaches. In supervised learning, the network is given pre-labeled data so that it is trained by learning the mapping from the given inputs to the given outputs. Other types such as supervised learning, where the network needs to learns to discriminate between unlabeled data, and reinforcement learning don't have any obvious use for PINNs yet and I've thus chosen to omit them. In the next sections, I'll present the mathematics of an ANN and show how they are trained using the so-called *backpropagation* algorithm.
+Normally when programming a computer to perform some task, we break the problem into smaller pieces and writing down precise instructions. Often, a model of the underlying process is also needed to transform some input into an output. The performance of the algorithm is then only as good as the underlying model and when dealing with complex processes, such models often become intractable or oversimplified. Artificial Neural Networks (ANNs) are a different approach to such a problem. Instead of being *programmed*, they are *trained* and hence 'learn' an underlying model. In a process known as *supervised learning*, the network is given inputs and the desired outputs for each input. Training the network then consists of adjusting its internal parameters until the predictions match the desired outputs. In the next sections we discuss how to adjust these parameters.
 
 ### Architecture
 *An excellent introduction is given by Michael Nielsen in his freely available book "Neural networks and deep learning." The following section has been strongly inspired by his presentation.*
 
-At the basis of each neural network lies the neuron. It transforms several inputs non-linearly into an output and we can use several neurons in parallel to create a *layer*. In turn, we several layers in series make up a network. The layers in the middle of the network are known as *hidden layers*, as shown in figure @fig:neuralnetwork
-
-![Schematic view of a neural network.](source/figures/pdf/neuralnetwork.pdf){width=50%}
-
-In the schematic shown in @fig:neuralnetwork, each neuron is connected to every neuron of the previous and next layer. This is known as a *fully connected* layer. Using only this type of layers, we've created a feed-forward network and it has been proven that a single hidden layer with enough neurons is a *universal function approximator*, i.e. a neural network can represent any continuous function using enough neurons.  
-
-As stated, a neuron takes several inputs and transforms them into an output. This is a two step process, where in the first step the neuron multiplies the input vector $\mathbf{x}$ with a weight vector $w$ and adds a bias $b$:
-
+At the basis of each neural network lies the neuron. It transforms several inputs into an output in a two-step process. In the first step, the inputs $ \mathbf{x}$ are multiplied with a weight vector $w$ and a bias $b$ is added:
 $$
 z = w\mathbf{x}+b
-$$ {#eq:weighted_input}
-
-$z$ is called the weighted input and is transformed in the second step by the neuron *activation function $\sigma$*. This in turn gives the output of the neuron $a$, also known as the activation:
-
+$$
+$z$ is called the weighted input and is transformed in the second step by the neuronal *activation function $\sigma$*. This gives the output of the neuron $a$, also known as the activation:
 $$
 a = \sigma(z) = \sigma(w\mathbf{x}+b)
 $$ {#eq:activation}
+The activation introduces non-linearity into the network and hence is crucial; without it a neural network would merely be several matrix multiplications. The classical activation is a tanh, i.e $\sigma(z)=\tanh(z)$, but many other forms exist, each having its benefits. Several neurons in parallel constitute a *layer* and several layers can be connected to create a network. The layers in the middle of the network are referred to as *hidden layers*. An example of such a network with two hidden layers is shown in figure @fig:neuralnetwork. 
 
-The role of the activation function is to introduce non-linearity into the system. The classical and often used activation function is the $tanh$, as it is bounded between +1 and -1. Since we're working with multiple layers, it is useful to rewrite function @eq:activation in terms of the activation $a^l$ of layer $l$:
+![Schematic overview of a neural network. The left layer is known as the input layer, the right layer as the output layer and the layers inbetween are referred to as hidden layers.](source/figures/pdf/neuralnetwork.pdf){#fig:neuralnetwork}
 
+
+
+### Training 
+
+Consider again equation @eq:activation. In a network with multiple layers, it is useful to express the activation $a^l$ of layer $l$ in the activation of layer $l-1$, so that @eq:activation becomes :
 $$
 a^l = \sigma(z^l) = \sigma(w^la^{l-1}+b^l)
 $$
-
-where $w^l$ and $b^l$ are respectively the weight matrix and bias of layer $l$. 
-
-### Training 
-In supervised learning the task of training a machine means adjusting the weights and biases until the neural network predictions match the desired outputs. We thus need some sort of metric to define this 'distance' between prediction and desired output. Training the network than means minimizing the metric with respect to the weights and biases of the network. This metric is known as the cost function $\mathcal{L}$ and the most used form is a mean squared error:
-
+where $w^l$ and $b^l$ are respectively the weight matrix and bias of layer $l$. As stated, training a neural network means adjusting the weights $w^l$ and biases of each layer  $b^{l}$ until the output of the neural network $a^L$ - the activation of the last layer $L$ - matches the desired output $y_i$. We thus require a metric to define the difference between the prediction and the desired output. This metric is known as the *cost function* $\mathcal{L}$ and one of the most commonly used cost functions is the mean squared error:
 $$
 \mathcal{L} = \frac{1}{2n}\sum_i|y_i-a^L_i|^2
 $$ {#eq:MSE}
 
-where $n$ is the number of samples, $y_i$ the desired output of sample $i$ and $a^L_i$ the activation of the last function - the prediction of the network. Minimizing this is not trivial, as the problem can have many local minima. A solution can be found however using gradient  descent techniques.
+where $n$ is the number of samples, $y_i$ the desired output of sample $i$ and the prediction of the network given the inputs of sample $i$. As the cost function is a measure of the difference between the prediction and desired outputs, training a neural network comes down to minimizing the cost function. Such minimization problems are solved by gradient descent techniques.
 
-Gradient descent techniques are based on the fact that given an initial position, the fastest way to reach the minimum from that position is by following the steepest gradient. Thus, given a function $f(\mathbf{x})$ to minimize w.r.t to $\mathbf{x}$, we guess an initial position $x_n$ and iteratively change until it convergences:
+Gradient descent techniques are based on the fact that given some position, the fastest way to reach the minimum from that position is by following the steepest descent. Thus, given a function $f(\mathbf{x})$ to minimize w.r.t to $\mathbf{x}$, we guess an initial position $x_n$ and iteratively update it until it converges:
 
 $$
 \mathbf{x}_{n+1} = \mathbf{x}_{n}-\gamma\nabla f(\mathbf{x}_n)
-$$
+$$ {#eq:gradientdescent}
 
-where $\gamma$ is known as the learning rate. If a global minimum exists, this technique will converge on it. More advanced versions of this technique exist which are able to deal with local minima as well, since convexity of the cost function is not at all guaranteed.
-
-Making use of gradient descent requires knowledge of the derivatives of the cost function w.r.t to the variables to be optimized. In the case of neural networks, we thus need to know the derivative w.r.t to each weight and bias. A naive finite difference scheme would quickly grow computationally untractable for even shallow networks. A solution to this problem was found by Werbos in the form of the backpropagation algorithm. Despite many years of ongoing research, it is still the go-to algorithm for each neural network implementation.
+ $\gamma$ is known as the learning rate and sets the 'stepsize'. Although this is an iterative technique, if the minimization problem is convex (i.e. no local minima), gradient descent is guaranteed to converge to it. Note that gradient descent requires calculation of the derivative w.r.t to the variables of the function to be minimized. In other words, one needs to know the derivative of the cost function w.r.t each of the weights and biases in the network. A naive finite difference scheme would quickly grow computationally untractable, even for networks with just two hidden layers. Alternatives to gradient descent exist, but all require calculation of the derivatives. In the next section we present an algorithm known as *backpropagation* which is able to efficiently calculate these derivatives. 
 
 #### Back propagation and automatic differentiation {-}
 As we wish to minimize the cost function w.r.t. to each weight $w$ and bias $b$ using gradient descent, we need to find the derivative of the cost function w.r.t to each. Our argument simplifies if we move away from vector notation and introduce $w^l_{jk}$, the weight of the $j$-th neuron in layer $l-1$ to neuron $k$ in layer $l$ and $b^l_j$, the bias of the neuron $j$ in the $l$-th layer. We introduce the error of neuron $j$ in layer $l$ as:
