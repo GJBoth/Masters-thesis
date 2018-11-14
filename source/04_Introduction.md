@@ -2,8 +2,13 @@
 
 The cell uses thousands of proteins and lipids to function and many of these are produced in the Endoplasmic Reticulum (ER), an organelle found in eukariotic cells. Upon exiting the ER, these proteins and lipids are then transported throughout the cell in a process known as intracellular transport. Key component in this intracellular trafficking is the Golgi apparatus, an organelle responsible for biochemically maturing proteins and directing them to the right location. Intense research over the last years has identified key players, [@emr_journeys_2009],[@tang_cell_2013] but an integrated model coupling Golgi size and function to the intracellular transport is lacking [@rothman_future_2010], [@gosavi_function_2017]. In this thesis, we seek to propose such a model. 
 
-
 ## The secretory pathway: biology 101 for physicists
+
+$$
+f(x) = a
+$$
+
+
 
 Proteins produced in the ER exit the organelle at specific locations referred to as ER Exit Sites - ERES. At these sites, cargo is packaged into a lipid bilayer and this package, known as a vesicle, buds off into the cytoplasm [@budnik_er_2009]. ERES are located throughout the cell and thus the vesicles need to be transported to their destination: the Golgi apparatus. In general, we can recognize two different trafficking modes: diffusive and directive [@bressloff_stochastic_2013]. In the directive mode, molecular motors pull vesicles along microtubules by hydrolysing ATP. Microtubules (MTs) are long tubular polymers spread throughout the cell and form a network which acts as the backbone for intracellular transport. They are organised around objects known as MicroTubular Organisation Centers (MTOCs). The primary MTOC is the centrosome, an organelle located next to the nucleus, but strong evidence exists that the Golgi apparatus acts a MTOC too [@wei_unraveling_2010],[@ronchi_positive_2014]. 
 

@@ -49,55 +49,58 @@ $$ {#eq:radiuslimit}
 
 where for simplicity we have neglected advection. As we have included a maturation term, we would expect the flux due to maturation to scale with $R$, which indeed for small $R$ it does. However, equation @eq:radiuslimit tells us that the maturation flux saturates. Consider again equation @eq:ceq and note that inside the droplet the concentration is convex and decays on a lengthscale $l$. If $R\gg l$, the concentration in the centre of the droplet will go to zero and hence the maturation flux will saturate.  Thus, effective droplet theory is only valid in the region for $R<l$. When we include advection the point is slighly more subtle as advection changes the internal concentration profile of the droplet. We investigate this in the next section. 
 
-### The effect of advection
+## Free droplet
 
-In this section we investigate the effect of advection on an active droplet. Naively, one would expect advection to move the droplet with a velocity $v$, and indeed, for a passive droplet this happens. As the concentration profile is flat inside a passive droplet, the only non-zero flux is due to advection: $J_{adv}=c_0^+v$ . Putting this into equations @eq:pos and @eq:rad yields $dR/dt=0, dx_0/dt=vc/\Delta c\approx v$ in the limit of strong phase separation ($c_0^+\gg c_0^-$). In an active droplet advection has another effect of 'breaking the symmetry' of the droplet. To see this, consider again the convex concentration profile of an active droplet without advection. The diffusive fluxes point inwards from the interfaces; the magnitude is equal, but they are aligned antiparallel. Contrary to diffusion, the advective fluxes at the interfaces are aligned parallelly. This means that the net flux on both interfaces is different, as shown in figure **FIGURE**, which shows that advection in a droplet doesn't just translate it. We now quantify this effect. 
+### No decay - the effect of advection
+
+In this section we investigate the effect of advection on an active droplet. Naively, one would expect advection to move the droplet with a velocity $v$, and indeed, for a passive droplet this happens. As the concentration profile is flat inside a passive droplet, the only non-zero flux inside the droplet is due to advection: $J_{adv}=c_0^+v$ , while outside we have $J_{adv} = c_0^-v$, thus giving $dR/dt=0, dx_0/dt=v$. In an active droplet the situation is slight more complex due to the convexity of the concentration profile. The diffusive fluxes point inwards from the interfaces; they're equal in magnitude, but aligned antiparallel. The advective fluxes at the interfaces however are aligned parallelly. The net flux at both interfaces is thus different, as shown in figure **FIGURE**. We now quantify this effect. 
 
 ![Figure about fluxes in droplet]()
 
-Without loss of generality, we assume that the flux is location independent and equal in magnitude:
+For simplicity, but without loss of generality, we neglect decay outside the droplet, so that $a=0$. The flux then becomes location independent:
 $$
 J_{out}^{x=-R} = J_{in}
 $$
 
 $$
-J_{out}^{x=R} =-J_{in}
+J_{out}^{x=R} =0
 $$
 
-The equations for the flux in the droplet remain unchanged as they are independent of the transport parameters. Developing the internal droplet fluxes for $R\ll l^\pm$ gives:
-
+The flux on the right interface of the droplet is zero as there is no source nor decay on the right side of the droplet and in a quasi-steady state approximation the flux then must become zero.The equations for the flux in the droplet remain unchanged as they are independent of the transport parameters. Developing the internal droplet fluxes for $R\ll l^\pm$ gives:
 $$
 J_{rad}\approx -2 c_0^+kR \left(1 - \frac{k R^2}{3D}\right)
-$$
+$$ {#eq:jrad}
 
 $$
 J_{pos}\approx2 c_0^+v \left(1- \frac{k R^2}{3D}\right)
 $$ {#eq:posfluxapprox}
 
-Observe that in a third order approximation in $R$, the maturation flux is not affected by the advection, which, in turn means that the droplet size is independent if $R\ll l^\pm$. Higher orders however do show a dependency on the velocity and we investigate this numerically below. Interestingly, the positional flux is modified by the same factor as the maturation flux, thus showing a similar size-dependency. Equation @eq:posfluxapprox shows that, compared to a passive droplet, activity actually decreases the positional flux by a factor $kR^2/3D$, meaning that an active droplet in a flow will move slower than a passive droplet. 
+Observe that the positional flux is modified by the same factor as the maturation flux and that due to the activity, the positional flux is a factor $kR^2/3D$ smaller. To see why activity reduces the positional flux, first consider the concentration profile inside the a non-convected active droplet. In this case, the lengthscales $l_-$ and $l_+$ are equal and the droplet is 'symmetric' around the middle of the droplet. Turning on the advection, this symmetry is broken and the lengthscales $l_-$ and $l_+$ change. Specifically, as can be seen from equation @eq:cgeneral, we can associate $l_-$ with the left of the droplet and $l_+$ with the right side of the droplet. Plotting these lengthscales in figure @fig:lengthscales, we observe that $l_+$ decreases with $v$, while $l_-$ increases; the location of the minimum concentration is thus shifted in the directio of the advection. This means that the concentration profile on that side is steeper and hence has a bigger diffusive flux, as shown in **FIGURE**, leading to the decrease in the positional flux. 
 
-We now move our attention to the effect of the advection on the concentration profile inside the droplet. 	
+Ignoring the third order term in @eq:jrad, we have the following equations for the radius and the position of the droplet:
+$$
+\frac{dR}{dt} = (-2 c_0^+kR + J_{in})/2\Delta c
+$$
 
-but that the activity of our droplet reduces $J_{pos}$. Consider figure **FIGURE**, where we have plotted the lengtscales $l^\pm$ and $l$ as a function of the advection velocity. Observe that $l_+$ decreases with $v$, while $l_-$ increases. We can associate these lengthscales with each interface of the droplet. As the lengthscales change, the location of the minimum concentration changes too and furthermore increases; advection increases the minimum concentration. 
+$$
+\frac{dx_0}{dt} = (2 c_0^+v-J_{in})/2\Delta c
+$$
 
+As we are interested in stable droplets, we have $dR/dt=0$, so that $R_{stable} = J_{in}/2c_0^+k$. For the positional change, we have $v=J_{in}/2c_0^+$. This means that a finite velocity is required for the droplet to change direction. To see why, we note that $dx_0(v=0)/dt=-J_{in}/2\Delta c$ and since $J_{in}$ sets the gradient when no advection is present, we see @eq:position in action: the droplet moves up the gradient. Thus, for the droplet to change direction of movement, the advection needs to cancel out the movement due to the gradient and hence a finite advection is required. 
 
-Armed with these equations we can study the effect of advection. In figure .. we show the minimum concentration, $dx_0/dt$ and $dR/dt$ as a function of $R$ and $v$. 
+We now study this system numerically. We're most interested in the behaviour of the droplet as a function of $v$ and $J_{in}$ and thus plot in figure @eq:nodecay the stable radius in the left panel and the minimum concentration in the droplet in the right panel as a function of $J_{in}$ and $v$. 
 
-![]()
+![Plotting in mathematica is terrible.](source/figures/pdf/nodecay.pdf){#eq:nodecay}
 
-In the left panel we show the minimum concentration as a function of $R$ and $v$. The white line shows the concentration corresponding to $l=0.5$ at $v=0$ and we indeed see that advection increases the minimum concentration. In the middle panel we show the increase in radius $dR/dt$ as a function of again $R$ and $v$. Red colors mean positive, blue negative and white zero, so we've plotted with x's the line $dRdt=0$, which corresponds to a stable droplet. On the right we show $dx_0/dt$; where the $dx_0/dt=0$ line crosses with the $dR/dt=0$ line there's a droplet with stable radius and position.
+We see that for low $v$ the radius is independent of the velocity, but that for higher $v$ the radius decreases. Concurrently, in the right panel we observe that the minimum concentration in the droplet decreases with increasing $J$, but decreases with $v$. The reason is that for increasing $J$, the droplet grows and the concentration inside the droplet thus decreases. We study this in detail in figure @fig:advectioneffect, where we plot the radius and minimum concentration of the line $J=0.25$. 
 
-To show this more clearly, we plot the droplet radius and minimum concentration as a function of the advection velocity in figure . Observe that advection decreases the droplet radius by almost $10\%$, while simultaneously also increasing the minimum concentration. The advection is thus 'compacting' the droplet. By what process is this happening? To see this, consider an active droplet without advection. The concentration profile is symmetric and convex; the flux on both sides due to diffusion is inwards and thus in opposite directions. If we now turn on advection, this symmetry is broken. On the left side of the droplet, the diffusion and advection point in the same direction but on the other side they are aligned opposite. This causes an assymetry in the concentration and a difference in the flux to the centre: more goes to it from the left than is taken away by the right, hence compacting the droplet. 
+![Effect of advection.](source/figures/pdf/advectioneffect.pdf){#fig:advectioneffect}
 
-Can advection stabilize a droplet? Zwicker et al show that an active droplet such as ours can divide through a shape instability. Our model is 1D however and not easily scalable to higher D's because of the advection. Simulations would be needed to state anything on this.
+Observe that advection decreases the droplet radius by almost $5\%$, while simultaneously also increasing the minimum concentration. The advection is thus 'compacting' the droplet. This compacting is also the cause of the increased minimum concentration. The compaction is again a consequence of the fluxes; since the fluxes are aligned on the side facing the advection, this side experiences a higher flux than the interface on the other side, hence compacting the droplet. 
 
-We can make a few conclusions about the situation. For a very specific set of parameters, the droplet can both be stable in radius and position. There's no position dependence so not that interesting. Also observe that there are only two situations: either the droplet is moving to the left infinitely, or moving to the right infinitely, as there's no stable position on either side. Which situation happens is controlled by the gradient of the concentration versus the advection. note that we need a non-zero convection to move the droplet from one mode to the other. The explanation is simple: the convection needs to overcome the gradient to reverse droplet movement. At the inflection point, $dx_0/dt=0$.
+How stable is the equilibrium droplet? Perturbing $dR/dt$ around the equilibrium $R$ gives $d\delta r/dt=-2c_0^+k\delta r$. Since both $k$ and $c_0^+$ are bigger than zero, any fluctutations cancel so that the equilibrium is stable.  The blue line is $dx_0/dt=0$. As expected, increasing the $J_{in}$ increases the gradient and a larger velocity is required to counteract the movement of the droplet up this flow. These positions where both the droplet radius and droplet position are stable are not specific points inside the system; rather they are a specific set of parameters for which the droplet speed becomes zero. 
 
-We now make some very speculative biological connection to the observation of Golgi properties. A strong marker is that once the microtubules are depolymerized, the stacks move away from the perinuclear area and colocate with the ERES. This is what we see when we turn of the advection, the droplet moves up the gradient to the source. A similar thing is seen with biogenesis, the stacks are made around the ERES but need microtubules to be transported to the center.
-
-We have a model which described some features but its unstable. Can we make some position in our system inherently stable? We try in the next section by adding decay to the dilute phase.
-
-### Decay in the dilute phase
+### 
 
 We now wish to find a model in which the position has a stable position. So not just a set of parameters where $dx_0/dt=0$, but a position $x_0$ where the droplet is stable. The flux on the inside is independent of the position of the droplet, so to get a stable position we need a position dependent flux on the outside. To this end, we introduce a decay term in the dilute phase. We then end up with the full equations ... . We first numerically solve these equations before attempting an approximation. The result is shown in figure ... and shows a 'phase-diagram' of our active droplet model. In the left panel we show the minimum concentration in the droplet, while the middle and right panel shows the numerical value of $dx_0/dt$ and $d_R/dt$, all as a function of the CoM position $x_0$ and radius $R$. From the right two plots we've extracted the lines $dx_0/dt=0$ and $dR/dt=0$, which we've superimposed on all three panels. Where these lines cross a stable state exist. We first discuss each line independently and then discuss the stable points. 
 
@@ -105,11 +108,12 @@ First consider the line $dR/dt=0$, a droplet with stable radius. We observe that
 
 This is all fine and dandy, but there's one problem: the lower intersection, the stable point, is unphysical. We characterize the droplet in terms of its center of mass $x_0$ and radius $R$, meaning that the left interface is at a position $x_0-R$. The red line in the plots shows the line $x_0=R$ and everything below this line is unphysical, as it means the left interface is at a position $x_0-R<$, past the system edge. Why does this happen? First, in a dynamical description this wouldn't happen, as the left interface boundary condition prevents moving past. In a static description this can however since we specify the edge of the system as a flux boundary condition. Inspection of the concentration (see figure ) learns that the droplet moves on top of the source: the flux inside the droplet at a point is similar to the boundary condition. In 2D this wouldnt be a problem but in our 1D description it is as the BC is specified as a flux and not as a source. That means we're left with just an unstable point. Why is this point unstable? Investigating the fluxes shows that despite the decay the left interface is an order of magnitude bigger than the right interface, thus behaviour is mainly determined by the left interface. Once the left interface starts moving due to a perturbation, the rest follows. 
 
-
-## 
-Two components jeeej
+## Droplet stuck to walls
 
 
 ## Conclusion
 
+### Biological implications
+
+We now make some very speculative biological connection to the observation of Golgi properties. A strong marker is that once the microtubules are depolymerized, the stacks move away from the perinuclear area and colocate with the ERES. This is what we see when we turn of the advection, the droplet moves up the gradient to the source. A similar thing is seen with biogenesis, the stacks are made around the ERES but need microtubules to be transported to the center.
 
