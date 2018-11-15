@@ -206,7 +206,11 @@ We numerically solve equations xxx for the interface speed to obtain a phase dia
 
 ## Biological implications
 
-We've build a model 
+We've build a model describing the Golgi as a phase separated droplet, linking the transport parameters such as $v$ , $D$ and $a$ to the Golgi size and its function through the maturation flux. We've also shown a phase diagram and have studied active droplets.
 
-We now make some very speculative biological connection to the observation of Golgi properties. A strong marker is that once the microtubules are depolymerized, the stacks move away from the perinuclear area and colocate with the ERES. This is what we see when we turn of the advection, the droplet moves up the gradient to the source. A similar thing is seen with biogenesis, the stacks are made around the ERES but need microtubules to be transported to the center.
+One counterintuitive result is that the unstable equilibrium moves closer to the source with increasing $v$. We've checked the effective droplet model and found that mass is conserved and an effective droplet exists when phase separation should happen. We've further shown a phase diagram with four different areas and shown that they always intersect at the same point. Why? We dont know...
+
+We now make some very speculative biological connection to the observation of Golgi properties. A strong marker is that once the microtubules are depolymerized, the stacks move away from the perinuclear area and colocate with the ERES. This is what we see when we turn of the advection, the droplet moves up the gradient to the source. A similar thing is seen with biogenesis, the stacks are made around the ERES but need microtubules to be transported to the center. Our model shows this behaviour. Even more crazy, we've seen that the droplet moves by growing in the front and decaying in the back. This is similar to how the maternal cisturation model for the golgi works. Thus, the cisternal maturation could be the mechanism by which the golgi moves.
+
+More in general, we've applied a theory normally used for membrane organelles to membraneless organlles. Nice. 
 
