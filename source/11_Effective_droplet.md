@@ -109,13 +109,13 @@ $$
 
 The stable radius, $R_{stable} \approx J_{in}/2c_0^+k$ is thus independent of the velocity $v$ and the droplet will maintain its position if $v_{stable}\approx J_{in}/2c_0^+$ . This means that, save for $v_{stable}$, the droplet will always move either right or left and that the movement direction switches at the switching velocity $v_{stable}$. It is non-zero due to the self-movement of an active droplet; recall that an active droplet will move itself up a concentration gradient. The advection needs to compensate for this movement, giving rise a non-zero $v_{stable}$.
 
-We now study this system numerically. As the fluxes on the outside of the droplet are independent of the velocity, we are in fact studying the effect of advection on an active droplet, irrespective of its environment. We plot the stable radius of the droplet in figure @fig:stableradnodecay and the corresponding minimum concentration in @fig:minconnodecay. We have used the following parameters: $D=1, k=0.1, c_0^+=0.9$. 
+We now study this system numerically. As the fluxes on the outside of the droplet are independent of the velocity, we are in fact studying the effect of advection on an active droplet, irrespective of its environment. We plot the stable radius of the droplet in figure @fig:stableradnodecay and the corresponding minimum concentration in @fig:minconnodecay . We have used the following parameters: $D=1, k=0.1, c_0^+=0.9$. 
 
 ![The stable radius as a function of the velocity $v$ and influx $J_{in}$. The dashed line is the line $dx_0/dt=0$.](source/figures/pdf/Stable_nodecay.pdf){#fig:stableradnodecay}
 
 ![The minimum concentration in a stable droplet as a function of the velocity $v$ and influx $J_{in}$. In areas with a low concentration the effective droplet model is not valid.](source/figures/pdf/minimumconcentration.pdf){#fig:minconnodecay}
 
-Note that the stable radius of small droplets is independent of the velocity, but that we do observe some dependence for bigger droplets. However, concurrently with the size increase is the minimum concentration decrease, as shown in figure @fig:minnodecay. For very low $v$ and high $J_{in}$, the concentration even drops to 0.4 - a concentration corresponding to the dilute well of the free energy and thus clearly unphysical. Increasing $v$ raises the minimum concentration, while also slightly decreasing the radius of the droplet. To understand this decrease in radius, consider again figure @fig:concprofile. Calculating some average concentration $\bar{c}=\frac{1}{V}\int c(x)dV$, it is clearly visible that this is higher for the advected droplet. Estimating the maturation flux as $J_{mat}\propto -2Rk\bar{c}$, an advected droplet thus has a higher maturation flux than a non-advected droplet. The maturation flux needs to be balanced by the influx $J_{in}$ for a stable droplet so that
+Note that the stable radius of small droplets is independent of the velocity, but that we do observe some dependence for bigger droplets. However, concurrently with the size increase is the minimum concentration decrease, as shown in figure @fig:minnodecay . For very low $v$ and high $J_{in}$, the concentration even drops to 0.4 - a concentration corresponding to the dilute well of the free energy and thus clearly unphysical. Increasing $v$ raises the minimum concentration, while also slightly decreasing the radius of the droplet. To understand this decrease in radius, consider again figure @fig:concprofile. Calculating some average concentration $\bar{c}=\frac{1}{V}\int c(x)dV$, it is clearly visible that this is higher for the advected droplet. Estimating the maturation flux as $J_{mat}\propto -2Rk\bar{c}$, an advected droplet thus has a higher maturation flux than a non-advected droplet. The maturation flux needs to be balanced by the influx $J_{in}$ for a stable droplet so that
 $$
 R = \frac{J_{in}}{2k\bar{c}}.
 $$ {#eq:jmathandwavy}
@@ -141,105 +141,99 @@ We study the stability of these steady states by plotting $dx_0/dt$ and $dR/dt$ 
 
 ![$dx_0/dt$ as a function of $x_0$ and $R$. The solid black line denotes the $dR/dt=0$ and the dashed line $dx_0/dt=0$. The red line is the line $x_0=R$.](source/figures/pdf/dXdt.pdf){#fig:dxdtdecay}
 
-The solid black lines denote the $dR/dt=0$ and the dashed lines $dx_0/dt=0$. The red line is the line $x_0=R$. A steady state needs to be above this line, as below this line $x_0-R<0$, meaning that the droplets' left interface is outside of the system. We observe that the line $dR/dt=0$ is stable, but as $dx_0/dt=0$ is not, the steady state is unstable. As this plot is typical for all parameters, we conclude that all steady states are unstable: the droplet either moves left or right until it hits the edges of the system. The free droplet model does not properly describe this situation, as it always has two interfaces. In reality, when the droplet hits the edges of the system one of the two interfaces disappears and the droplet becomes like a wetting layer. We investigate this in the next section.
+The solid black lines denote $dR/dt=0$ and the dashed lines $dx_0/dt=0$. The red line is the line $x_0=R$; a steady state needs to be above this line, as below this line $x_0-R<0$, meaning that the droplets' left interface is outside of the system. We observe that the line $dR/dt=0$ is stable, but as $dx_0/dt=0$ is not, the steady state is unstable. This plot is typical for all parameters, so we conclude that all steady states are unstable: the droplet either moves left or right until it hits the edges of the system. The free droplet model does not properly describe this situation, as it always has two interfaces. In reality, when the droplet hits the edges of the system one of the two interfaces disappears and the droplet becomes like a wetting layer. We investigate this in the next section.
 
 ## Droplet stuck to walls
 
-We've shown that the free droplet moves either left or right. This means that the only steady states are droplets stuck to the walls. In this section we study how such a droplet would behave. In the previous section we assumed the existence of a droplet and studied its behaviour. In this section we take broader view and first estimate when a droplet would appear. We then prove that a stable droplet exists if such a transition occurs and find that, even though our approach is an approximation, mass is conserved through the phase separation. Finally we present the final phase diagram and state the biological implications. 
+In the previous section we showed that a droplet will always move left or right until it hits the edges of the system, but that this situation is not properly described by our free droplet model. In this section we present a slighly modified model to account for this situation. Once the droplets' interface hits the edge of the system, it ceases to be an interface between a dense and a dilute phase: rather, the boundary condition of the droplet must become the boundary condition of the system. For a droplet on the left of the system we thus have the boundary conditions $c(R)=c_0^+$ and $J(0)=J_{in}$, while for the droplet on the left we have $c(L-R)=c_0^+$ and $J(L)=0$. We present the behaviour of this modified model in this section, taking a slightly wider view than before. Instead of assuming the existence of a droplet, we first investigate when droplets phase separate at the edges of the system. We will then prove the existence of a stable effective droplet when such a phase separation should take place and that mass is conserved. Finally, we present a phase diagram and discuss the biological connection and implications.  
 
 ### Occurence of phase separation
 
+Consider again the double well free energy with minima at $c_0^-$ and $c_0^+$:
+$$
+f(c) = \frac{b}{2\Delta c^2}(c-c_0^-)^2(c-c_0^+)^2
+$$ {#eq:energydensity}
+This free energy describes a system phase separating into a dense area with concentration $c_0^+$ and a dilute area of concentration $c_0^-$. Our system is open
 
+We thus ask at which concentration the dilute and dense phases becomes unstable. For the thermodynamics we know that stability requires  $d^2f/dc^2>0$. In areas where $d^2f/dc^2<0$, fluctuations keep growing and the system will phase separate. For the free energy density given by @eq:energydensity, the area between the two inflection points $c=(c_0^++c_0^-)/2\pm\sqrt{3}(c_0^+-c_0^-)$ is unstable. Thus, if the concentration in the dense phase becomes lower than upper inflection point, a dilute phase will form. On the other hand, if the dilute phase reaches the lower inflection point, a droplet will form. Note that we have neglected the gradient term. We thus have a criterium for when a droplet is formed. 
 
-In the previous section we've shown that once the concentration reaches one of the inflection points, the system will phase separate. We now study when exactly this happens. We thus study an advection-diffusion-decay system with a source on one side and a no-flux boundary on the left. The highest concentrations will then always be at the edges of the system, so we determine the concentrations at each side of the system. We're most interested in the influx $J_{in}$ and advection speed $v$, so we determine for $v$ at which $J_{in}$ the concentration on the left and right reaches the inflection point.
+To study when this minimum concentration is reached, we consider our system without a droplet which is described by a single advection-diffusion-decay equation with boundary conditions $J(0)=J_{in}$ and $J(L)=0$. Resulting concentration profiles will have the highest concentrations at the edges and we thus calculate at which $J_{in}$ the concentration reaches the lower inflection point. We obtain:
 $$
 \text{Left:  }J_{in} = - \frac{ 2al((1-\frac{1}{\sqrt{3}}c_0^+)+(1+\frac{1}{\sqrt{3}}c_0^-))}{\frac{vl}{D}-coth(\frac{L}{2l})}
-$$
+$$ {#eq:jminleft}
 
 $$
-\text{Right: } J_{in} =al((1-\frac{1}{\sqrt{3}}c_0^+)+(1+\frac{1}{\sqrt{3}}c_0^-))\left(e^{-\frac{L}{2l}(\frac{vl}{D}-1)}-e^{-\frac{L}{2l}(\frac{vl}{D}+1)}\right)
-$$
+\text{Right: } J_{in} =al((1-\frac{1}{\sqrt{3}}c_0^+)+(1+\frac{1}{\sqrt{3}}c_0^-))\left(e^{-\frac{L}{2l}(\frac{vl}{D}-1)}-e^{-\frac{L}{2l}(\frac{vl}{D}+1)}\right),
+$$ {#eq:jminright}
 
+where $l$ is a lengthscale defined as $l=D/\sqrt{4aD+v^2}$. Equations @eq:jminleft and @eq:jminright represent the minimum influx required to form a droplet on the left or right and we plot these two curves in figure @fig:minJconc
 
+![Blue line: Minimum J left side. Orange line: minimum J right side.](source/figures/pdf/Jmin.pdf){#fig:minJconc}
 
-Where $l$ is some lengthscale $l=D/\sqrt{4aD+v^2}$. We plot these two curves in the figure below:
+The blue line shows the minimum $J_{in}$ for the left side of the system, while the orange line shows the minimum for the right. We can recognize four areas in figure @fig:minJconc. Below both the blue and the orange line, the concentration never reaches the lower inflection point and thus no droplets will be formed. In the area below the orange line but above the blue line, only a droplet on the left is formed, while exactly the reverse happens on the right side of the plot: only a droplet on the right is formed. Finally, we note that in the upper area both droplets can be formed. In this regime, $J_{in}$ and $v$ are high enough for the concentration to reach the inflection point at both sides of the system. 
 
-![Blue line: Minimum J left side. Orange line: minimum J right side.](/Users/gert-janboth/Library/Application%20Support/typora-user-images/image-20181112113459099.png)
+This approach only determines when a droplet is formed and does not yield any information about the size and stability of such newly-formed droplets. In fact, we require the existence of a stable droplet with non-zero radius in areas where figure @fig:minJconc predicts a droplet is formed. We investigate this in the next section 
 
-We can recognize four areas in this plot. Below both the blue and the orange line, the concentration doesn't become high enough anywhere and no phase separation will happen. Below the orange line and above the blue line, on the left, only a droplet on the left is stable, while on the right exactly the reverse; only the right is stable. Above both lines the concentration is high enough on both sides. This plot onyl tells us when phase-separation should happen; it doesn't tell if it does. We investigate this in the next section.
-
-Where do the two lines cross? We expand the minimal J's to second order in $v$ around 0, as the plot above shows that doing it in first order will severely underestimate the crosspoint. The obtained expressions are then again linearized to first order  in $a$, yielding:
-$$
-v^* = \frac{aL}{2}
-$$
-which, compared to the plot, is remarkably close. 
+ Above both lines the concentration is high enough on both sides. This plot onyl tells us when phase-separation should happen; it doesn't tell if it does. We investigate this in the next section by comparing the phase diagram of figure @fig:minJconc with the phase diagram of the effective droplet model.
 
 ### Effective droplet
 
-We now need to prove that indeed a stable droplet exists if phase separation happens according to the plot above.We thus investigate at which parameters a droplet with $R=0$ and $dR/dt|_{R=0}=0$ exists. For the left and right droplet, we find the following relations:
+We construct the effective droplet phase diagram for this system by determining for which $J^{*}_{in}$ a stable droplet (dR/dt=0) with radius $R=0$ exists. For an influx higher than $J_{in}^*$, a droplet with $R>0$ then exists, so that $J_{in}^*$ is the minimum influx required for a droplet to exist.  For the left and right droplet, we find the following:
 $$
 \text{Left:  }J_{in} = - \frac{ 2a c_0^-l}{\frac{vl}{D}-coth(\frac{L}{2l})}
-$$
+$$ {#eq:jminlefted}
 
 $$
 \text{Right: } J_{in} =ac_0^-l\left(e^{-\frac{L}{2l}(\frac{vl}{D}-1)}-e^{-\frac{L}{2l}(\frac{vl}{D}+1)}\right)
-$$
+$$ {#eq:jminrighted}
 
-where $l$ is some lengthscale $l=D/\sqrt{4aD+v^2}$. We now compare this to the 'phase-diagram' we have obtained from studying the flow equation. By dividing the minimum flux from the flow model by the minimum flux obtained from the effective droplet model, we obtain:
+Note that these equations have the same form as @eq:jminleft and @eq:jminright, save for some prefactor. Defining the minimum flux as defined by equations @eq:jminleft and @eq:jminright as $J^{AD}$ and the minimum flux as calculated by the effective droplet model in equations @eq:jminlefted and @eq:jminrighted we obtain the same ratio for both the left and right sides:
 $$
 \frac{J^{AD}}{J^{ED}} = \frac{(3-\sqrt{3})c_0^++(3+\sqrt{3})c_0^-}{6c_0^-}
 $$
-For both the droplet on the left and right. We see that $J^{AD}/J^{ED}>1$ if $c_0^+>c_0^-$, which it is by definition. In other words, if dilute concentration reaches the inflection point in the AD model, a stable effective droplet is guaranteed to exist. It also means that once phase separation occurs to the AD model, the effective droplet predicts a non-zero radius. Although this is dynamics and we do statics so there's nothing more we can really say about it. We also have:
-$$
-\frac{J^{AD}_{left}}{J^{AD}_{right}} = \frac{J^{ED}_{left}}{J^{ED}_{right}}
-$$
-meaning that the velocity at which the two left and right minima cross is the same for the both models. The implication of this is that the difference between when the phase-separation happens according the AD model and the ED model is due to the difference in concentration. As we're looking for a steady state description, we continue with the AD model. According to our calculations, there is an area where both droplets can exist at the same time. We investigate this using   a model with two droplets. Performing a similar analysis (i.e. dR1/dt=dR2dt=0, R1=R2=0) yields:
-$$
-J = \frac{c_0^-D}{2l}\left(\frac{vl}{D}+\frac{(1+e^{\frac{L}{l}}-2e^{\frac{-L}{2l}(\frac{vl}{D}-1)})}{(1-e^{\frac{L}{l}})}\right)
-$$
-and a critical speed above which droplets appear:
-$$
-v^*=\frac{aL}{2}
-$$
-This critical speed is similar to the crossing of the left and right droplet! This means there's some sort of critical point? As the numerics in the next section show, this a robust point and not just a first order effect. 
-
-
-
-
-
-![image-20181112121152157](/Users/gert-janboth/Library/Application%20Support/typora-user-images/image-20181112121152157.png)
-
-There is a tiny sliver of left or right between the droplets on the left and right and droplets on the right, but we ignore this as its really small. 
-
-### Mass conservation
-
-We now study mass conservation by comparing the mass in a non-separated system with a phase separated. For simplicity we set $k\to a$. Given any concentration profile (either above or below critical concentration) given by an advection-diffusion-decay equation, the mass in the system is:
+Note that $J^{AD}>J^{ED}$ if $c_0^+>c_0^-$. In other words, the minimum flux required for a stable droplet is smaller than the minimum flux required to form a droplet if the concentration in the dense phase is higher than the concentration in the dilute phase, which it is by definition. We thus see that a stable droplet with a non-zero radius is guaranteed to exist if phase separation should occur as determined by equations @eq:jminleft and @eq:jminright. A second criterium would be mass conservation: the mass in a separated system should be similar to the mass in a phase separated system.  Given any concentration profile (either above or below critical concentration) given by an advection-diffusion-decay equation, the mass in the system is:
 $$
 \int_0^L c(x)dx = \frac{J_{in}}{a}
 $$
-which makes sense as $J_{in}$ is what comes into the system and $a$ what goes out. Now, given the same parameters $J_{in}, a$ there exists some phase-separated configuration with stable droplet radius $R^*$. Without loss of generality, we assume $J_{in}$ and $a$ are such the droplet appears on the left side of the system. The total mass inside such a system is:
+which makes sense as $J_{in}$ is what comes into the system and $a$ what goes out. Without loss of generality, we assume $J_{in}$ and $a$ are such the droplet appears on the left side of the system. The total mass inside such a system is:
 $$
 \int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx
 $$
-Where the stable droplet radius $R^*$ corresponds to $dR/dt|_{R=R^*}=0$. Assuming the droplet radius remains small, we expand both the total mass as well as the stable droplet radius in a first order Taylor series around $R=0$,  which when combined gives:
+Where the stable droplet radius $R^*$ corresponds to $dR/dt|_{R=R^*}=0$. Assuming the droplet radius remains small, we can determine the stable droplet radius. For simplicity assuming that $k=a$, we obtain:
 $$
 \int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx=\frac{J_{in}}{a}
 $$
 We thus see that mass is conserved when phase separation occurs. 
 
-## ### Analysis of droplet and numerical results
+The effective droplet phase diagram also predicts an area in which droplets on both the left and right are stable. We now investigate if both droplets can coexist, i.e. that the system has a droplet on the left and the right, using a two droplet model. Again solving the fluxes for $dR_1/dt=dR_2/dt=R_1=R_2=0$ yields a minimum influx $J_{in}$ 
+$$
+J_{in} = \frac{c_0^-D}{2l}\left(\frac{vl}{D}+\frac{(1+e^{\frac{L}{l}}-2e^{\frac{-L}{2l}(\frac{vl}{D}-1)})}{(1-e^{\frac{L}{l}})}\right)
+$$
+and if $l_D,l_v\gg L$ we also obtain a minimum advection velocity $v^*$:
+$$
+v^*=\frac{aL}{2}
+$$ {#eq:minadv}
+We plot the corresponding phase diagram in figure @fig:phasediagramapprox .
 
-Bladiebladiebla analytical expressions of the droplet size. 
+![Caption.](source/figures/pdf/phaseapprox.pdf){#fig:phasediagramapprox}
 
-We numerically solve equations xxx for the interface speed to obtain a phase diagram:![image-20181112150413329](/Users/gert-janboth/Library/Application%20Support/typora-user-images/image-20181112150413329.png)
+We observe six 'phases' and that all these cross at a single point. Note some sort of symmetry exists: considering the area above the diagonal of the plot and following it clockwise from the origin, we first observe no droplets, then a droplet on the left, followed by either a droplet on the left or right and finally the area where its possible for a single droplet on the left or right or two droplets to exist. Below the diagonal we observe an analogous trajectory, where instead of a single droplet on the left we now have a droplet on the right. Considering the flow problem we presented in the previous section this symmetry makes perfect sense: for low $v/J_{in}$ the concentration will be highest on the left hence favouring droplets being formed on the left. For high $v/J_{in}$ exactly the opposite happens and droplets on the right are favoured. All phases intersect at a single point. Expanding the crossing of the minimal fluxes for $l_D,l_v\gg L$ we obtain 
+$$
+v_{cross}=\frac{aL}{2}
+$$
+which is similar to equations @eq:minadv, meaning that the intersection at this point is a system property and not just a side-effect of our parameter choice. In figure @fig:phasediagramnumerical we plot the results of numerically solving the equations. 
+
+![Caption.](source/figures/pdf/Numericalphase.pdf){#fig:phasediagramnumerical}
+
+The red solid and dashed lines represent the minimum influx required for respectively a droplet on the left and right. The  black dashed line corresponds to $dR_{left}/dt=0$ in the two droplet model, while the dotted-dashed line is $dR_{right}/dt=0$. Since only the line this line is determined numerically, all the other lines exactly match what is plotted in figure @fig:phasediagramapprox. Contrary to this plot however, $dR_{right}/dt=0$ is not vertical. This is because @eq:minadv has been derived assuming that both the left and right droplet appear at the same time; in reality, one of the droplet can have a non-zero radius before a second droplet appears. Numerically we also find that all the phases are connected through some critical point. To see why this happens, consider the crossing of the two minima $J_{in}$. At this point, the concentration profile is such that the concentration on each side of the system is similar: $dR/dt=R=0$ on both sides and by changing $J_{in}$ or $v$ any of the phases can be reached. 
+
+We now have several areas where multiple configurations are stable. Which one exactly depends on where the initial droplet is formed. Thus, the phase diagram depends on the initial dynamics. We have neglected the effect of the term penalizing the gradient and it could be that adding this term would yield a phase diagram with only a single stable state. This would require simulations however so for now the mystery remains. 
 
 ## Biological implications
 
-We've build a model describing the Golgi as a phase separated droplet, linking the transport parameters such as $v$ , $D$ and $a$ to the Golgi size and its function through the maturation flux. We've also shown a phase diagram and have studied active droplets.
+We now link the behaviour of our model to biological observations. First off, our model predicts that the only stable position for the droplet is at the edges of the system. Biologically, stacks are either located at the ribbon or at the ERES, thus matching our model. Furthermore, this position is dependent on the microtubules: when the microtubules are depolymerized, the ribbon breaks up and the stacks colocalize with the ERES. Our free droplet model predicts a similar movement, with the switching happening at a finite advection velocity. Also note that our droplet size is dependent on the amount of trafficking through $J_{in}$. Observation have been made that the Golgi size is dependent on the amount of trafficking too. 
 
-One counterintuitive result is that the unstable equilibrium moves closer to the source with increasing $v$. We've checked the effective droplet model and found that mass is conserved and an effective droplet exists when phase separation should happen. We've further shown a phase diagram with four different areas and shown that they always intersect at the same point. Why? We dont know...
+Active droplets propel themselves by imbalanced fluxes; it grows on one side while decaying on the other. In the cisternal maturation model, the Golgi grows on one side by vesicles forming a cis compartment, whereas the opposite happens on the trans side. Cisternal maturation could thus be the process by which the stack moves from its position in the ribbon to the ERES.
 
-We now make some very speculative biological connection to the observation of Golgi properties. A strong marker is that once the microtubules are depolymerized, the stacks move away from the perinuclear area and colocate with the ERES. This is what we see when we turn of the advection, the droplet moves up the gradient to the source. A similar thing is seen with biogenesis, the stacks are made around the ERES but need microtubules to be transported to the center. Our model shows this behaviour. Even more crazy, we've seen that the droplet moves by growing in the front and decaying in the back. This is similar to how the maternal cisturation model for the golgi works. Thus, the cisternal maturation could be the mechanism by which the golgi moves.
-
-More in general, we've applied a theory normally used for membrane organelles to membraneless organlles. Nice. 
+All taken together, the model we've presented is able to explain the position of the Golgi stack, why it is formed around the ERES and why it moves close to the eres once the microtubules are depolymerized. 
 

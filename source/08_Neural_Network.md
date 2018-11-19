@@ -31,7 +31,7 @@ The activation introduces non-linearity into the network and hence is crucial; w
 Consider again equation @eq:activation. In a network with multiple layers, it is useful to express the activation $a^l$ of layer $l$ in the activation of layer $l-1$, so that @eq:activation becomes :
 $$
 a^l = \sigma(z^l) = \sigma(w^la^{l-1}+b^l)
-$$
+$$ {#eq:weighted_input}
 where $w^l$ and $b^l$ are respectively the weight matrix and bias of layer $l$. As stated, training a neural network means adjusting the weights $w^l$ and biases of each layer  $b^{l}$ until the output of the neural network $a^L$ - the activation of the last layer $L$ - matches the desired output $y_i$. We thus require a metric to define the difference between the prediction and the desired output. This metric is known as the *cost function* $\mathcal{L}$ and one of the most commonly used cost functions is the mean squared error:
 $$
 \mathcal{L} = \frac{1}{2n}\sum_i|y_i-a^L_i|^2
@@ -173,7 +173,7 @@ As stated, it should be possible to infer coefficient fields by using a two outp
 
 ![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_constantD_varyingPINN.pdf){#fig:summary_constantD}
 
-In figure @fig:summary_varyingD we show a similar analysis for data with a non-constant diffusion field. Equation @eq:toymodel has been numerically solved on a grid consisting of 50000 points and diffusion constant profile $D(x) = 0.2 + 0.1\tanh(x)$. Remarkably, the neural network is able to accurately infer the network with $85\%$ of the diffusion field having an error of less than $10\%$. In figure @fig:projectionD we show the inferred diffusion profiles in more detail by projecting them along the time axis. Observe that, yet again, the error is largest where the signal is lowest. Nonetheless, we've proven that a neural network is able to accurately infer a coefficient field from noisy data. 
+In figure @fig:summary_varyingD we show a similar analysis for data with a non-constant diffusion field. Equation @eq:toyproblem has been numerically solved on a grid consisting of 50000 points and diffusion constant profile $D(x) = 0.2 + 0.1\tanh(x)$. Remarkably, the neural network is able to accurately infer the network with $85\%$ of the diffusion field having an error of less than $10\%$. In figure @fig:projectionD we show the inferred diffusion profiles in more detail by projecting them along the time axis. Observe that, yet again, the error is largest where the signal is lowest. Nonetheless, we've proven that a neural network is able to accurately infer a coefficient field from noisy data. 
 
 
 ![We show the training data and predicted concentration profile in the upper left and right panels. The lower right panel shows the inferred diffusion field while the lower left panel shows the CDF of the relative error of the diffusion and concentration.](source/figures/pdf/summary_varyingD_varyingPINN.pdf){#fig:summary_varyingD}
@@ -183,9 +183,19 @@ In figure @fig:summary_varyingD we show a similar analysis for data with a non-c
 
 #### Real cell
 
-## Conclusion
+We now apply the PINN technique to the RUSH data. Having observed in the previous section that the technique struggles in domains with low signal, we select a subset of the data consisting of 10 by 10 pixels during the first 30 frames, thus giving a dataset of 3000 points. We first fit this data assuming that it is described by a single diffusion coefficient and advection speed. The physics informed part of the cost function is thus:
+$$
+g=0=-\partial_tc+D(\partial_{xx}c+\partial_{yy}c)-v_x\partial_xc-v_y\partial_yc
+$$
+We train the network on the raw data: none of the filtering procedures presented in the model fitting chapter are used. The neural network gives the following results: $D=-3\cdot10^{-6}, v_x=0.82, v_y=0.32$, whereas the least-squares fitting gives $D=0.049, v_x=-0.046,  v_y=0.013$. These results are completely different: the least squares predicts a diffusion constant and velocity roughly on the same order, whereas the neural network predicts a neglegibly small diffusion constant. The direction and size of the advection is different as well. To gain more insight into the fit, we study the concentration profiles of frame 5 as given by the original noisy signal, the output of the neural network, the filtered signal and the reconstructed signal of the least-squares fit. This is done by propagating the first frame using the calculated time derivative with the optimal fit parameters. The result is show in figure @fig:nnconstant.
 
-### Weak points and how to improve
+![Caption.](source/figures/pdf/NN_Man_constant.pdf){#fig:nnconstant}
 
+As can be observed from figure #fig:NNconstant, the inferred concentration profile by the neural network matches the raw data very well, while the least squares fit does not. Since we have take a 10 by 10 pixel patch of the data, this a fairly small scale and seeing such a good fit to the data might mean we're fitting to the noise. Later frames reveal an inferred concentration profile less like the raw data however, but, concludingly, although the neural network seems to outperform the least-squares method, no clear verdict can be rendered. 
 
+In the previous section we proved that PINNs are able to infer coefficient fields. We now try to infer the coefficient fields for our subset of data. In figure @fig:nnfull we show the result for a single frame. 
+
+![Caption.](source/figures/pdf/NN_Man_full.pdf){#fig:nnfull}
+
+In the six panels, we show respectively the raw data, the inferred concentration profile, the diffusion coefficient and advection and in the lower right corner the physics informed cost $g$ per frame. Observe that the diffusion and advection profiles are exactly equal. Inspection of the concentration profile derivates $c_t, c_x, c_{yy}...$ shows no aberrant behaviour, meaning that the neural network is functioning properly. These diffusion and advection profiles thus minimize the cost function but having similar coefficient constants at each point is incredible, also considering the diffusion coefficient obtained in the constant coefficient model is orders of magnitude smaller than the advection. Inspection of the physics informed part of cost function shows that is on the order of $10^{-3}$. Although one to two orders of magnitude higher than synthetic data, for real experimental data this does not seem suspiciously high. Does this then mean we're fitting to noise? Considering we're only using a 10 by 10 pixels spatial area and 30 frames, that is strong a possibility. However, this doesn't explain why the coefficient fields are exactly similar. Concludingly, the inferred coefficient fields are clearly incorrect, but we cannot pinpoint why, as the neural network seems to perform correctly.
 

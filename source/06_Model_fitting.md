@@ -32,14 +32,14 @@ $$
 f(x,t)=\sum_n^r \alpha_n(x)\phi_n(t)
 $$
 
-where $\alpha_n$ and $\phi_n$ are called respectively the spatial and temporal modes. Associated with each mode $n$ is an energy-like quantity $E_n$. Modes with a higher 'energy' $E_n$ contribute more to the signal $f$ than modes with a lower energy and we can thus approximate the signal by selecting the $k$ modes with the highest energy. A typical log10 energy spectrum has a 'knee' in the values, as shown in figure @fig:eigen. Modes with an energy below the knee are noise, and modes above signal. 
+where $\alpha_n$ and $\phi_n$ are called respectively the spatial and temporal modes. Associated with each mode $n$ is an energy-like quantity $E_n$. Modes with a higher 'energy' $E_n$ contribute more to the signal $f$ than modes with a lower energy and we can thus approximate the signal by selecting the $k$ modes with the highest energy. A typical log10 energy spectrum has a 'knee' in the values, as shown in figure @fig:eigen . Modes with an energy below the knee are noise, and modes above signal. 
 
-![](source/figures/pdf/eigenspectrum.pdf){#fig:eigen}
+![Caption.](source/figures/pdf/eigenspectrum.pdf){#fig:eigen}
 
 The wavelet transform is very similar to the Fourier transform, but uses wavelets as its basis. A fourier transform gives the frequency domain with infinite precision, but tells nothing about the locality of the frequencies (.i.e when each frequency is present in a signal).
 By using a wavelet (a wave whose amplitude is only non-zero for a finite time), we sacrifice precision in the frequency domain but gain information on the locality instead. Performing a wavelet transform transforms the signal into the sum of an approximation and its details and we can filter this analogous to a fourier filter. Due to its locality however, noise is filtered out, by sharpness is retained. 
 
-WavinPOD combines these two techniques by applying wavelet filtering to the POD modes. In detail, one first decomposes the problem with a POD transformation. The energy spectrum of this transformation is shown in figure @fig:eigen and we select a cutoff of 27. All retained modes are wavelet filtered and are then retransformed to give the denoised and smoothed signal. In figure @fig:filtered we show the results of the smoothing in the time and spatial domain. In the left panel we show the signal of a single pixel in time, while we plot a line of pixels in a single frame in the right panel. The red lines denote the original (unfiltered) signal, the blue line the effect of just applying a POD and the black one the result of the WavInPOD technique. Note that the effect of the wavelet filtering is to smooth the signal significantly and in comparing the original data to the filtered data that we've retained the sharpness of the features whilst obtaining a smooth signal.
+WavinPOD combines these two techniques by applying wavelet filtering to the POD modes. In detail, one first decomposes the problem with a POD transformation. The energy spectrum of this transformation is shown in figure  @fig:eigen and we select a cutoff of 27. All retained modes are wavelet filtered and are then retransformed to give the denoised and smoothed signal. In figure @fig:filtered we show the results of the smoothing in the time and spatial domain. In the left panel we show the signal of a single pixel in time, while we plot a line of pixels in a single frame in the right panel. The red lines denote the original (unfiltered) signal, the blue line the effect of just applying a POD and the black one the result of the WavInPOD technique. Note that the effect of the wavelet filtering is to smooth the signal significantly and in comparing the original data to the filtered data that we've retained the sharpness of the features whilst obtaining a smooth signal.
 
 ![Effect of POD with a cutoff of 27 and wavelet filtering with a  level 3 db4 wavelet. Left panel shows the result in the time domain, right panel in the spatial domain. Lines have been offset for clarity.](source/figures/pdf/filtered.pdf){#fig:filtered}
 
@@ -54,22 +54,22 @@ $$
 \frac{df}{dx}\approx\frac{f(x_{i+1})-f(x_{i-1})}{2h}
 $$
 
-where $h$ is defined as $x_{i+1}-x_{i}$. In terms of a kernel operator, we rewrite this as:
-
-$$\frac{1}{2}\cdot
+where $h$ is defined as $x_{i+1}-x_{i}$. In terms of a kernel operator, we rewrite this as 
+$$
+\frac{1}{2}\cdot
 \begin{bmatrix}
 1 & 0 & -1
 \end{bmatrix}
 $$
-where we have set $h=1$, as the distance between pixels is one by definition. By convolving this matrix with the matrix $A$ we obtain the derivative of $A$:
+ By convolving this matrix with the matrix $A$ we obtain the derivative of $A$:
 $$
 \partial_xA\approx A*\frac{1}{2}\begin{bmatrix}
 1 & 0 & -1
 \end{bmatrix}
 $$
-![**Left panel:** One dimensional finite difference kernel. **Right panel:** Three by three Sobel filter](source/figures/pdf/derivative.pdf){#fig:sobel}
+![**Left panel:** One dimensional finite difference kernel. **Right panel:** Three by three Sobel filter](source/figures/pdf/derivative.pdf){#fig:Sobel}
 
-As stated, this operation is inaccurate and introduces artifacts. To improve this, we wish to include the pixels on the diagonal of the pixel we're performing the operation on as well (see figure @fig:sobel). The distance between the diagonal pixels and the center pixel is not 1 but $\sqrt{2}$ and the diagonal gradient also needs to be decomposed into $\hat{x}$ and $\hat{y}$, introducing another factor $\sqrt{2}$. The kernel thus obtained is the classic $3\times3$ Sobel filter:
+As stated, this operation is inaccurate and introduces artifacts. To improve this, we wish to include the pixels on the diagonal of the pixel we're performing the operation on as well (see figure @fig:Sobel ). The distance between the diagonal pixels and the center pixel is not 1 but $\sqrt{2}$ and the diagonal gradient also needs to be decomposed into $\hat{x}$ and $\hat{y}$, introducing another factor $\sqrt{2}$. The kernel thus obtained is the classic $3\times3$ Sobel filter:where we have set $h=1​$, as the distance between pixels is one by definition.
 $$
 \mathbf G_x=\frac{1}{8}\cdot
 \begin{bmatrix}
@@ -79,15 +79,16 @@ $$
 \end{bmatrix}
 $$
 
+
 Increasing the size of the Sobel filter increases its accuracy and we've implemented a 5x5 operator. Implementing the derivative operation as a kernel method is also beneficial from a computational standpoint, as convolutional operations are very efficient. The Sobel filter is usually applied to an image and hence is often said to calculate the image-gradient, but due to its separability is possibe to scale this method to an arbitrary number of dimensions.  
 
 ## Step 3 - Segmentation
 
-In the case of the RUSH data, obtained images and movies often contain multiple cells. Each of these cells can be further segmented into two more areas of interest: the cytoplasm, which is were we want to fit our model and the Golgi apparatus. We wish to make a mask which allows us to separate the cells from the backgroud and themselves and divide each cell into cytoplasm or Golgi. Figure @fig:threeframes shows four typical frames in the MANII transport cycle. Note that no sharp edges can be observed, especially once the MANII localizes in the Golgi. No bright field images were available as well, together making use of techniques such as described in @rizk_segmentation_2014 unavailable. We have thus developed two methods which allow us to segment the image and the cells, based on Voronoi diagrams and the intensity. 
+In the case of the RUSH data, obtained images and movies often contain multiple cells. Each of these cells can be further segmented into two more areas of interest: the cytoplasm, which is were we want to fit our model and the Golgi apparatus. We wish to make a mask which allows us to separate the cells from the backgroud and themselves and divide each cell into cytoplasm or Golgi. Figure @fig:manII shows four typical frames in the MANII transport cycle. Note that no sharp edges can be observed, especially once the MANII localizes in the Golgi. No bright field images were available as well, together making use of techniques such as described in @rizk_segmentation_2014 unavailable. We have thus developed two methods which allow us to segment the image and the cells, based on Voronoi diagrams and the intensity. 
 
 ### Voronoi diagram
 
-Consider again the frame on the left of figure @fig:threeframes. Note that in early frames such as this one, the cargo (i.e. fluorescence) is spread circumnuclear. Applying a simple intensity based segmentation gives us a number of separate areas, which *very* roughly correspond to a cell. We can then pinpoint each cells' respective center. Given $n$ points, Voronoi tesselation divides the frame into $n$ areas, where point $i$ is the closest point for each position in area $A_i$. The hidden assumption here is thus that each pixel belongs to the cell center it's closest too. Although this is a very big assumption, in practice we've found this to be reasonable. Furthermore, one can add 'empty' points to make the diagram match observations. Assuming small movements of the cell, this isn't an issue either for this technique, as we are assigning an area to each cell instead of very precisely bounding it. This also allows us to calculate the Voronoi diagram in the early frames and apply the segmentation to the entire movie. The result of this segmentation for MANII is shown in figure @fig:voronoi. Each cell centre is denoted by a dot, while the lines denote the border between each voronoi cell. 
+Consider again the frame on the left of figure @fig:manII Note that in early frames such as this one, the cargo (i.e. fluorescence) is spread circumnuclear. Applying a simple intensity based segmentation gives us a number of separate areas, which *very* roughly correspond to a cell. We can then pinpoint each cells' respective center. Given $n$ points, Voronoi tesselation divides the frame into $n$ areas, where point $i$ is the closest point for each position in area $A_i$. The hidden assumption here is thus that each pixel belongs to the cell center it's closest too. Although this is a very big assumption, in practice we've found this to be reasonable. Furthermore, one can add 'empty' points to make the diagram match observations. Assuming small movements of the cell, this isn't an issue either for this technique, as we are assigning an area to each cell instead of very precisely bounding it. This also allows us to calculate the Voronoi diagram in the early frames and apply the segmentation to the entire movie. The result of this segmentation for MANII is shown in figure @fig:voronoi. Each cell centre is denoted by a dot, while the lines denote the border between each voronoi cell. 
 
 ![The obtained mask. Red dots are cell centers, dashed lines infinite edges and solid lines finite edges.](source/figures/pdf/Voronoi.pdf){#fig:voronoi}
 

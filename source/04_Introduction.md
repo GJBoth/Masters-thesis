@@ -4,12 +4,6 @@ The cell uses thousands of proteins and lipids to function and many of these are
 
 ## The secretory pathway: biology 101 for physicists
 
-$$
-f(x) = a
-$$
-
-
-
 Proteins produced in the ER exit the organelle at specific locations referred to as ER Exit Sites - ERES. At these sites, cargo is packaged into a lipid bilayer and this package, known as a vesicle, buds off into the cytoplasm [@budnik_er_2009]. ERES are located throughout the cell and thus the vesicles need to be transported to their destination: the Golgi apparatus. In general, we can recognize two different trafficking modes: diffusive and directive [@bressloff_stochastic_2013]. In the directive mode, molecular motors pull vesicles along microtubules by hydrolysing ATP. Microtubules (MTs) are long tubular polymers spread throughout the cell and form a network which acts as the backbone for intracellular transport. They are organised around objects known as MicroTubular Organisation Centers (MTOCs). The primary MTOC is the centrosome, an organelle located next to the nucleus, but strong evidence exists that the Golgi apparatus acts a MTOC too [@wei_unraveling_2010],[@ronchi_positive_2014]. 
 
 Microtubules are polarized and have two distinct ends, indicated as the (+) and (-). Different molecular motors are utilized for transport towards each end, with dynein being (-)-directed and kinesin (+)-directed [@newby_quasi-steady_2010]. Vesicles are often attached to multiple motors of both types, binding and unbinding constantly, making this active transport a stochastic process which can, for example, be described by a tug-of-war model[@newby_random_2010]. Furthermore, cargo can also completely detach from all molecular motors. The vesicle will then move through the cytoplasm in a diffusive way, until it reattaches to a microtubule. Note that diffusive mode is a deceptively simple name, as the cytoplasm is not a simple fluid; it is packed with other cellular components, giving rise to effects such as anomolous diffusion or crowding. 
@@ -34,7 +28,25 @@ We reprint their main result in figure [@fig:ratemodel].  Although this model de
 
 In this thesis we propose a model which couples intracellular transport to the Golgi. We hypothesize that we can describe the Golgi as an *active, phase separated droplet* and the intracellular transport with an advection-diffusion equation. We will confront our model with experimental data. The group of Frank Perez at Institut Curie has developed a new technique called RUSH[@boncompain_synchronization_2012], which allows us to study the intracellular transport from the ER to the Golgi and beyond using fluorescence microscopy. In the next sections, we justify the description of the Golgi as an active phase-separated droplet and how we intend to perform the data analysis of the experimental data.
 
-### Golgi as an active phase-separated droplet
+### Experimental data
+
+The transport of vesicles from the ERES to the Golgi is both diffusive and directive and a technique known as RUSH (Retention Using Selective Hooks) has recently been developed [@boncompain_synchronization_2012] in the team of Frank Perez at Institut Curie to study this trafficking. RUSH allows precise timing of the release of proteins from the ER and can be used to follow the secretory pathway from the ER to the Golgi and even post-golgi using fluorescent live-cell imaging. Several other methods have been developed (@presley_er--golgi_1997, @mccaughey_er--golgi_2018), but lack the non-toxicity, timing and versatility of the RUSH technique. 
+
+![Schematic overview of the RUSH system. Image taken from @boncompain_synchronization_2012](source/figures/png/RUSH.png){#fig:RUSH}
+
+Figure @fig:RUSH shows the principle of the RUSH system. Inside the ER, a core streptavidin is fused to it using a hook protein. Another protein known as a streptavidin-binding-protein (SBP) binds to streptavidin, but connected to the SBP are also the protein to be transported ('reporter') and a fluorescent protein. Upon the addition of biotin, the SBP is released from the streptavidin as the biotin binds to it. The SBP-reporter-fluorescent complex then exits the ER and can be followed the entire secretory pathway with fluorescence microscopy. 
+
+The RUSH technique can be used for many different proteins, but in this thesis we mainly focus on the $\alpha$-mannosidase-II, generally referred to as ManII. The ManII protein resides in the Golgi apparatus and thus upon reaching it will remain there. This means that the data we obtain will only contain transport *towards* the golgi, greatly simplifying the analysis as we won't have to post and pre-golgi traffic. Figure @fig:manII shows two frames in a typical RUSH experiment of ManII trafficking. The left panel shows an image obtained just after the addition of the biotion, so that most of the cargo is still retained in the ER. A later frame is shown on the right: we can observe the localization of fluorescence in the Golgi, while there's still fluorescence in the rest of the cells. 
+
+![Two frames of the ManII transport images using the RUSH technique.](source/figures/pdf/frames.pdf){#fig:manII}
+
+### Model 
+
+Vesicles exiting the ERES are transported towards the ER over the microtubules. This is a stochastic process with the proteins detaching from and (re-) attaching to the microtubules randomly, while the vesicles move diffusely once detached. Several models have been developed to describe such intracellular transport processes (@bressloff_stochastic_2013, @holcman_modeling_2007), many in the light of virus trafficking (@lagache_effective_2008, @dinh_model_2005, @brandenburg_virus_2007). In general, these models assume a two population model, with one population being cargo attached to a microtubule and another cargo freely diffusing in the cytoplasm. If one assumes that the timescale for attaching and detaching from the microtubules is much smaller than the transport timescale, the two populations can be assumed to be in equilibrium. In this assumption, known as a quasi-steady-state reduction, the two population model reduces to a Fokker-Planck equation. As the Fokker-Planck equation is functionally equivalent to an advection-diffusion equation, we hypothesize that we can model protein transport using an advection-diffusion equation:
+$$
+\partial_t c = D\nabla^2c-v\nabla c
+$$
+where $c$ is the concentration of the cargo, $D$ a diffusion coefficient and $v$ an advection velocity. Equation @eq:adeq is thus the model we fit our data to. Note that the fluorescence images obtained from the RUSH experiment return an intensity $I$ and not a concentration $c$, and hence we make the assumption $c \propto I$. We now now turn to the model describing the Golgi.
 
 Many biological processes and reactions require a high concentration of some protein or lipid to occur. This can be achieved by physically separating proteins inside a membrane (consider the lysosome), but the cell contains several membraneless organelles. These organelles thus require a different means of reaching high concentrations and the prime candidate is liquid-liquid phase separation. In this process a mixture of two different liquids A and B separates into two phases, one rich in A and one rich in B, due to the interactions between them. Phase separation can thus produce membraneless domains with a high concentration. It has been proposed as a model for early protocells [@zwicker_growth_2017] and is able to correctly describe several phenomena such as P-granules[@hyman_liquid-liquid_2014] and centrosome growth[@zwicker_centrosomes_2014]. 
 
