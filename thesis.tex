@@ -3,6 +3,7 @@
 
 \usepackage{layouts}
 
+
 % Overwrite \begin{figure}[htbp] with \begin{figure}[H]
 \usepackage{float}
 \let\origfigure\figure
@@ -121,7 +122,7 @@
         % \includegraphics[width=0.4\textwidth]{style/univ_logo.eps}
         
         \normalsize
-        Technical university of Eindhoven\\
+        Eindhoven Technical University\\
         January-November 2018
     
         % Except where otherwise noted, content in this thesis is licensed under a Creative Commons Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. Copyright 2015,Tom Pollard.
@@ -142,15 +143,14 @@ trafficking and I have also devised two new methods relying on image
 gradients and neural networks to analyze this data and confront it with
 our model.
 
-\pagenumbering{roman}
-\setcounter{page}{1}
 \newpage
-\pagenumbering{gobble}
+
 
 \tableofcontents
 
 \newpage
 
+\setcounter{page}{1}
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
@@ -290,12 +290,12 @@ dependence of the concentration.
 
 \hypertarget{this-thesis}{%
 \section{This thesis}\label{this-thesis}}
-Interestingly, studies have shown that the Golgi is able to form \emph{de novo}\textsuperscript{8}, meaning
-that in cells from which the Golgi has been removed, it will automatically reappear. In this thesis we propose a model which couples the intracellular transport
-to the Golgi in order to explain this by describing the Golgi as an \emph{active, phase separated droplet} and the intracellular transport by an advection-diffusion process. Our model is not restricted to the formation-phase of the Golgi: as we have linked the intracellular transport to the Golgi, it also predicts a spatial distribution of the cargoes being trafficked by intracellular transport when the Golgi is functioning properly. 
-This allows us to confront our model with experimental data gathered by the team of Frank Perez at Institut Curie. This team has developed a new technique called RUSH\textsuperscript{16}, which is used to study the intracellular transport from the ER to the Golgi and
+
+The Golgi is thus intimately connected to the intracellular transport. In this thesis we seek to construct a model which links the two beyond a mere rate model and propose that the intracellular transport can be modelled as an advection-diffusion equation. The Golgi is described as an active, phase separated droplet which matures the cargo transported to it by the intracellular transport. Such a model predicts the spatial organisation of cargoes being trafficked as well as the formation of the Golgi; studies have shown that the Golgi is able to form \emph{de novo}\textsuperscript{8}, meaning that in cells from which the Golgi has been removed, it will automatically reappear.  
+
+	We also confront our model with experimental data gathered by the team of Frank Perez at Institut Curie. This team has developed a new technique called RUSH\textsuperscript{16}, which is used to study the intracellular transport from the ER to the Golgi and
 beyond using fluorescence microscopy. In the next sections we introduce the experimental data, how we intend to analyse it and justify
-the description of the Golgi as a phase separated droplet.
+the description of intracellular transport and the Golgi as a phase separated droplet.
 
 \hypertarget{experimental-data}{%
 \subsection{Experimental data}\label{experimental-data}}
@@ -335,7 +335,7 @@ experiment of ManII trafficking.  Initially, all the cargo is retained in the ER
 \begin{figure}
 \hypertarget{fig:manII}{%
 \centering
-\includegraphics{source/figures/png/frames.png}
+\includegraphics[width=0.9\textwidth]{source/figures/png/frames.png}
 \caption{Two frames of the ManII transport images using the RUSH
 technique.}\label{fig:manII}
 }
@@ -425,6 +425,8 @@ techniques thus require a nearly constant concentration, but the RUSH
 experiments show highly dynamical concentrations. Thus, none of the techniques we found
 are directly applicable to the RUSH data.
 
+\newpage
+
 As stated, we hypothesise that we can describe the intracellular process
 by an advection-diffusion equation and we wish to confront this with the
 RUSH data. The question we are thus asking is a rather general one: how
@@ -445,10 +447,9 @@ parameters (i.e. $\alpha(x,t)=\alpha_0$), but even an optimal parameter \emph{fi
 \hypertarget{structure-and-main-questions}{%
 \subsection{Structure and main
 questions}\label{structure-and-main-questions}}
+The central theme of this thesis is thus the relation of the intracellular transport and the Golgi apparatus. We approach this problem from two sides: on the one hand, we analyse experimental data to study if intracellular transport can indeed be described by an advection-diffusion equation. On the other hand we theoretically investigate how an active droplet can form and behaves in a concentration profile set up by an advection diffusion equation.
 
-The rest of this thesis is divided into two parts. In the first part we
-show the two model fitting methods we have developed and apply them to
-the RUSH experimental data. In the second part we connect the model we have for the intracellular transport to that of the Golgi and theoretically investigate it. In a chapter-by-chapter breakdown, we have the
+This thesis hence consists of two parts. In the first part of this thesis we show two model fitting methods we have developed and apply them to the RUSH experimental data. In the second part we construct a model for the Golgi as an active, phase separated droplet in a diffusive-advective environment and theoretically investigate if this model can explain Golgi formation and maintenance. In a chapter-by-chapter breakdown, we have the
 following:
 
 \begin{itemize}
@@ -569,7 +570,7 @@ and temporal modes and $E_n$ indicates the relative strength of each mode. Howev
 
 Note that although a knee is visible, exactly where to place the mode cutoff is not clear. Techniques to consistently determine the cutoff exist\textsuperscript{38, 39}, but yielded unsatisfactory performance when applied to the shown spectrum. We thus determined the cutoff by hand by checking the if the data after applying the POD still showed the same trend and features.
 
- Consider an oscillation consisting of two frequencies $f_1$ and $f_2$. Initially, the signal is solely composed of $f_1$, but after some time the frequency is switched to $f_2$. Fourier transforming such a signal would yield two delta peaks at $f_1$ and $f_2$: it returns with infinite precision which frequencies are present in the signal, but not when. In a wavelet transform, this infinite precision in the frequency domain is traded for information in the time domain by the uncertainty theorem: a wavelet transform won't give back the frequencies $f_1$ and $f_2$ with infinite precision, but it will state when they are present. 
+ Consider an oscillation consisting of two frequencies $f_1$ and $f_2$. Initially, the signal is solely composed of $f_1$, but after some time the frequency is switched to $f_2$. Fourier transforming such a signal would yield two delta peaks at $f_1$ and $f_2$: it returns with infinite precision which frequencies are present in the signal, but not when. In a wavelet transform, this infinite precision in the frequency domain is traded for information in the time domain by the uncertainty theorem: a wavelet transform will not give back the frequencies $f_1$ and $f_2$ with infinite precision, but it will state when they are present. 
  
  In practice, wavelet transforming returns the signal as an approximation plus a set of details for each datapoint. We can then filter the signal by applying by some sort of cutoff to the details. Note that cutting off the details will only change the signal locally; we thus do not lose any sharpness anywhere else in the data as one would with Fourier filtering.
 WavinPOD combines these two techniques by applying wavelet filtering to
@@ -582,7 +583,7 @@ of pixels in a single frame in the right panel. The red lines denote the
 original (unfiltered) signal, the blue line the effect of just applying
 POD filtering and the black one the result of the WavInPOD technique. Note that the effect of the wavelet filtering is to smooth the signal
 significantly and in comparing the original data to the filtered data
-that we've retained the sharpness of the features whilst obtaining a significantly smoother signal.
+that we have retained the sharpness of the features whilst obtaining a significantly smoother signal.
 
 \begin{figure}
 \hypertarget{fig:filtered}{%
@@ -640,7 +641,7 @@ which, when applied \emph{element wise} to the three pixels, returns the middle 
 
 As stated, this operation is inaccurate and introduces artefacts. To
 improve this, we wish to include the pixels on the diagonal of the pixel
-we're performing the operation on as well (see figure
+we are performing the operation on as well (see figure
 \ref{fig:Sobel}). The distance between the diagonal pixels and the
 center pixel is not 1 but \(\sqrt{2}\) and the diagonal gradient also
 needs to be decomposed into \(\hat{x}\) and \(\hat{y}\), introducing
@@ -660,7 +661,7 @@ another factor \(\sqrt{2}\). We thus obtain the classic
 \end{bmatrix}
 \]
 
-Increasing the size of the Sobel filter increases its accuracy and we've
+Increasing the size of the Sobel filter increases its accuracy and we have
 implemented a 5x5 operator. The matrix implementation is also beneficial from a computational standpoint, as convolutional operations are very efficient and one can derive a Sobel operator for arbitrary dimensions. Separate methods to calculate second order derivatives exist, we simply apply the Sobel operator twice. We also make use the derivatives to segment the movie. We show this in the next section. 
 
 
@@ -739,9 +740,8 @@ The first regime is more troublesome, as this strong decrease is not explained b
 
 \begin{figure}
 	\centering
-	\label{fig:fluorescence}
 	\includegraphics{source/figures/pdf/general_fluorescence.pdf}
-	\caption{\textbf{Left panel:} Normalised total fluorescence per frame. \textbf{Normalised fluorescence in each of the three cells' Golgi. }}
+	\caption{\textbf{Left panel:} Normalised total fluorescence per frame. \textbf{Right panel:}Normalised fluorescence in each of the three cells' Golgi.\label{fig:fluorescence}}
 \end{figure}
 
 In the right panel we observe that all three curves show a roughly linear increase in fluorescence. The blue line seems to have some sort of delay, but also increases linearly after this delay. The cell indicated by the purple line shows a significant drop at frame 200, but
@@ -755,7 +755,7 @@ properties are not concentration dependent at these concentrations. We now study
 \centering
 \includegraphics{source/figures/pdf/time_deriv.pdf}
 \caption{The determined time derivative four different frames of the
-ManII RUSH experiments.}\label{fig:timederiv}
+ManII RUSH experiments.\label{fig:timederiv}}
 }
 \end{figure}
 
@@ -804,7 +804,7 @@ magnitude and angle.}\label{fig:advection}
 \end{figure}
 
 Similar to the diffusion, we observe patterns both in time and space
-bigger than our fitting window, meaning that the fit isn't completely
+bigger than our fitting window, meaning that the fit is not completely
 random. On the other hand, we are not able to discern any specific flow patterns from the figures in \ref{fig:advection}. For example, we would expect a rainbow-like pattern pointing towards the Golgi
  in the lower right corner, but no such pattern is observed.
  
@@ -818,7 +818,7 @@ our fit, we analyse a single pixel in time. Figure
 \centering
 \includegraphics{source/figures/pdf/general_fit.pdf}
 \caption{Diffusion and advection velocities of a single pixel in time.
-We've plotted the scaled and translated signal as a black dashed line to
+We have plotted the scaled and translated signal as a black dashed line to
 show the correlation.}\label{fig:timepixel}
 }
 \end{figure}
@@ -839,13 +839,13 @@ images are projected over an axis, changes in fluorescence we observe
 can be both due to intracellular transport as well as processes inside
 the ER. If these processes have different timescales, this can strongly
 affect the inferred coefficients. 
-Also note that we've assumed that the intensity of a pixel describes a coarse-grained concentration which we can describe by an advection-diffusion equation. Once the size of the vesicles becomes on the order of the pixel size, this assumption breaks down. In the case of the ManII trafficking, the pixels are roughly two to three times the size of a vesicle, meaning that we are at the limits of our assumption. 
+Also note that we have assumed that the intensity of a pixel describes a coarse-grained concentration which we can describe by an advection-diffusion equation. Once the size of the vesicles becomes on the order of the pixel size, this assumption breaks down. In the case of the ManII trafficking, the pixels are roughly two to three times the size of a vesicle, meaning that we are at the limits of our assumption. 
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-We've applied the method developed in the previous chapter to the RUSH
-trafficking data of the ManII protein. Both the diffusion and the advection fields show patterns larger than the fitting window, but no clear structure can be discovered. Furthermore, roughly 40\% of the diffusion coefficients were negative, but we also can attribute many of these negative values to either extremely close to zero or a wrong fit due to constant data. Concludingly, we're unable to determine if intracellular transport can be described by an advection-diffusion equation. We present our recommendations to the experimentalists and possible improvements of the fitting method in the conclusion. 
+We have applied the method developed in the previous chapter to the RUSH
+trafficking data of the ManII protein. Both the diffusion and the advection fields show patterns larger than the fitting window, but no clear structure can be discovered. Furthermore, roughly 40\% of the diffusion coefficients were negative, but we also can attribute many of these negative values to either extremely close to zero or a wrong fit due to constant data. Concludingly, we are unable to determine if intracellular transport can be described by an advection-diffusion equation. We present our recommendations to the experimentalists and possible improvements of the fitting method in the conclusion. 
 
 \hypertarget{physics-informed-neural-networks}{%
 \chapter{Physics Informed Neural
@@ -1144,7 +1144,7 @@ directly into the neural network. Since neural networks also return high precisi
 the coefficients as variables of the cost function, i.e.
 \(\mathcal{L}(w^l,b^l, \lambda)\) and thus by training the network on
 the dataset \(u(x,t)\), we automatically infer the coefficients.
-Consequently, we don't need a vast set of training data, as we solve the
+Consequently, we do not need a vast set of training data, as we solve the
 problem \emph{by} training the network.
 
 Theoretically, PINNs should not only be able to infer constant
@@ -1157,7 +1157,7 @@ By removing the mean squared error term from the cost function but
 adding initial values and boundary conditions, training the network will
 now result in the network learning the solution to the PDE \(g\), whilst
 respecting the given boundary and initial conditions. This alternative
-means of numerically solving a model doesn't need advanced meshing of
+means of numerically solving a model does not need advanced meshing of
 the problem domain required in computational fluid dynamics or carefully
 constructed (yet often unstable) discretization schemes, as it requires
 the physics to be fullfilled at every point in the spatiotemporal
@@ -1230,7 +1230,7 @@ i.e.~signal.}\label{fig:constantD}
 
 The inferred diffusion coefficient is \(D_{pred} = 0.100026\): an error
 of \(0.026\%\). From the absolute error we observe that the error seems
-to localize in areas with low concentration. This is a feature we've
+to localize in areas with low concentration. This is a feature we have
 consistently observed: in areas with low `signal', the neural network
 struggles. Considering that in these areas there is simply not much data
 to learn from, this is not unexpected.
@@ -1307,7 +1307,7 @@ accurately infer the network with \(85\%\) of the diffusion field having
 an error of less than \(10\%\). In figure \ref{fig:projectionD} we
 show the inferred diffusion profiles in more detail by projecting them
 along the time axis. Observe that, yet again, the error is largest where
-the signal is lowest. Nonetheless, we've proven that a neural network is
+the signal is lowest. Nonetheless, we have proven that a neural network is
 able to accurately infer a coefficient field from noisy data.
 
 \begin{figure}
@@ -1398,19 +1398,15 @@ values at each point is unlikely. Recall also that the diffusion
 coefficient obtained in the constant coefficient model above is orders of
 magnitude smaller than the advection. Inspection of the physics informed
 part of cost function shows that is on the order of \(10^{-3}\).
-Although one to two orders of magnitude higher a cost for synthetic data, for
+Although one to two orders of magnitude higher than a typical cost for synthetic data, for
 real experimental data this does not seem suspiciously high. Concludingly, our results are clearly incorrect, but the neural network seems to
-perform properly. 
+perform properly and we thus cannot speculate on the causes of these results.
 
 \hypertarget{Golgi-as-a-phase-separated-droplet}{%
 \chapter{Golgi as a phase separated
 droplet}\label{Golgi-as-a-phase-separated-droplet}}
 
-In this second part of the thesis we develop a model linking the Golgi
-function and size to the properties of the intracellular transport. We
-start with a general section on phase separation, followed by a section
-where we introduce an approximation known as the
-effective-droplet approximation. This approximation makes the phase separation analytically tractable. We then introduce our model and its biological justification; the results of our model will be presented in the next section.
+In the first part of thesis we investigated if intracellular transport could be described by an advection-diffusion equation by analysing experimental data of the RUSH experiments. Unfortunately, the data resisted all our methods and no conclusion could be drawn. In this second part of the thesis we turn the question on its head and theoretically investigate if the Golgi can be described as an active, phase separated droplet in a diffusive-advective flow. In this chapter we present a general introduction to phase separation, followed by a section where we discuss an approximation known as the effective-droplet approximation. This approximation makes the phase separation analytically tractable. We then introduce our model and biologically justify it. We study the models' behaviour in the next chapter.
 
 \hypertarget{phase-separation}{%
 \section{Phase separation}\label{phase-separation}}
@@ -1617,19 +1613,21 @@ and we see that an active droplet moves up the gradient. Equations \ref{eq:dx0dt
 In the introduction we justified using a phase-separation approach to
 describe the Golgi. In this section we develop our model for the Golgi
 from biological considerations, but having established the mathematical
-background of phase separation, we parallelly present the mathematical
-description. We also show how we couple the model for the intracellular transport to the Golgi.
+background of phase separation, we present the mathematical
+description in parallel. Due to the addition of advection to our system, our model is unsolvable in any dimension higher than 1D. Not only do we ignore the Laplace pressure, the replacement of a single continuous interface of the droplet in 2D or higher by two separate interfaces in 1D precludes any shape deformations, which could play a big role. 
 
 Our model comprises four different populations: Immature
 cargo, mature cargo, the Golgi itself and the cytoplasm, which acts as the solvent. A typical 'cycle' would consist of immature cargo entering the system, being transported towards the Golgi where it is turned into the material comprising the Golgi before being matured after which it is transported out of the system. The solvent plays no explicit role in this and we thus model it implicitly by describing the cargo in terms of concentration. We also ignore the mature cargo for now and simply assume the immature cargo decays inside the droplet. As stated, we model the Golgi as a phase separated droplet, so that we can describe the system in terms of a single concentration $c$, with the dilute phase corresponding to immature cargo and the dilute phase representing the Golgi.
 
-Using the effective droplet concentration, we have essentially 'decoupled' the dense and dilute phase. We exploit this to couple our model for the intracellular transport to the Golgi. The dilute phase corresponds to the immature cargo being trafficked towards the Golgi and we thus use an advection-diffusion equation to model the concentration profile of this phase. As some evidence exists of vesicles degrading\textsuperscript{8}, we add an additional decay term to the intracellular transport model, so that we obtain:
+Using the effective droplet concentration, we have essentially 'decoupled' the dense and dilute phase. We exploit this to couple our model for the intracellular transport to the Golgi. The dilute phase corresponds to immature cargo being trafficked towards the Golgi and hence is similar to the concentration profile set up by the intracellular transport. We thus use an advection-diffusion equation to model the concentration profile of this phase. As some evidence exists of vesicles degrading\textsuperscript{8}, we add an additional decay term to the intracellular transport model, so that we obtain:
 
 \begin{equation}
 D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
 \label{eq:cinside}\end{equation}
 
-with \(v\) an advection velocity and \(a\) some decay constant. We now turn our attention to the dense phase. Upon adding the drug nocadazole to mammalian cells, microtubules are depolymerised and the Golgi ribbon breaks up into separate stacks\textsuperscript{50}. These stacks are fully functional\textsuperscript{7} but move away from their perinuclear
+with \(v\) an advection velocity and \(a\) some decay constant. Note that equation \ref{eq:cinside} is exactly the model we have used to fit the experimental data, but we have now added an additional degradation term.
+
+We now turn our attention to the dense phase. Upon adding the drug nocadazole to mammalian cells, microtubules are depolymerised and the Golgi ribbon breaks up into separate stacks\textsuperscript{50}. These stacks are fully functional\textsuperscript{7} but move away from their perinuclear
 location to colocate with an ERES. Identifying the dense phase with a single Golgi stack instead of the entire Golgi ribbon allows us to use a one-dimensional approach where a droplet can move from one side of the system representing the Golgi ribbon, to the other side representing the ERES. 
 As each stack is fully functional, we make no simplifications with respect to the function of the Golgi. Since we are not interested in how the Golgi matures the cargo (see the cisternal maturation versus vesicular transport models), we model it as decay term with maturation rate $k$, leading to the following equation for the dense phase:
 
@@ -1978,7 +1976,7 @@ In areas which are blue in both plots no droplet exists in the system.
 We identify two causes, each connected to a corresponding `cutoff line'
 in the stable position plot. First, by adding decay, we have added
 another `exit' for the contents of the system. Thus, for low \(J_{in}\)
-and \(v\) a droplet won't exist. This explains the lower left cutoff and
+and \(v\) a droplet will not exist. This explains the lower left cutoff and
 is supported by the fact that this edge corresponds to the line \(R=0\).
 The other edge has \(x_0=0\), meaning that the droplet moved past the
 edge of the system. In the radius plot we also observe a third cutoff in
@@ -2216,7 +2214,10 @@ solving the equations.
 \hypertarget{fig:phasediagramnumerical}{%
 \centering
 \includegraphics[width=0.8\textwidth]{source/figures/pdf/Numericalphase.pdf}
-\caption{Phase diagram }
+\caption{Numerically determined phase diagram of the droplets in the system. The red solid and dashed lines represent the minimum influx required for
+respectively a droplet on the left and right. The black dashed line
+corresponds to \(dR_1/dt=0\) in the two droplet model, while the
+dotted-dashed line is \(dR_2/dt=0\).}
 \label{fig:phasediagramnumerical}
 }
 \end{figure}
@@ -2232,108 +2233,44 @@ point. To see why this happens, consider the crossing of the two minimum influxe
 both sides. By changing \(J_{in}\) or \(v\) any of the configurations can be
 reached from this point and hence all the lines cross at a single point.
 
-We now have several areas where multiple configurations are stable.
-Which one exactly depends on where the initial droplet is formed. Thus,
-the phase diagram depends on the initial dynamics. We have neglected the
-effect of the term penalizing the gradient and it could be that adding
-this term would yield a phase diagram with only a single stable state.
-This would require simulations however so for now the mystery remains.
-
 \hypertarget{biological-implications}{%
 \section{Biological implications}\label{biological-implications}}
 
-We now link the behaviour of our model to biological observations. First
+We now compare the behaviour of our model to biological observations. First
 off, our model predicts that the only stable position for the droplet is
 at the edges of the system. Biologically, stacks are either located at
 the ribbon or at the ERES, thus matching our model. Furthermore, this
-position is dependent on the microtubules: when the microtubules are
-depolymerized, the ribbon breaks up and the stacks colocalize with the
-ERES. Our free droplet model predicts a similar movement, with the
-switching happening at a finite advection velocity. Also note that our
-droplet size is dependent on the amount of trafficking through
-\(J_{in}\). Observation have been made that the Golgi size is dependent
-on the amount of trafficking too.
+position is dependent on the state of the microtubules: when the microtubules are depolymerised, the ribbon breaks up and the stacks co-localise with the
+ERES. Our free droplet models predicts similar behaviour, with the
+switching happening at a finite advection velocity. The model in which the droplets are stuck to the edges of the system also shows such an advection-dependent transition, but also shows the possibility of having droplets at both the ERES and the Ribbon; something which is not observed in real cells. Another small but not unimportant detail is that the 
+droplet size in our model is dependent on the amount of trafficking. Similar observations have been made for the Golgi\textsuperscript{50}.
 
-Active droplets propel themselves by imbalanced fluxes; it grows on one
-side while decaying on the other. In the cisternal maturation model, the
-Golgi grows on one side by vesicles forming a cis compartment, whereas
-the opposite happens on the trans side. Cisternal maturation could thus
-be the process by which the stack moves from its position in the ribbon
-to the ERES.
+We now make a speculative connection to the internal maturation of the Golgi.  We have shown that an active droplet is able to move itself up a concentration gradient. This movement is generated by imbalanced fluxes: the droplet grows on one side, but shrinks on the other, akin to tread-milling. In the cisternal maturation model, the Golgi grows on one side by vesicles forming a cis compartment, whereas the opposite happens on the trans side. This similar to how an active droplet moves and cisternal maturation could thus be the process by which the stack moves from its position in the ribbon to the ERES.
 
-All taken together, the model we've presented is able to explain the
-position of the Golgi stack, why it is formed around the ERES and why it
-moves close to the eres once the microtubules are depolymerized.
+
 
 \hypertarget{conclusion-1}{%
 \chapter{Conclusion}\label{conclusion-1}}
 
-In this thesis we have attempted to construct a model which couples the
-Golgi function and size to the intracellular transport and describe its
-biogenesis. We also wished to confront our model with data from the RUSH
-experiments. This was covered in the first part. Specifically, we have
-attempted to quantify the intracellular transport of the ManII protein
-from the ER to the Golgi. We have implemented two techniques. One was
-based on image gradients to determine the derivatives, which could then
-be used to perform a fit of the model. Applying this technique to the
-RUSH data yielded fits which showed some structure, but no clear pattern
-could be distinguished. Furthermore, the inferred diffusion field showed
-negative diffusion coefficients, which are probably due to errors in the
-fitting and not due to aggregation. We are thus unable to infer if the
-ER to Golgi transport is modeled by our model.
+In this thesis we have investigated the connection between the intracellular transport and the Golgi apparatus. In the first part of this thesis we analysed the experimental data generated by the RUSH technique and investigated if intracellular transport could be explained by an advection-diffusion model. To do so, we developed a new technique based on image gradients and evaluated a second method based on neural networks - Physics Informed Neural Networks. Unfortunately, neither of the two could give a definite answer. Our home-made method returned diffusion and advection fields which showed a non-random pattern, but did not betray any coherent underlying structure. The PINN seemed to outperform our image gradient method, but led to a clearly incorrect answer when allowed to infer a varying coefficient field. We attribute the failure of both methods mostly to the quality and quantity of the data and thus present several recommendations to experimentalists. 
 
-We forsee several directions to improve the image-gradient method. The
+To properly quantify fluorescence microscopy data, the entire setup should be rethought with this in mind. As such, above all a choice of quantification method must be made. Assuming they wish to use one of the methods we have presented, a calibration should be performed to learn the mapping of the fluorescence intensity to the concentration. Taking bright field images should also be considered, as these can be used for segmentation. Finally, the image acquisition procedure can be improved by ensuring a steady frame-rate and increasing it. Although increasing the frame rate increases photo
+bleaching, the last 200 frames of the roughly 300 frame movie of the ManII trafficking contain almost no information about the intracellular transport. By focusing the image acquisition time, more useful data can be gathered.
+
+We also foresee several directions to improve our image-gradient method. The
 most gains can be made in the step where the derivatives are calculated.
-The Sobel filter we've applied to determine the gradient is an extremely
-simple approximation and improving this step would vastly improve
-results. The fitting method we have applied - least squares - , is
-rather basic too and quite sensitive to outliers. Since the image
-gradients turn the model into a generic set of features, any fitting
-procedure could be used. In selecting a different fitting procedure,
-care should be taken to select a method which can properly handle noisy
-data with outliers.
+The Sobel filter we have applied is an extremely simple approximation and improving this step would vastly improve results. The fitting method we have applied - least squares - , is also rather basic and known to be sensitive to outliers and noise. Since the image gradients turn the data into a generic set of features, any fitting procedure could be used. In selecting a different fitting procedure, care should be taken to select a method which can properly handle noisy data with outliers.
 
-We also implemented physics informed neural networks and applied it to
-the RUSH data. We have proven that it is possible to infer coefficient
-fields on synthetic data, but applying this method to the RUSH daa
-yielded inconclusive and probably incorrect results. Despite this, we
-believe PINNs show great promise and we propose several avenues to
-improve their performance. Implementing Bayesian neural networks would
-yield a distribution instead of a single value as an output. We believe
-this to be of prime importance, as the results of PINNs are not robust
-yet (i.e.~sensitive to changes in the architecture). Secondly, the
-fitting of coefficient fields is a very hard problem with probably many
-local minima. To remedy this, we propose a `boots-trapping' technique,
+We have proven that it is possible to infer coefficient
+fields with physics informed neural networks. Despite the failure of PINNs applied to the RUSH data, we believe PINNs show great promise and we propose several avenues to improve their performance. Implementing Bayesian neural networks would yield a distribution instead of a single value as an output. We believe this to be of prime importance, as the results of PINNs are not robust yet. Secondly, fitting using coefficient fields is a very hard problem in which it is likely the network will get stuck in incorrect local minima. To remedy this, we propose a `boots-trapping' technique,
 in which one would first assume the coefficients to be locally constant,
 similar to the sliding window technique of the image-gradient method.
 Using this as a starting point, in the second step the fully spatially
-varying expressions is then used to improve the first step estimate.
+varying expressions are then used to improve the first step estimate. 
 
-We also make several recommendations to the experimentalists. First,
-they should settle on a quantification method: either single particle
-tracking or one of the methods we have presented in this thesis.
-Assuming our methods would be used to quantify the data, a calibration
-should be performed to learn the mapping of the fluorescence intensity
-to the concentration. Taking bright field images should also be
-considered, as these can be used for segmentation. Finally, the image
-acquisition procedure should be improved by ensuring a steady frame-rate
-and increasing it. Although increasing the frame rate increases photo
-bleaching, the last 200 frames of the roughly 300 frame movie contain
-almost no information about the intracellular transport, so there's
-enough room to increase it by decreasing the movie length.
+In the second part of the thesis we have investigated if the Golgi could be described as a phase separated droplet in a diffusive-advective environment. In the process, we also studied the effect of advection on active droplets and found that it compacts them. We showed that droplets can indeed phase separate in such an environment and switch position between the edges of the system depending on the magnitude of advection. Active droplets move by growing on one side and shrinking on the other and we thus speculate that cisternal maturation can actually be responsible for moving the stacks from their location in the ribbon to an ERES when the microtubules are depolymerised. However, our model also showed the possibility for two droplets to exist simultaneously in the ribbon and at the ERES - a situation not observed in cells. We also note that our model allowed several stable configurations to exist at a given parameter set. More work is required to investigate if any of these states are preferred over one another, probably through simulations or numerically solving the complete Cahn-Hilliard equation. We have also modelled the Golgi as a droplet of immature cargo, including a conversion term but otherwise completely neglecting mature cargo. Future work should incorporate this by for example switching to a two-component model. Furthermore, we note that dynamics could be added to the model, as the advection-diffusion equation has a time dependent solution through Greens' functions. 
 
-In the second part of the thesis we've studied active droplets. We've
-investigated the effect of advection on active droplets and found that
-it increases the concentration inside the droplet, compacting the
-droplet in an environment with a constant influx. We presented a model
-for the Golgi as such an active droplet, while the intracellular
-transport was modeled as an advection-diffusion equation. Such a model
-is able to explain how the Golgi is formed \emph{de novo} and why the
-stacks colocate with the ERES. However, the phase diagram also showed
-the possibility for a droplet to exist on both sides of the system:
-something not observed in real cells. Furthermore, our model allowed for
-several configurations to exist, but did not predict which one would
-appear. Future work should thus adress this using simulations.
+\section{Afterword}
 
 \footnotesize
 
