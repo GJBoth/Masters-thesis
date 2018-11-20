@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.9.19)  20 NOV 2018 07:32
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.9.19)  20 NOV 2018 18:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1089,6 +1089,10 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/truncate/truncate.sty
 Package: truncate 2001/08/20  ver 3.6
 \@Trunc@RestHyph=\toks27
+) (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
+\c@subfigure=\count335
+\c@subtable=\count336
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2017/09/02 v2.17a AMS math features
 \@mathmargin=\skip141
@@ -1100,14 +1104,14 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count335
+\inf@bad=\count337
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count336
-\leftroot@=\count337
+\uproot@=\count338
+\leftroot@=\count339
 LaTeX Font Info:    Redeclaring math symbol \varTheta on input line 373.
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count338
-\DOTSCASE@=\count339
+\classnum@=\count340
+\DOTSCASE@=\count341
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
@@ -1116,15 +1120,15 @@ LaTeX Info: Redefining \cdots on input line 596.
 \big@size=\dimen183
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count340
-\c@MaxMatrixCols=\count341
+\macc@depth=\count342
+\c@MaxMatrixCols=\count343
 \dotsspace@=\muskip17
-\c@parentequation=\count342
-\dspbrk@lvl=\count343
+\c@parentequation=\count344
+\dspbrk@lvl=\count345
 \tag@help=\toks28
-\row@=\count344
-\column@=\count345
-\maxfields@=\count346
+\row@=\count346
+\column@=\count347
+\maxfields@=\count348
 \andhelp@=\toks29
 \eqnshift@=\dimen184
 \alignsep@=\dimen185
@@ -1211,7 +1215,7 @@ LaTeX Font Warning: Font shape `TU/EBGaramond(2)/bx/n' undefined
 LaTeX Font Info:    Font shape `TU/LatoRegular(0)/m/n' will be
 (Font)              scaled to size 9.71375pt on input line 357.
 )
-\tipaTiiicode=\count347
+\tipaTiiicode=\count349
 \tipasavetokens=\toks34
 \tipachecktokens=\toks35
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/upquote/upquote.sty
@@ -1295,55 +1299,46 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
-)) (/usr/local/texlive/2018/texmf-dist/tex/latex/subfig/subfig.sty
-Package: subfig 2005/06/28 ver: 1.3 subfig package
-\c@KVtest=\count348
-\sf@farskip=\skip144
-\sf@captopadj=\dimen191
-\sf@capskip=\skip145
-\sf@nearskip=\skip146
-\c@subfigure=\count349
-\c@subfigure@save=\count350
-\c@subtable=\count351
-\c@subtable@save=\count352
-\sf@top=\skip147
-\sf@bottom=\skip148
-)
+))
 \@float@every@codelisting=\toks36
-\c@codelisting=\count353
- (/Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.aux)
+\c@codelisting=\count350
+ (/Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.aux
+
+LaTeX Warning: Label `eq:diffusion' multiply defined.
+
+)
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 84.
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 84.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 84.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 85.
+LaTeX Font Info:    Try loading font information for T3+cmr on input line 85.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 84.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 84.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 84.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 85.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 84.
+LaTeX Font Info:    ... okay on input line 85.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1380,34 +1375,33 @@ LaTeX Font Info:    ... okay on input line 84.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 84.
+LaTeX Info: Redefining \selectfont on input line 85.
 \AtBeginShipoutBox=\box55
 
 
 Package hyperref Warning: Height of page (\stockheight) is invalid (0.0pt),
 (hyperref)                using 11in.
 
-Package hyperref Info: Link coloring ON on input line 84.
+Package hyperref Info: Link coloring ON on input line 85.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
  (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count354
+\c@section@level=\count351
 )
-LaTeX Info: Redefining \ref on input line 84.
-LaTeX Info: Redefining \pageref on input line 84.
-LaTeX Info: Redefining \nameref on input line 84.
+LaTeX Info: Redefining \ref on input line 85.
+LaTeX Info: Redefining \pageref on input line 85.
+LaTeX Info: Redefining \nameref on input line 85.
  (/Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.out) (/Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.out)
 \@outlinefile=\write3
 \openout3 = `thesis.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package caption Info: We need package `ragged2e' on input line 84.
-LaTeX Info: Redefining \microtypecontext on input line 84.
+Package caption Info: We need package `ragged2e' on input line 85.
+LaTeX Info: Redefining \microtypecontext on input line 85.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -1422,19 +1416,19 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-Package layouts Warning: Layout scale set to 0.5 on input line 84.
+Package layouts Warning: Layout scale set to 0.5 on input line 85.
 
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
-(Font)              scaled to size 24.88pt on input line 95.
+(Font)              scaled to size 24.88pt on input line 96.
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
-(Font)              scaled to size 17.28pt on input line 100.
+(Font)              scaled to size 17.28pt on input line 101.
 (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 ) [1
 
 
 ]
-LaTeX Font Info:    Try loading font information for T1+ppl on input line 132.
+LaTeX Font Info:    Try loading font information for T1+ppl on input line 133.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/mt-ppl.cfg
@@ -1496,29 +1490,29 @@ Chapter 1.
 . Garamond/BI/OT:script=latn;language=DFLT;+onum;+liga;+sups;+smcp;mapping=tex-text;"
 .................................................
 LaTeX Font Info:    Font shape `TU/EBGaramond(4)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 163.
+(Font)              scaled to size 12.0pt on input line 164.
 [3
 
 ]
 File: source/figures/png/Golgimodels.png Graphic file (type bmp)
 <source/figures/png/Golgimodels.png>
 LaTeX Font Info:    Font shape `TU/LatoRegular(0)/bx/n' will be
-(Font)              scaled to size 9.5907pt on input line 232.
+(Font)              scaled to size 9.5907pt on input line 233.
 LaTeX Font Info:    Font shape `TU/LatoRegular(0)/bx/n' will be
-(Font)              scaled to size 7.99225pt on input line 232.
+(Font)              scaled to size 7.99225pt on input line 233.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `LatoRegular' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `TU/LatoRegular(0)/m/n' will be
-(Font)              scaled to size 8.09479pt on input line 232.
+(Font)              scaled to size 8.09479pt on input line 233.
  [4]
 LaTeX Font Info:    Font shape `TU/EBGaramond(4)/m/it' will be
-(Font)              scaled to size 12.0pt on input line 266.
+(Font)              scaled to size 12.0pt on input line 267.
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 266.
+(Font)              scaled to size 8.0pt on input line 267.
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 266.
+(Font)              scaled to size 6.0pt on input line 267.
  [5]
 File: source/figures/png/kineticmodel.png Graphic file (type bmp)
 <source/figures/png/kineticmodel.png>
@@ -1544,7 +1538,7 @@ File: source/figures/pdf/derivative.pdf Graphic file (type pdf)
 
 
 LaTeX Font Warning: Font shape `TU/EBGaramond(1)/bx/n' undefined
-(Font)              using `TU/EBGaramond(1)/m/n' instead on input line 648.
+(Font)              using `TU/EBGaramond(1)/m/n' instead on input line 649.
 
 [16]
 File: source/figures/pdf/segmenting.pdf Graphic file (type pdf)
@@ -1555,11 +1549,11 @@ File: source/figures/pdf/slidingwindow.pdf Graphic file (type pdf)
  [19]
 Chapter 3.
 
-Package caption Warning: \label without proper reference on input line 741.
+Package caption Warning: \label without proper reference on input line 742.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:fluorescence' on page  undefined on input line 736.
+LaTeX Warning: Reference `fig:fluorescence' on page  undefined on input line 737.
 
 File: source/figures/pdf/general_fluorescence.pdf Graphic file (type pdf)
 <use source/figures/pdf/general_fluorescence.pdf>
@@ -1570,11 +1564,11 @@ File: source/figures/pdf/time_deriv.pdf Graphic file (type pdf)
 <use source/figures/pdf/time_deriv.pdf>
  [21]
 
-Package caption Warning: \label without proper reference on input line 741.
+Package caption Warning: \label without proper reference on input line 742.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:fluorescence' on page  undefined on input line 761.
+LaTeX Warning: Reference `fig:fluorescence' on page  undefined on input line 762.
 
 [22]
 File: source/figures/pdf/Diff.pdf Graphic file (type pdf)
@@ -1591,9 +1585,9 @@ Chapter 4.
 
 ]
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/it' will be
-(Font)              scaled to size 8.0pt on input line 907.
+(Font)              scaled to size 8.0pt on input line 908.
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/it' will be
-(Font)              scaled to size 6.0pt on input line 907.
+(Font)              scaled to size 6.0pt on input line 908.
 File: source/figures/pdf/neuralnetwork.pdf Graphic file (type pdf)
 <use source/figures/pdf/neuralnetwork.pdf>
  [30] [31] [32] [33] [34] [35]
@@ -1621,79 +1615,91 @@ File: source/figures/pdf/NN_Man_full.pdf Graphic file (type pdf)
 <use source/figures/pdf/NN_Man_full.pdf>
  [43] [44]
 Chapter 5.
+File: source/figures/pdf/Freeenergydensity.pdf Graphic file (type pdf)
+<use source/figures/pdf/Freeenergydensity.pdf>
 [45
 
-]
+] [46]
 File: source/figures/png/CahnHilliard.png Graphic file (type bmp)
 <source/figures/png/CahnHilliard.png>
- [46]
+ [47]
 File: source/figures/pdf/effectivedroplet.pdf Graphic file (type pdf)
 <use source/figures/pdf/effectivedroplet.pdf>
- [47] [48] [49]
-File: source/figures/png/activedroplet.png Graphic file (type bmp)
-<source/figures/png/activedroplet.png>
- [50] [51] [52] [53] [54]
+ [48] [49] [50] [51] [52] [53]
 Chapter 6.
-[55
+[54
 
 ]
-File: source/figures/pdf/concprofile.pdf Graphic file (type pdf)
-<use source/figures/pdf/concprofile.pdf>
- [56]
-Overfull \hbox (39.78856pt too wide) detected at line 1864
-[][] \OMS/cmsy/m/n/12 ^^@ [][] \OT1/cmr/m/n/12 = (\OMS/cmsy/m/n/12 ^^@[]\OML/cmm/m/it/12 @[][]\OT1/cmr/m/n/12 ([]) + [][]([]))\OMS/cmsy/m/n/12 j[] ^^@ \OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^@[]\OML/cmm/m/it/12 @[][]\OT1/cmr/m/n/12 ([]) + [][]([]))\OMS/cmsy/m/n/12 j[] \OT1/cmr/m/n/12 = [](\OML/cmm/m/it/12 @[][]\OT1/cmr/m/n/12 ([])\OMS/cmsy/m/n/12 j[] ^^@ \OML/cmm/m/it/12 @[][]\OT1/cmr/m/n/12 ([])\OMS/cmsy/m/n/12 j[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 :
- []
-
-[57] [58] [59]
+File: source/figures/png/concprofile.png Graphic file (type bmp)
+<source/figures/png/concprofile.png>
+ [55] [56] [57] [58]
 File: source/figures/pdf/Stable_nodecay.pdf Graphic file (type pdf)
 <use source/figures/pdf/Stable_nodecay.pdf>
- [60]
+LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
+(Font)              scaled to size 10.95pt on input line 1897.
+LaTeX Font Info:    Font shape `TU/EBGaramond(2)/bx/n' will be
+(Font)              scaled to size 10.95pt on input line 1897.
+LaTeX Font Info:    Font shape `TU/LatoRegular(0)/bx/n' will be
+(Font)              scaled to size 8.7515pt on input line 1897.
+LaTeX Font Info:    Font shape `TU/LatoRegular(0)/m/n' will be
+(Font)              scaled to size 8.86378pt on input line 1897.
 File: source/figures/pdf/minimumconcentration.pdf Graphic file (type pdf)
 <use source/figures/pdf/minimumconcentration.pdf>
- [61]
 
-LaTeX Warning: Reference `fig:minnodecay' on page  undefined on input line 2019.
+Overfull \hbox (4.79999pt too wide) in paragraph at lines 1892--1907
+ [][]  [] 
+ []
 
-[62]
+[59] [60]
 File: source/figures/pdf/Rstable.pdf Graphic file (type pdf)
 <use source/figures/pdf/Rstable.pdf>
 File: source/figures/pdf/Xstable.pdf Graphic file (type pdf)
 <use source/figures/pdf/Xstable.pdf>
- [63] [64]
+
+Overfull \hbox (4.79999pt too wide) in paragraph at lines 1959--1974
+ [][]  [] 
+ []
+
+[61]
 File: source/figures/pdf/dRdt.pdf Graphic file (type pdf)
 <use source/figures/pdf/dRdt.pdf>
 File: source/figures/pdf/dXdt.pdf Graphic file (type pdf)
 <use source/figures/pdf/dXdt.pdf>
- [65] [66] [67]
+
+Overfull \hbox (4.79999pt too wide) in paragraph at lines 2011--2026
+ [][]  [] 
+ []
+
+[62] [63]
 File: source/figures/pdf/Jmin.pdf Graphic file (type pdf)
 <use source/figures/pdf/Jmin.pdf>
- [68] [69]
+ [64] [65]
 File: source/figures/pdf/phaseapprox.pdf Graphic file (type pdf)
 <use source/figures/pdf/phaseapprox.pdf>
- [70] [71]
+ [66] [67]
 File: source/figures/pdf/Numericalphase.pdf Graphic file (type pdf)
 <use source/figures/pdf/Numericalphase.pdf>
- [72] [73]
+ [68] [69]
 Chapter 7.
-[74
+[70
 
 ]
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 2461.
- [75]
+(Font)              scaled to size 10.0pt on input line 2338.
+ [71]
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/m/it' will be
-(Font)              scaled to size 10.0pt on input line 2469.
+(Font)              scaled to size 10.0pt on input line 2346.
 LaTeX Font Info:    Font shape `TU/EBGaramond(2)/bx/n' will be
-(Font)              scaled to size 10.0pt on input line 2470.
- [76
+(Font)              scaled to size 10.0pt on input line 2347.
+ [72
 
-] [77]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2732.
- [78]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2732.
+] [73]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2609.
+ [74]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2609.
  (/Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2732.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2732.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 2609.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2609.
 Package rerunfilecheck Info: File `thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 7F915147A5D68B03FF8F53E7C26F5370.
 
@@ -1703,14 +1709,17 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 29896 strings out of 492970
- 536357 string characters out of 6133938
- 680381 words of memory out of 5000000
- 33513 multiletter control sequences out of 15000+600000
- 541146 words of font info for 106 fonts, out of 8000000 for 9000
+ 29832 strings out of 492970
+ 535632 string characters out of 6133938
+ 679040 words of memory out of 5000000
+ 33448 multiletter control sequences out of 15000+600000
+ 541170 words of font info for 109 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 60i,9n,117p,1593b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,9n,117p,1593b,583s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on /Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.pdf (80 pages).
+Output written on /Users/gert-janboth/Documents/Afstuderen/Report/.texpadtmp/thesis.pdf (76 pages).

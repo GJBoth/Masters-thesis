@@ -22,6 +22,7 @@
 \usepackage{truncate}
 \usepackage{caption}
 \usepackage{tocloft}
+\usepackage{subcaption}
 % TP: end hack
 \usepackage{hyperref}
 \usepackage{amssymb,amsmath}
@@ -63,7 +64,7 @@
 
 \date{}
 \makeatletter
-\@ifpackageloaded{subfig}{}{\usepackage{subfig}}
+%\@ifpackageloaded{subfig}{}{\usepackage{subfig}}
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \captionsetup[subfloat]{margin=0.5em}
 \AtBeginDocument{%
@@ -1381,7 +1382,7 @@ single frame.
 \hypertarget{fig:nnfull}{%
 \centering
 \includegraphics{source/figures/pdf/NN_Man_full.pdf}
-\caption{Caption.}\label{fig:nnfull}
+\caption{We show the raw data, inferred concentration, diffusion and advection fields and the physics informed cost as a function of the frames.}\label{fig:nnfull}
 }
 \end{figure}
 
@@ -1414,49 +1415,41 @@ effective-droplet approximation. This approximation makes the phase separation a
 \hypertarget{phase-separation}{%
 \section{Phase separation}\label{phase-separation}}
 
-Consider a mixture of two molecules, type A and B, with underling
-interaction strengths \(\chi_{ij}\). Depending on the strength and sign
-of these interactions, the system is either in a mixed state with a
-constant concentration of A and B, or in a phase-separated state. Landau
-showed that instead of a complete statistical description, phase
-separation could be modeled by a system with a double well free energy
-function\textsuperscript{47}. We can define an \emph{order parameter}
-\(c=N_A/N_B\) which describes the state of the system and define a free
-energy density function \(f(c)\) with minima at \(c_0^-\) and \(c_0^+\):
+Consider a mixture of two molecules A and B, with underling
+interaction strengths \(\chi_{ij}\). Defining an \emph{order parameter}
+\(c=N_A/N_B\), the system can either be in a mixed state with $c=\bar{c}$ everywhere or in a phase separated state with two states of concentration $c_0^-$ and $c_0^+$, depending on the strength and sign of 
+of the interactions $\chi_{ij}$. The phase separated state can be described by a phenomenological free energy density function $f$ with two minima at $c_0^-$ and $c_0^+$\textsuperscript{47}:
 \[
 f(c) = \frac{b}{2(\Delta c)^2}(c-c_0^-)^2(c-c_0^+)^2
 \]
 
-where \(b\) characterizes the strength of molecular interactions and
-\(\Delta c = |c_0^--c_0^+|\). Once the system phase separates, the
-system will have two areas of concentration \(c_0^+\) and \(c_0^-\) with
-a boundary inbetween. Associated with this boundary is a surface
-tension, so that the full free energy of the system becomes
+where \(b\) characterises the strength of molecular interactions and
+\(\Delta c = |c_0^--c_0^+|\). This free energy density function is shown in figure \ref{fig:freeenergy} for $c_0^-=0.1, c_0^+=0.9$.
 
-\[
-F(c) = \int dV (f(c)+\frac{1}{2}\kappa (\nabla c)^2
-\]
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{source/figures/pdf/Freeenergydensity.pdf}
+	\caption{Phenomenological free energy density with minima at $c_0^-$ and $c_0^+$.}
+	\label{fig:freeenergy}
+\end{figure}
 
-To find the equilibrium concentration profile, we minimize this free
-energy:
+The total free energy of the system must also include a term penalising sharp gradients, so that we write the free energy of the system as 
 
 \begin{equation}
-\frac{\delta F}{\delta c} = f'(c)-k\nabla^2c=\mu(x) =0
+	\label{eq:totfree}
+	F(c) = \int dV (f(c)+\frac{1}{2}\kappa (\nabla c)^2
+\end{equation}
+
+This is known as a Ginzburg-Landau free energy. The equilibrium concentration profile is found by minimising equation \ref{eq:totfree}:
+
+\begin{equation}
+\frac{\delta F}{\delta c} = f'(c)-k\nabla^2c=\mu(x) =0,
 \label{eq:euler}\end{equation}
 
 where \(\delta F/\delta c\) is a functional derivative, as we minimize
-with respect to the concentration \emph{profile}. Solving such an
-equation is generally not possible due to the third order terms of the
-free energy density function, but in 1D equation \ref{eq:euler} has
-been solved to yield: \begin{equation}
-c(x) = \frac{c_0^-+c_0^+}{2}+\frac{c_0^+-c_0^-}{2}\tanh\left(\frac{x}{w}\right)
-\label{eq:domainwall}\end{equation} where \(w=\sqrt{\kappa/b}\) is the
-width of the boundary. When we quench a system from a mixed stated into
-a phase separated state (a process known as spinodal decomposition), the
-actual concentration profile is a far cry from equation
-\ref{eq:domainwall}. Inside the system, maze-like domains form and
-keep growing untill a single dense and dilute phase are left. This is
-shown in figure \ref{fig:maze}.
+with respect to the concentration \emph{profile}. In general, no analytical solution can be found due to the non-linear nature of the equation. We see however that the free energy density $f$ is minimised by two phases of concentration $c_0^-$ and $c_0^+$, but that these are separated by a domain wall with a finite width due to the inclusion of the second term in equation \ref{eq:totfree}.
+
+If a system initially in a mixed state is quenched so that it becomes unstable, fluctuations throughout the system will give rise to a maze-like concentration pattern in a process known as spinodal decomposition. This is shown for different times in figure \ref{fig:maze}.
 
 \begin{figure}
 \hypertarget{fig:maze}{%
@@ -1466,116 +1459,85 @@ shown in figure \ref{fig:maze}.
 }
 \end{figure}
 
-In this process, the dynamics need to be taken explicitly into account.
-In the case of liquid-liquid phase separation, the order parameter \(c\)
-is conserved, as a molecule of type A cannot change into type B. This
-means that the order parameter can only exchange locally, so that: \[
+The domains grow in time in a process known as coarsening. This process will continue until only two separate domains are left: one with concentration $c_0^-$ and one with $c_0^+$. We can derive an equation governing the dynamics shown in figure \ref{fig:maze}. Since the order parameter is a concentration, it can only exchange locally so that: 
+\[
 \partial_t c = -\nabla \cdot \mathbf{j}
 \]
 
-where \(\mathbf{j}\) is a flux. We can relate the flux to the chemical
+where \(\mathbf{j}\) is a flux. This type of dynamics of phase separation is also known as 'Model-B'. We can relate the flux to the chemical
 potential:
 
 \[
-j = -m \nabla \mu
+\mathbf{j} = -m \nabla \mu
 \]
 
-where \(m\) is a coefficient characterizing the mobility. Equation
-\ref{eq:euler} also gives us an expression for the chemical
-potential, so that we finally obtain the \emph{Cahn-Hilliard equation}:
+where \(m\) is a mobility. Equation\ref{eq:euler} also gives us an expression for the chemical potential, so that we finally obtain the \emph{Cahn-Hilliard equation}:
 
 \[
-\frac{\partial c}{\partial t}=m\nabla^2[f'(c)-k\nabla^2c]
+\frac{\partial c}{\partial t}=m\nabla^2[\frac{df}{dc}-\kappa\nabla^2c]
 \]
 
 It is this equation which governs the behaviour observed in figure
 \ref{fig:maze}. Due to its non-linearity and fourth order
-derivatives simply solving the Cahn-Hilliard is usually forsaken in
-favour of deriving a scaling relation, which relates the domain growth
-speed \(dR/dt\) to the domain size \(R\) or some other system
-parameters. Another option is to study the system in the so-called
-effective droplet approximation, as we do in the next section.
+derivatives solving the Cahn-Hilliard is usually forsaken in
+favour of deriving scaling relations, which for example show that the domain size $R$ scales with time $t$ for some constant $\alpha$: $R \sim t^{\alpha}$. Another option is to study the system in the so-called effective droplet approximation, as we do in the next section.
 
 \hypertarget{effective-droplet}{%
 \section{Effective droplet}\label{effective-droplet}}
 
-Consider again equation \ref{eq:domainwall}. If \(w\ll1\), we can
-approximate the system by describing it as two bulk phases, separated by
-an interface. If we apply correct boundary conditions at the interface,
-we can essentially split the system into two separate problems for the
-dense and dilute phase and match them at the interface. We thus model
-the phase separated system as a droplet which exchanges material with
-its environment through its interface, as shown in figure
-\ref{fig:effectivedroplet}
+Consider a phase one-dimensional phase separated system. If the domain wall is extremely thin, we can approximate the system by describing it as two bulk phases separated by an interface. We effectively split the system into two separate problems - one concerning the dilute phase and one concerning the dense phase- and match them at the interface through appropriate boundary conditions. By assuming the interface to be at thermodynamic equilibrium, the growth of the droplet is described in terms of the fluxes across the interface. This is shown in figure \ref{fig:effectivedroplet}, where we have approximated the concentration profile (blue line) by an effective droplet which exchanges material with its environment through its interface (black dashed line).
 
 \begin{figure}
 \hypertarget{fig:effectivedroplet}{%
 \centering
 \includegraphics{source/figures/pdf/effectivedroplet.pdf}
-\caption{Model of an effective droplet. Blue line is full Cahn-Hilliard,
+\caption{Model of an effective droplet. Blue line is full Cahn-Hilliard model,
 black dashed line effective droplet.}\label{fig:effectivedroplet}
 }
 \end{figure}
 
-By assuming the interface to be at thermodynamic equilibrium, the growth
-of the droplet is described in terms of the fluxes across the interface.
-Consider again equation \ref{eq:euler}. As we can neglect the
-interfacial term, we have \(\mu = f'(c)\). In each bulk phase, we
-linearize the chemical potential around it's equilibrium density
-(\(c_0^-\) or \(c_0^+\)) to yield: \begin{equation}
-\frac{\partial c }{\partial t} = D\nabla^2c
-\label{eq:diffusion}\end{equation}
+Consider again the Cahn-Hilliard equation. In the bulk phase, the interfacial term can be ignored so that we obtain:
 
-where we've absorbed all the coefficients into a single coefficient
-\(D\). Observe that we have obtained a diffusion equation. Since we now
-have a linear equation in \(c\), we can analytically solve this.
-Moreover, it is possible to add additional effects such as decay,
-production or advection and still keep an analytically solvable model,
-as we show in the next section and chapter.
+\begin{equation}
+\label{eq:diffusion}
+\frac{\partial c}{\partial t} = m\nabla^2\mu.
+\end{equation}
 
-By introducing the interface and breaking the problem into two separate
-parts, we need two new boundary conditions to solve equations such as
-\ref{eq:diffusion}. By assuming the interface to be at thermodynamic
-equilibrium, we will derive a set of boundary conditions independent of
-the position, size or kinetic parameters of the droplet. Consider such a
-phase-separated system with an infinitely thin interface. The total free
+Linearising the chemical potential $\mu$ around an equilibrium concentration yields
+
+\begin{equation}
+\frac{\partial c }{\partial t} = mf'(c_0^\pm)\nabla^2c = D\nabla^2c,
+\label{eq:diffusion}
+\end{equation}
+
+where all multiplicative constants can be absorbed into a single constant $D$. Observe that linearising the chemical potential yields a diffusion equation. A solution to equation \ref{eq:diffusion} requires a boundary condition at the interface of the droplet. We derive the boundary conditions at the interface by assuming the interface to be at thermodynamic equilibrium. Consider a phase-separated system with an infinitely thin interface. The total free
 energy of the system can then be written as: \[
-F = V_1 f(\phi_1) + V_2 f(\phi_2)
+F = V_1 f(c_1) + V_2 f(c_2)
 \]
 
-where \(V_i\) and \(\phi_i\) are respectively the volume and
-concentration of phase \(i\) and \(f(\phi_i)\) is the free energy
+where \(V_i\) and \(c_i\) are respectively the volume and
+concentration of phase \(i\) and \(f(c_i)\) is the free energy
 density. Assuming incompressibility (\(V_1+V_2=V\)) and conservation of
-particles (\(V_1\phi_1+V_2\phi_2=V\phi\)) constrains the system to two
-free variables, so that minimizing the free energy with respect to
-\(\phi_1\) and \(V_1\) gives us two conditions:
+particles (\(V_1c_1+V_2c_2=Vc\)) constrains the system to two
+free variables, so that minimising the free energy with respect to
+\(c_1\) and \(V_1\) gives two conditions:
 
 \[
-f'(\phi_1) = f'(\phi_2)
+f'(c_1) = f'(c_2)
 \]
 
 \[
-0 = f(\phi_1) + f(\phi_2) + (\phi_2-\phi_1)f'(\phi_2)
+0 = f(c_1) + f(c_2) + (c_2-c_1)f'(c_2)
 \]
 
-Since \(f'(\phi) = \mu(\phi)\), the first condition states that both
-phases must have the same chemical potential, while the second one
-states that both phases must have equal pressure. The obvious solution
-to these equations is a completely mixed state with \(\phi_1=\phi_2\). A
-non-trivial phase-separated solution exists as well, where \(\phi_1\)
-and \(\phi_2\) are the two minima of the free energy density function
-\(f(\phi)\). Note that this valid for droplets in 1D. In higher
-dimensions, the curvature of the droplet will affect the boundary
-conditions due to the Laplace pressure, but one can show that this leads
-to an extra term which scales with \(1/R\)\textsuperscript{48}.
+Since \(f'(c) = \mu(c)\), the first condition requires that both
+phases have the same chemical potential, while the second one
+states that the pressure in each phase must be equal. The obvious solution
+to these equations is a mixed state with \(c_1=c_2\). A
+non-trivial phase-separated solution can be found as well using Maxwells tangent construction. We thus see that an equilibrium also exists if the system is phase separated into two phases at concentration $c_0^-$ and $c_0^+$, the minima of the free energy density function. Note that this is valid for our 1D description. In higher dimensions, the curvature of the droplet will affect the boundary conditions due to the Laplace pressure and one can show that this leads to an extra term which scales with the inverse radius\textsuperscript{48}.
 
-Having defined boundary conditions, equations such as
-\ref{eq:diffusion} can be solved. Although one could solve these
-equations fully time-dependent using Green's functions, we assume a
-quasi-steady state so that \(dc/dt=0\).This will give us the
-concentration profiles in and outside the droplet, droplet growth
-however is determined by the fluxes across the interface. We show this
-in the next section.
+Having defined the boundary conditions at the interface, the stationary concentration profile (i.e. $dc/dt=0$) inside and outside the droplet can be solved. From these concentration profiles the fluxes at the interface which determine the droplet growth can be calculated. We show this in the next section.
+
 
 \hypertarget{fluxes-activity-and-interfaces}{%
 \subsection{Fluxes, activity and
@@ -1590,67 +1552,28 @@ J(x) = -D\frac{\partial c}{\partial x}
 
 Using this expression, the flux at the interface on the inside and
 outside of the droplet, \(J_{in}\) and \(J_{out}\), can be calculated.
-Note that in and out respectively refer to inside and outside of the
-droplet rather than the direction of the flux; our boundary conditions
-fix the concentration at the interface but not the (direction of the)
-fluxes. If these fluxes are not balanced, there exists a net flux across
-the interface which leads to either growth or decay of the droplet. As
-the droplet changes size, the interface moves with a speed \(v_n\). We
+Note that 'in' and 'out' refer respectively to inside and outside of the
+droplet rather than the direction of the flux; the boundary conditions
+fix the concentration at the interface but not the fluxes. If $J_{in}$ and $J_{out}$ are not balanced, a net flux exists across
+the interface, which leads to either growth or decay of the droplet. This change in droplet radius can be described by the interface velocity \(v_n\). We now
 derive an expression for \(v_n\) in terms of the fluxes across it. To
-move the interface a distance \(\Delta x\), a net material gain of
-\(\Delta x \Delta c\) is needed. This net gain is given by the net flux
+move an interface a distance \(\Delta x\), a net material gain of
+\(\Delta x \Delta c\) is required. This net gain is determined by the net flux
 in a time \(\Delta t\), so that: \[
 \Delta x \Delta c = (J_{in}-J_{out})\Delta t
 \] which can be rewritten as: \begin{equation}
 \frac{\Delta x}{\Delta t} = v_n = \frac{J_{in}-J_{out}}{\Delta c}
-\label{eq:interfacespeed}\end{equation} In the passive case (and
-assuming quasi-steady state), the concentration both inside and outside
-the droplet would be described by a solution to laplace's equation (i.e.
-\(\nabla^2c=0\)), leading to a flat concentration profile
-\(c_{out}(x)=c_0^-\), \(c_{in}(x)=c_0^+\) and hence \(J=0\) everywhere;
-the system is at thermodynamical equilibrium with \(\mu=0\) and the
-droplet doesn't change size as \(v_n=0\). Placing such a droplet in a
-supersaturated environment where \(c_{out}(x)>c_0^-\) would lead to a
-lead to a non-zero \(J_{out}\), resulting in the droplet growing to
-infinity by a process known as Ostwald ripening. As we show in the next
-section, active droplet supress the Ostwald
-ripening\textsuperscript{49}, leading to a droplet with a finite radius.
+\label{eq:interfacespeed}\end{equation} 
 
-We now make the droplet \emph{active} by adding a chemical reaction in
-the droplet which decays the droplet material A into some other other
-material B. Assuming material B diffuses very fast and is thus always in
-equilibrium, we ignore material B and describe solely \(A\). Adding a
-decay term to equation \ref{eq:diffusion} gives: \begin{equation}
-D\nabla^2c-kc=0
-\label{eq:activity}\end{equation} where \(k\) is a decay constant.
-Solving equation \ref{eq:activity} will always give a convex
-solution and hence a finite \(J_{in}\). A typical concentration profile
-for an active droplet is shown in figure \ref{fig:activedroplet}.
-
-\begin{figure}
-\hypertarget{fig:activedroplet}{%
-\centering
-\includegraphics{source/figures/png/activedroplet.png}
-\caption{Typical concentration profile of active droplet. Taken from
-21}\label{fig:activedroplet}
-}
-\end{figure}
-
-The `decay flux' \(J_{in}\) will need to balanced by a flux into the
-droplet \(J_{out}\) for a stable droplet to exist. This is a key
-property of active systems: while the system is at steady state (i.e.
-\(v_n=0\)), it is not at thermodynamical equilibrium, as \(\mu \neq 0\)
-and \(J\neq0\). Another fascinating property of active droplets is that
-they can propel themselves. To see this, consider a droplet of radius
-\(R\) at position \(x_0\) with two interfaces moving respectively at
-\(v_l\) and \(v_r\). In a time \(dt\), the droplet moves to a new
-postion \(x_0+dx\) and will have a new radius \(R+dR\): \[
-x_0-R+v_ldt=x_0+dx-(R+dR)
+In a passive droplet the concentration profile is a solution of the Laplace equation: $\nabla^2c=0$ and $J_{in}$ will thus be zero, meaning that the interface speed will always be bigger zero. Indeed, passive droplets grow to infinity in an infinite system. We show in the next chapter that by making the droplet \emph{active}, the flux $J_{in}$ will be non-zero. This has two important consequences. First, if $J_{in}=J_{out}$, the interface velocity is zero and the droplet will have a stable radius. The second effect is that an active droplet moves itself up a concentration gradient
+Consider a droplet of radius \(R\) at position \(x_0\) with two interfaces moving respectively at \(v_l\) and \(v_r\). In a time \(dt\), the droplet moves to a new position \(x_0+dx\) and will have a new radius \(R+dR\): 
+\[
+x_0-R+v_ldt=x_0+dx_0-(R+dR)
 \] \[
-x_0+R+v_rdt=x_0+dx+(R+dR)
+x_0+R+v_rdt=x_0+dx_0+(R+dR)
 \]
 
-Solving this set of equations for \(dx\) and \(dR\) gives:
+Solving this set of equations for \(dx_0\) and \(dR\) gives:
 
 \begin{equation}
 \frac{dR}{dt}=\frac{1}{2\Delta c}(v_r-v_l)
@@ -1661,27 +1584,32 @@ Solving this set of equations for \(dx\) and \(dR\) gives:
 \label{eq:position}\end{equation}
 
 Combining these equations with equation \ref{eq:interfacespeed}
-finally relates the growth and movement of the droplet to the fluxes
-across the interface: \[
-\frac{dR}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=R}-J_{in}^{x=-R})+(J_{out}^{x=-R}-J_{out}^{x=R})\right]
-\]
+relates the growth and movement of the droplet to the fluxes
+across the interface: 
 
-\[
-\frac{dx_0}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=-R}+J_{in}^{x=R})-(J_{out}^{x=-R}+J_{out}^{x=R})\right]
-\]
+\begin{equation}
+	\label{eq:dRdt}
+	\frac{dR}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=R}-J_{in}^{x=-R})+(J_{out}^{x=-R}-J_{out}^{x=R})\right]
+\end{equation}
 
-Studying equations \ref{eq:radius} and \ref{eq:position} shows
-that movement only happens if the fluxes are asymmetrical; the droplet
-center is displaced because one side of the droplet grows faster than
-the other. This imbalance is caused by a concentration gradient and thus
-\emph{droplets will move up the gradient}, as the flux on the high
-concentration side will be higher than on the low side.
+\begin{equation}
+\label{eq:dx0dt}
+	\frac{dx_0}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=-R}+J_{in}^{x=R})-(J_{out}^{x=-R}+J_{out}^{x=R})\right]
+\end{equation}
 
-These equations allow us to find steady states both with respect to the
-size and the position of the droplet. In the next section we adapt the
-equations to model the Golgi and couple it to the intracellular
-transport through the calculations of the fluxes \(J_{out}\). We do so
-in the next section.
+Assuming the droplet is symmetric, $J_{in}^{x=-R}+J_{in}^{x=R}=0$, so equation \ref{eq:dx0dt} simplifies to
+
+\begin{equation}
+	\frac{dx_0}{dt}=-(J_{out}^{x=-R}+J_{out}^{x=R})
+\end{equation}
+
+If the droplet is in a concentration gradient $c = \alpha+\beta x$, we can estimate the flux at $x=-R$ as $-D(\alpha-c_0^-)/l$, with $l$ some lengthscale. At $x=R$ the flux is then $-D(c_0^--(\alpha+2\beta R)/l$. We thus obtain
+
+\begin{equation}
+	\frac{dx_0}{dt} \propto -\frac{2DR\beta}{l}
+\end{equation}
+
+and we see that an active droplet moves up the gradient. Equations \ref{eq:dx0dt} and \ref{eq:dRdt} completely determine the behaviour of the droplet. In the effective droplet model we thus write everything in terms of fluxes across the interface and then use equations \ref{eq:dx0dt} and \ref{eq:dRdt} to find a stable droplet.
 
 \hypertarget{Golgi-as-an-active-droplet}{%
 \section{Golgi as an active droplet}\label{Golgi-as-an-active-droplet}}
@@ -1689,65 +1617,46 @@ in the next section.
 In the introduction we justified using a phase-separation approach to
 describe the Golgi. In this section we develop our model for the Golgi
 from biological considerations, but having established the mathematical
-background of phase separation, we parallely present the mathematical
-description.
+background of phase separation, we parallelly present the mathematical
+description. We also show how we couple the model for the intracellular transport to the Golgi.
 
-We can recognize four different populations in our system: immature
-cargo -heading to the Golgi-, mature cargo, -originating from the Golgi
-and which is produced from immature cargo in the Golgi-, the Golgi
-itself and the cytoplasm, which acts as the solute. We start by reducing
-this set of populations to a system described by a single concentration
-\(c\). Assuming maturation from the Golgi as a oneway process,
-i.e.~immature cargo turns into mature cargo but not otherwise, and no
-interaction between the mature and immature cargo during intracellular
-transport, we can ignore the mature cargo. Modeling the solvent
-implicitly, the immature cargo in the cytoplasm is then represented by a
-dilute phase in some concentration \(c\), while the Golgi is described
-by a dense phase in the same concentration.
+Our model comprises four different populations: Immature
+cargo, mature cargo, the Golgi itself and the cytoplasm, which acts as the solvent. A typical 'cycle' would consist of immature cargo entering the system, being transported towards the Golgi where it is turned into the material comprising the Golgi before being matured after which it is transported out of the system. The solvent plays no explicit role in this and we thus model it implicitly by describing the cargo in terms of concentration. We also ignore the mature cargo for now and simply assume the immature cargo decays inside the droplet. As stated, we model the Golgi as a phase separated droplet, so that we can describe the system in terms of a single concentration $c$, with the dilute phase corresponding to immature cargo and the dilute phase representing the Golgi.
 
-Upon adding the drug nocadazole to mammalian cells, the microtubules are
-depolymerized and the Golgi ribbon breaks up into separate
-stacks\textsuperscript{50} . These stacks are fully
-functional\textsuperscript{7} and move away from their perinuclear
-location to colocate with an ERES. If we model not the complete Golgi
-but a single stack, we can reduce our problem to 1D, where a droplet can
-move from one side of the system, representing the Golgi ribbon, to the
-other side, representing the ERES. As each stack is fully functional, we
-make no simplifications with respect to the function of the Golgi.
-Although many complex models of the maturation exist, we model it as a
-simple decay-like term:
-
-\[
-\frac{\partial c}{\partial t} = -\nabla J -kc
-\] \[
-J = - D \nabla c
-\] where \(k\) is a maturation constant. We now turn our attention to
-the intracellular transport. In our model fitting chapter we presented
-an argument that we could model the intracellular transport as an
-advection-diffusion equation. Evidence exists of vesicles refusing with
-the ER\textsuperscript{8}, so we add an additional decay term, so that
-the concentration outside the droplet is described is described by:
+Using the effective droplet concentration, we have essentially 'decoupled' the dense and dilute phase. We exploit this to couple our model for the intracellular transport to the Golgi. The dilute phase corresponds to the immature cargo being trafficked towards the Golgi and we thus use an advection-diffusion equation to model the concentration profile of this phase. As some evidence exists of vesicles degrading\textsuperscript{8}, we add an additional decay term to the intracellular transport model, so that we obtain:
 
 \begin{equation}
 D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
 \label{eq:cinside}\end{equation}
 
-with \(v\) an advection velocity and \(a\) some decay constant. Solving
-this equation will lead to a concentrion profile with a gradient and we
-thus model our Golgi as an active droplet growing in a concentration
-gradient, inspired by 51. A study of the biogenesis of the
-Golgi\textsuperscript{8} shows that stacks are transported to the ribbon
-over the microtubules, so we thus add the advection also to the dense
-phase: \begin{equation}
-D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
-\label{eq:coutside}\end{equation}
+with \(v\) an advection velocity and \(a\) some decay constant. We now turn our attention to the dense phase. Upon adding the drug nocadazole to mammalian cells, microtubules are depolymerised and the Golgi ribbon breaks up into separate stacks\textsuperscript{50}. These stacks are fully functional\textsuperscript{7} but move away from their perinuclear
+location to colocate with an ERES. Identifying the dense phase with a single Golgi stack instead of the entire Golgi ribbon allows us to use a one-dimensional approach where a droplet can move from one side of the system representing the Golgi ribbon, to the other side representing the ERES. 
+As each stack is fully functional, we make no simplifications with respect to the function of the Golgi. Since we are not interested in how the Golgi matures the cargo (see the cisternal maturation versus vesicular transport models), we model it as decay term with maturation rate $k$, leading to the following equation for the dense phase:
 
-Note that the dense and dilute phase description are thus almost
-similar, save for a different decay (maturation) constant. One could
-pick different diffusion constants and advection speeds, but for
-simplicity and without loss of generality we pick the same. As our free
-energy function has minima at \(c_0^+\) and \(c_0^{-}\), our boundary
-conditions at the interface are: \[
+
+\[
+\frac{\partial c}{\partial t} = D\nabla^2 c - kc
+\]
+
+The addition of this maturation term makes the droplet \emph{active}. Studies have found that newly formed stacks are moved from their location close to the ERES to the Ribbon by active transport\textsuperscript{8}, so we also add active transport, modelled by and advection term, to the dense phase:
+
+\begin{equation}
+D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
+\label{eq:coutside}
+\end{equation}
+
+We assume for simplicity that both phases are advected with velocity $v>0$ and have diffusion constant $D$. The only difference between the two phases then is the decay rate $a$ and the maturation constant $k$. As stated, we model our system in 1D, with one boundary representing the
+ERES and the other boundary as the location of Golgi Ribbon. We place
+the ERES on the left side of the system and thus model this boundary as a
+source: \[
+(-D\partial_xc+vc)|_{x=0} = J_{in}
+\]
+
+The other side of the system represents the Golgi Ribbon. Here, many different stacks come together due to the advection and we thus model it as a zero-flux boundary: \[
+(-D\partial_xc+vc)|_{x=L} = 0
+\]
+
+As our free energy function has minima at \(c_0^+\) and \(c_0^{-}\), the boundary conditions at the interface between the dense and dilute phase are: \[
 c(x_0\pm R)=
 \begin{cases}
     c_0^+,& \text{inside}\\
@@ -1755,45 +1664,30 @@ c(x_0\pm R)=
 \end{cases}
 \]
 
-As stated, we model our system in 1D, with one boundary representing the
-ERES and the other boundary as the location of Golgi Ribbon. We place
-the ERES on the left side of the system and thus model this boundary as
-source: \[
-(-D\partial_xc+vc)|_{x=0} = J_{in}
-\]
+We thus model the Golgi as an active droplet in a concentration gradient, similar to\textsuperscript{51}, but have also added advection. We solve our model in the next chapter both analytically and numerically to investigate the behaviour of advected active droplets. 
 
-whereas the right boundary is merely the edge of the system and we thus
-model it as a zero-flux boundary: \[
-(-D\partial_xc+vc)|_{x=L} = 0
-\]
-
-We solve this set of equations in the next chapter.
 
 \hypertarget{results-model}{%
 \chapter{Results model}\label{results-model}}
 
 The previous chapter introduced phase separation and our model for the
 Golgi as a phase-separated droplet. In this chapter we study the
-behaviour of our model. In the first section, we analytically solve the
-model for a free droplet, i.e.~a droplet free to move throughout the
+behaviour of such a model. In the first section, we analytically solve the
+model for a free droplet, i.e. a droplet free to move throughout the
 system. Using these expressions, we investigate the effect of advection
 on an active droplet and study the steady states of our model.
+
 Considering the biology, the diffusion constant \(D\) and the decay
 rates \(k\) and \(a\) will most likely be system parameters and thus
 fixed. On the other hand, the advection speed \(v\) encompasses the
 active transport across the microtubules and could easily vary,
 depending on the amount of molecular motors available and the rate at
-which they use ATP; the influx \(J_{in}\) is dependent on the activity
-of the ER and would probably vary too. We are thus interested in
-creating a phase diagram with the stable radius and position as a
+which they hydrolyse ATP; the influx \(J_{in}\) is dependent on the activity
+of the ER and will probably vary too. We are thus interested in
+creating phase diagrams of the steady state radius and position as a
 function of\(J_{in}\) and \(v\).
 
-The Golgi stack is either located at the ribbon or at the ERES. In the
-second section we investigate this using a droplet stuck to the edge of
-the system. Taking a broader view, we study when phase separation takes
-place and if an effective droplet exists when phase separation should
-take place. We also validate the effective droplet model by checking
-mass conservation and this section with a numerical investigation. The
+In the second section we a slightly modified model in which the droplets are located at the edge of the system. Taking a broader view, we study when phase separation takes place and if an effective droplet exists when the system separates. We also numerically study the model and validate the effective droplet model by confirming mass conservation. The
 chapter ends with a short section discussing our conclusions and
 possible biological connections.
 
@@ -1802,7 +1696,7 @@ possible biological connections.
 
 In this section we derive analytical expressions for the fluxes across
 the interface of the droplet. We present the most general case,
-including advection, decay and maturation, and derive simplified
+including advection, decay and maturation and derive simplified
 expressions later. Both the dense and dilute phase are described by an
 advection-diffusion-decay equation, which has a general solution given
 by \begin{equation}
@@ -1822,11 +1716,7 @@ advection \(l_v=2D/v\): \[
 \frac{1}{l^{\pm}} = \sqrt{\frac{k}{D}+\left(\frac{v}{2D}\right)^2}\pm\frac{v}{2D}=\sqrt{\frac{1}{l_D^2}+\frac{1}{l_v^2}}\pm\frac{1}{l_{v}}.
 \] We have defined symmetric boundary conditions for the droplet,
 \(c(R)=c(-R)=c_0^+\). Solving equation \ref{eq:cgeneral} with these
-boundary conditions will lead to a convex concentration profile. We can
-thus associate \(l^-\) with \(x<0\), the left side of the droplet, and
-\(l^+\) with \(x>0\), the right side. In a system without advection we
-have \(l^+=l^-=l_D\) and the concentration profile will thus be
-symmetric around \(c(0)\). If \(v>0\) however, we have \(l^- >l^+\) and
+boundary conditions will lead to a convex concentration profile. In a system without advection we have \(l^+=l^-=l_D\) and the concentration profile will thus be symmetric around \(c(0)\). If \(v>0\) however, we have \(l^- >l^+\) and
 the droplet is no longer symmetric around \(c(0)\); rather, the position
 of the minimum concentration moves right, while the minimum
 concentration itself increases. This is shown in figure
@@ -1836,7 +1726,7 @@ profile for \(v=0\) in blue and \(v>0\) in orange.
 \begin{figure}
 \hypertarget{fig:concprofile}{%
 \centering
-\includegraphics{source/figures/pdf/concprofile.pdf}
+\includegraphics[width=0.6\textwidth]{source/figures/png/concprofile.png}
 \caption{Concentration profiles inside an active droplet for v=0 (blue)
 and v\textgreater{}0 (orange). Note that the minimum concentration
 increases and that its location moves right.}\label{fig:concprofile}
@@ -1859,10 +1749,13 @@ insightful, but considering equations \ref{eq:radius} and
 
 The maturation flux \(J_{mat}\) is the flux at the interface due to the
 maturation in the droplet. Note it is solely determined by the diffusive
-flux, as \[
-J_{in}^{x=R}-J_{in}^{x=-R} = (-D\partial_xc(x)+vc(x))|_{x=R}-(-D\partial_xc(x)+vc(x))|_{x=-R}=D(\partial_xc(x)|_{x=-R}-\partial_xc(x)|_{x=R}).
-\] The maturation flux does have a dependence on the advection through
-its effect on the concentration profile. Since \(J_{rad}\) is solely
+flux, as 
+
+\begin{multline}
+	J_{in}^{x=R}-J_{in}^{x=-R} = (-D\partial_xc(x)+vc(x))|_{x=R}-(-D\partial_xc(x+vc(x))|_{x=-R}\\=D(\partial_xc(x)|_{x=-R}-\partial_xc(x)_{x=R}).
+\end{multline}
+
+The maturation flux does have a dependence on the advection through the concentration profile. Since \(J_{rad}\) is solely
 determined by the diffusive flux and the solutions of
 \ref{eq:cgeneral} are convex, the fluxes at the two interfaces have
 opposite signs. More so, \(J_{in}^{x=R}<0\) and \(J_{in}^{x=-R}>0\), so
@@ -1878,19 +1771,21 @@ J_{mat} = \frac{-2c_0^+D}{l}\frac{\sinh\frac{R}{l^-}\sinh\frac{R}{l^+}}{\sinh\fr
 \label{eq:Jmat}\end{equation} where we have defined an `effective
 lengthscale' \(l\) as \[
 l = \frac{l^+l^-}{l^++l^-}.
-\] For a small, non-advected droplet, \(l^-=l^+=l_D\) , \(l=l_D/2\) and
+\] 
+Notice that if $k=0$, the maturation flux vanishes; without the activity the concentration profile inside the droplet would be flat and no maturation flux exists. Also note that as long as $k\neq 0$, the maturation flux will be non-zero as well and the system is thus out of equilibrium. This is a key aspect of active matter: a steady state may be reached (i.e $dR/dt=0$), but the system will have non-zero fluxes and hence will not be at thermal equilibrium.
+
+For a small, non-advected droplet, \(l^-=l^+=l_D\) , \(l=l_D/2\) and
 \(R\ll l_D\) , we can approximate the maturation flux as
 \begin{equation}
 J_{mat}=-2c_0^+kR.
 \label{eq:Jmatapprox}\end{equation} Effectively, we have approximated
 the concentration profile inside the droplet as \(c(x)=c_0^+\), so that
 the flux lost due to decay with rate \(-k\) for a droplet with size
-\(2R\) indeed gives equation \ref{eq:Jmatapprox}. One would thus
-expect that the limit of \(R\to \infty\) would yield an infinite flux
+\(2R\) indeed gives equation \ref{eq:Jmatapprox}. One would expect that the limit of \(R\to \infty\) would yield an infinite flux
 but taking the limit of \ref{eq:Jmat} gives \[
 \lim_{R\to\infty} = -2c_0^+\sqrt{kD},
-\] which does not yield the shocking result that
-\(\infty = \sqrt{D/k}\), but that the flux saturates for
+\] 
+which shows that the flux saturates for
 \(R>\sqrt{D/k}=l_D\). When \(R\gg l_D\), the concentration in the middle
 of the droplet drops to zero and since the maturation scales with the
 concentration, the flux saturates. In this regime, the effective droplet
@@ -1910,8 +1805,8 @@ Pe^\pm = 1 \mp \frac{vl^\pm}{D}
 \] In a passive droplet \(c(x)=c_0^+\) so that the positional flux
 equals \(2c_0^+v\), but in an active droplet we need to take into
 account the internal diffusion. Recall that the diffusive fluxes point
-inwards and hence are aligned antiparallely, whereas the advective
-fluxes are aligned parallely. The net flux at the two interfaces is thus
+inwards and hence are aligned antiparallel, whereas the advective
+fluxes are aligned. The net flux at the two interfaces is thus
 different, leading to equation \ref{eq:Jpos} instead of \(2c_0^+v\).
 
 We now turn to the fluxes on the outside of the droplet. A droplet of
@@ -1928,7 +1823,7 @@ J_{out}^{x=R} = -c_0^{out}D\frac{Pe_-Pe_+(1-e^{\frac{-x_2+L}{l}})}{l_+Pe_-+e^{\f
 
 Although not particularly enlightening, we note the similarity between
 the second term of \ref{eq:leftflux} and \ref{eq:rightflux}. The
-flux on the left of the droplet has anothe term in \(J_{in}\),
+flux on the left of the droplet has another term in \(J_{in}\),
 accounting for the source we have placed at the left boundary. In the
 next section we study the phase diagram equations \ref{eq:Jmat},
 \ref{eq:Jpos}, \ref{eq:leftflux} and \ref{eq:rightflux} give
@@ -1937,24 +1832,24 @@ rise to.
 \hypertarget{free-droplet}{%
 \section{Free droplet}\label{free-droplet}}
 
-We now wish to study the phase diagrams of free droplets and their
+In this section we study the phase diagram of free droplets and their
 steady states. More specifically, we wish to investigate when droplets
 have a stable state (i.e. \(dR/dt=dx_0/dt=0\)) at some position \(x^*\)
 in the system. The first configuration we study ignores the decay
 outside the droplet, i.e. \(a=0\). In this case, the outside fluxes
 become constant and independent of the location of the droplet, as the
 only way for the cargo to `exit' the system is to mature in the droplet:
+
 \[
 J_{out}^{x=-R} = J_{in}
 \]
-
 \[
 J_{out}^{x=R} =0
 \]
 
 The flux on the right interface of the droplet is zero as there is no
 source nor decay and in our quasi-steady state approximation the flux
-then must become zero. The equations for the flux in the droplet remain
+then must be equal to zero. The equations for the flux in the droplet remain
 unchanged as they are independent of the transport parameters.
 Developing the internal droplet fluxes for \(R\ll l^\pm\) gives:
 \begin{equation}
@@ -1993,44 +1888,44 @@ concentration in \ref{fig:minconnodecay} . We have used the
 following parameters: \(D=1, k=0.1, c_0^+=0.9\).
 
 \begin{figure}
-\hypertarget{fig:stableradnodecay}{%
-\centering
-\includegraphics{source/figures/pdf/Stable_nodecay.pdf}
-\caption{The stable radius as a function of the velocity \(v\) and
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/Stable_nodecay.pdf}
+        \caption{The stable radius as a function of the velocity \(v\) and
 influx \(J_{in}\). The dashed line is the line
-\(dx_0/dt=0\).}\label{fig:stableradnodecay}
-}
-\end{figure}
-
-\begin{figure}
-\hypertarget{fig:minconnodecay}{%
-\centering
-\includegraphics{source/figures/pdf/minimumconcentration.pdf}
-\caption{The minimum concentration in a stable droplet as a function of
-the velocity \(v\) and influx \(J_{in}\). In areas with a low
-concentration the effective droplet model is not
-valid.}\label{fig:minconnodecay}
-}
+\(dx_0/dt=0\).\label{fig:stableradnodecay}}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/minimumconcentration.pdf}
+        \caption{The minimum concentration in a stable droplet as a function of the velocity \(v\) and influx \(J_{in}\). In areas with a low
+concentration the effective droplet model is not valid.
+        \label{fig:minconnodecay}}
+    \end{subfigure}
+    \caption{}
 \end{figure}
 
 Note that the stable radius of small droplets is independent of the
 velocity, but that we do observe some dependence for bigger droplets.
 However, concurrently with the size increase is the minimum
-concentration decrease, as shown in figure \ref{fig:minnodecay} .
+concentration decrease, as shown in figure \ref{fig:minconnodecay} .
 For very low \(v\) and high \(J_{in}\), the concentration even drops to
 0.4 - a concentration corresponding to the dilute well of the free
 energy and thus clearly unphysical. Increasing \(v\) raises the minimum
 concentration, while also slightly decreasing the radius of the droplet.
 To understand this decrease in radius, consider again figure
 \ref{fig:concprofile}. Calculating some average concentration
-\(\bar{c}=\frac{1}{V}\int c(x)dV\), it is clearly visible that this is
+\(\bar{c}=\frac{1}{V}\int c(x)dV\), it is clearly visible in this figure that $\bar{c}$ is
 higher for the advected droplet. Estimating the maturation flux as
 \(J_{mat}\propto -2Rk\bar{c}\), an advected droplet thus has a higher
 maturation flux than a non-advected droplet. The maturation flux needs
 to be balanced by the influx \(J_{in}\) for a stable droplet so that
 \begin{equation}
-R = \frac{J_{in}}{2k\bar{c}}.
-\label{eq:jmathandwavy}\end{equation} Since both \(J_{in}\) and \(k\)
+J_{in}=2kR\bar{c}.
+\label{eq:jmathandwavy}\end{equation}
+ Since both \(J_{in}\) and \(k\)
 are fixed, \(R\) must decrease and thus advection compacts active
 droplets. The superimposed dashed line in figure
 \ref{fig:stableradnodecay} corresponds to \(dx_0/dt=0\) and thus
@@ -2040,9 +1935,11 @@ that for small \(v\) it indeed shows a linear dependence between
 observe some non-linearity. Due to the low concentrations those areas
 are unphysical however. We now investigate the stability of this line by
 perturbing \ref{eq:drdtapproxnodecay} around \(R_{stable}\). We
-obtain \[
-\frac{d\delta r}{dt}=-2c_0^+k\delta r.
-\] Since both \(k>0\) and \(c_0^+>0\), any fluctutations cancel; the
+obtain 
+\[
+\frac{d\delta R}{dt}=-2c_0^+k\delta R.
+\] 
+Since both \(k>0\) and \(c_0^+>0\), any fluctuations decay; the
 steady state is stable. The system we have studied so far is completely
 independent of the position in the system as the outside fluxes are
 constant. By including decay outside the droplet, i.e. \(a\neq 0\), the
@@ -2056,24 +1953,25 @@ system, i.e. \(0<x_0^*<L\), \(0<R^*<L/2\). Using
 state radii and positions in figures \ref{fig:rstabledecay} and
 \ref{fig:xstabledecay}.
 
-\begin{figure}
-\hypertarget{fig:rstabledecay}{%
-\centering
-\includegraphics{source/figures/pdf/Rstable.pdf}
-\caption{Steady state radius as a function of \(v\) and \(J_{in}\) made
-using \(k=0.3, a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\). Blue areas
-correspond to no droplet.}\label{fig:rstabledecay}
-}
-\end{figure}
 
 \begin{figure}
-\hypertarget{fig:xstabledecay}{%
-\centering
-\includegraphics{source/figures/pdf/Xstable.pdf}
-\caption{Steady state position as a function of \(v\) and \(J_{in}\)
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/Rstable.pdf}
+        \caption{Steady state radius as a function of \(v\) and \(J_{in}\) made
+using \(k=0.3, a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\). Blue areas
+correspond to no droplet. Note that the radius increases with increasing $v$.\label{fig:rstabledecay}}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/Xstable.pdf}
+        \caption{Steady state position as a function of \(v\) and \(J_{in}\)
 made using \(k=0.3, a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\). Blue areas
-correspond to no droplet.}\label{fig:xstabledecay}
-}
+correspond to no droplet. Observe that the droplet moves closer to the left of the system for increased $v$.\label{fig:xstabledecay}}
+    \end{subfigure}
+    \caption{}
 \end{figure}
 
 In areas which are blue in both plots no droplet exists in the system.
@@ -2102,34 +2000,32 @@ radius increases with increasing \(v\). Also observe in figure
 Increasing the flow thus leads to the droplet moving further up that
 flow, a very counterintuitive situation. To see why this happens,
 consider a droplet of fixed radius \(R\) at position \(x_0\).
-Remembering equation \ref{eq:jmathandwavy}, increasing \(v\)
-increases \(\bar{c}\), which can only be compensated by a higher influx
-\(J_{in}\). In a system with decay and advection, the influx is higher
-upstream and hence the droplet moves upstream.
+Increasing \(v\) increases \(\bar{c}\), which according to equation\ref{eq:jmathandwavy} can only be compensated by a higher influx. In a system with decay, the influx will be higher upstream and hence the droplet moves upstream.
 
 We study the stability of these steady states by plotting \(dx_0/dt\)
 and \(dR/dt\) at \(J_{in} = 0.18\) and \(v=0.1\) in figures
 \ref{fig:drdtdecay} and \ref{fig:dxdtdecay}.
 
 \begin{figure}
-\hypertarget{fig:drdtdecay}{%
-\centering
-\includegraphics{source/figures/pdf/dRdt.pdf}
-\caption{\(dR/dt\) as a function of \(x_0\) and \(R\). The solid black
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/dRdt.pdf}
+        \caption{\(dR/dt\) as a function of \(x_0\) and \(R\). The solid black
 line denotes the \(dR/dt=0\) and the dashed line \(dx_0/dt=0\). The red
-line is the line \(x_0=R\).}\label{fig:drdtdecay}
-}
+line is the line \(x_0=R\).\label{fig:drdtdecay}}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics{source/figures/pdf/dXdt.pdf}
+        \caption{\(dx_0/dt\) as a function of \(x_0\) and \(R\). The solid black
+line denotes the \(dR/dt=0\) and the dashed line \(dx_0/dt=0\). The red
+line is the line \(x_0=R\).\label{fig:dxdtdecay}}
+    \end{subfigure}
+    \caption{}
 \end{figure}
 
-\begin{figure}
-\hypertarget{fig:dxdtdecay}{%
-\centering
-\includegraphics{source/figures/pdf/dXdt.pdf}
-\caption{\(dx_0/dt\) as a function of \(x_0\) and \(R\). The solid black
-line denotes the \(dR/dt=0\) and the dashed line \(dx_0/dt=0\). The red
-line is the line \(x_0=R\).}\label{fig:dxdtdecay}
-}
-\end{figure}
 
 The solid black lines denote \(dR/dt=0\) and the dashed lines
 \(dx_0/dt=0\). The red line is the line \(x_0=R\); a steady state needs
@@ -2148,9 +2044,8 @@ wetting layer. We investigate this in the next section.
 \section{Droplet stuck to walls}\label{droplet-stuck-to-walls}}
 
 In the previous section we showed that a droplet will always move left
-or right until it hits the edges of the system, but that this situation
-is not properly described by our free droplet model. In this section we
-present a slighly modified model to account for this situation. Once the
+or right until it hits the edges of the system, but that this is not properly described by our free droplet model. In this section we
+present a slightly modified model to account for this situation. Once the
 droplets' interface hits the edge of the system, it ceases to be an
 interface between a dense and a dilute phase: rather, the boundary
 condition of the droplet must become the boundary condition of the
@@ -2174,45 +2069,39 @@ Consider again the double well free energy with minima at \(c_0^-\) and
 f(c) = \frac{b}{2\Delta c^2}(c-c_0^-)^2(c-c_0^+)^2
 \label{eq:energydensity}\end{equation} This free energy describes a
 system phase separating into a dense area with concentration \(c_0^+\)
-and a dilute area of concentration \(c_0^-\). Our system is open
-
-We thus ask at which concentration the dilute and dense phases becomes
-unstable. For the thermodynamics we know that stability requires
-\(d^2f/dc^2>0\). In areas where \(d^2f/dc^2<0\), fluctuations keep
-growing and the system will phase separate. For the free energy density
+and a dilute area of concentration \(c_0^-\). Phase separation is usually approached by the quenching of a mixed state, but we have a different system. Specifically, we have an open system which initially does not contain a droplet and experiences an influx from one side. Before a droplet is formed, the entire system is thus in the dilute well of the free energy. Hence we ask at
+ at which concentration this initial configuration becomes unstable and a droplet is formed.
+ 
+Thermodynamics show that stability requires \(d^2f/dc^2>0\). In areas where \(d^2f/dc^2<0\), fluctuations keep growing and the system will phase separate. For the free energy density
 given by \ref{eq:energydensity}, the area between the two inflection
 points \(c=(c_0^++c_0^-)/2\pm\sqrt{3}(c_0^+-c_0^-)\) is unstable. Thus,
-if the concentration in the dense phase becomes lower than upper
-inflection point, a dilute phase will form. On the other hand, if the
-dilute phase reaches the lower inflection point, a droplet will form.
-Note that we have neglected the gradient term. We thus have a criterium
-for when a droplet is formed.
+if the concentration in the dilute phase reaches the lower inflection point, a droplet will form. On the other hand, if the concentration in the dense phase becomes lower than upper inflection point, a dilute phase will form.  
+
 
 To study when this minimum concentration is reached, we consider our
-system without a droplet which is described by a single
+system without a droplet which is thus described by a single
 advection-diffusion-decay equation with boundary conditions
 \(J(0)=J_{in}\) and \(J(L)=0\). Resulting concentration profiles will
-have the highest concentrations at the edges and we thus calculate at
-which \(J_{in}\) the concentration reaches the lower inflection point.
-We obtain: \begin{equation}
+have the highest concentrations at the edges of the system and we thus calculate at
+which \(J_{in}\) the concentration reaches the lower inflection point at $x=0$ and $x=L$.
+We obtain: 
+\begin{equation}
 \text{Left:  }J_{in} = - \frac{ 2al((1-\frac{1}{\sqrt{3}}c_0^+)+(1+\frac{1}{\sqrt{3}}c_0^-))}{\frac{vl}{D}-coth(\frac{L}{2l})}
-\label{eq:jminleft}\end{equation}
+\label{eq:jminleft}
+\end{equation}
 
 \begin{equation}
 \text{Right: } J_{in} =al((1-\frac{1}{\sqrt{3}}c_0^+)+(1+\frac{1}{\sqrt{3}}c_0^-))\left(e^{-\frac{L}{2l}(\frac{vl}{D}-1)}-e^{-\frac{L}{2l}(\frac{vl}{D}+1)}\right),
-\label{eq:jminright}\end{equation}
+\label{eq:jminright}
+\end{equation}
 
-where \(l\) is a lengthscale defined as \(l=D/\sqrt{4aD+v^2}\).
-Equations \ref{eq:jminleft} and \ref{eq:jminright} represent the
-minimum influx required to form a droplet on the left or right and we
-plot these two curves in figure \ref{fig:minJconc}
+where \(l\) is a lengthscale defined as \(l=D/\sqrt{4aD+v^2}\). We plot equations \ref{eq:jminleft} and \ref{eq:jminright} in figure \ref{fig:minJconc} for \(a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\)
 
 \begin{figure}
 \hypertarget{fig:minJconc}{%
 \centering
-\includegraphics{source/figures/pdf/Jmin.pdf}
-\caption{Blue line: Minimum J left side. Orange line: minimum J right
-side.}\label{fig:minJconc}
+\includegraphics[width=0.7\textwidth]{source/figures/pdf/Jmin.pdf}
+\caption{The minimum required influx for a given advection speed to form a droplet on the left (blue line) and right (orange line). Plotting parameters are \(a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\).}\label{fig:minJconc}
 }
 \end{figure}
 
@@ -2228,17 +2117,8 @@ upper area both droplets can be formed. In this regime, \(J_{in}\) and
 \(v\) are high enough for the concentration to reach the inflection
 point at both sides of the system.
 
-This approach only determines when a droplet is formed and does not
-yield any information about the size and stability of such newly-formed
-droplets. In fact, we require the existence of a stable droplet with
-non-zero radius in areas where figure \ref{fig:minJconc} predicts a
-droplet is formed. We investigate this in the next section
+Note however this analysis is purely based on the free energy density function; we have neglected the $\nabla^2 c$ in the total free energy which penalises gradients in the concentration. Although we do not quantify the effect of including this term, we do observe that penalising gradients significantly raises the free energy of a system without a droplet. Consequently, forming a droplet will be energetically more favourable at lower concentrations, meaning equations \ref{eq:jminleft} and \ref{eq:jminright} are an upper bound for when droplets are formed. Also note that for the validity of our approach, we require a stable droplet in the effective droplet model to exist at and above the influxes in equations \ref{eq:jminleft} and \ref{eq:jminright}. We investigate this is in the next section.
 
-Above both lines the concentration is high enough on both sides. This
-plot onyl tells us when phase-separation should happen; it doesn't tell
-if it does. We investigate this in the next section by comparing the
-phase diagram of figure \ref{fig:minJconc} with the phase diagram
-of the effective droplet model.
 
 \hypertarget{effective-droplet-2}{%
 \subsection{Effective droplet}\label{effective-droplet-2}}
@@ -2261,38 +2141,38 @@ and \ref{eq:jminright}, save for some prefactor. Defining the
 minimum flux as defined by equations \ref{eq:jminleft} and
 \ref{eq:jminright} as \(J^{AD}\) and the minimum flux as calculated
 by the effective droplet model in equations \ref{eq:jminlefted} and
-\ref{eq:jminrighted} we obtain the same ratio for both the left and
-right sides: \[
+\ref{eq:jminrighted} as \(J^{ED}\) we obtain the same ratio for both the left and right sides: 
+\[
 \frac{J^{AD}}{J^{ED}} = \frac{(3-\sqrt{3})c_0^++(3+\sqrt{3})c_0^-}{6c_0^-}
-\] Note that \(J^{AD}>J^{ED}\) if \(c_0^+>c_0^-\). In other words, the
+\] 
+Note that \(J^{AD}>J^{ED}\) if \(c_0^+>c_0^-\). In other words, the
 minimum flux required for a stable droplet is smaller than the minimum
 flux required to form a droplet if the concentration in the dense phase
 is higher than the concentration in the dilute phase, which it is by
 definition. We thus see that a stable droplet with a non-zero radius is
-guaranteed to exist if phase separation should occur as determined by
-equations \ref{eq:jminleft} and \ref{eq:jminright}. A second
-criterium would be mass conservation: the mass in a separated system
-should be similar to the mass in a phase separated system. Given any
-concentration profile (either above or below critical concentration)
-given by an advection-diffusion-decay equation, the mass in the system
-is: \[
-\int_0^L c(x)dx = \frac{J_{in}}{a}
-\] which makes sense as \(J_{in}\) is what comes into the system and
-\(a\) what goes out. Without loss of generality, we assume \(J_{in}\)
-and \(a\) are such the droplet appears on the left side of the system.
-The total mass inside such a system is: \[
-\int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx
-\] Where the stable droplet radius \(R^*\) corresponds to
-\(dR/dt|_{R=R^*}=0\). Assuming the droplet radius remains small, we can
-determine the stable droplet radius. For simplicity assuming that
-\(k=a\), we obtain: \[
-\int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx=\frac{J_{in}}{a}
-\] We thus see that mass is conserved when phase separation occurs.
+guaranteed to exist if phase separation occurs as determined by
+equations \ref{eq:jminleft} and \ref{eq:jminright}. 
 
-The effective droplet phase diagram also predicts an area in which
+A second criterium would be mass conservation: the mass in a separated system
+should be similar to the mass in a phase separated system. The mass in the our system without a droplet is:
+ \[
+\int_0^L c(x)dx = \frac{J_{in}}{a}
+\] 
+We assume that \(J_{in}\) and \(a\) are such the droplet appears on the left side of the system so that the total mass inside the system is then: \[
+\int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx
+\] 
+Where the stable droplet radius \(R^*\) corresponds to
+\(dR/dt|_{R=R^*}=0\). Assuming the droplet radius remains small, we can
+determine the stable droplet radius and thus perform the integral. For simplification, we assume that $k=a$ and we find: 
+\[
+\int_0^{R^*}c_{in}(x)dx + \int_{R^*}^Lc_{out}(x)dx=\frac{J_{in}}{a}
+\] 
+We thus see that mass is conserved when phase separation occurs.
+
+The effective droplet phase diagram predicts an area in which
 droplets on both the left and right are stable. We now investigate if
-both droplets can coexist, i.e.~that the system has a droplet on the
-left and the right, using a two droplet model. Again solving the fluxes
+both droplets can coexist, i.e. that the system has a droplet on the
+left and the right, using a two droplet model. Defining the radius of the left droplet as $R_1$ and the right droplet as $R_2$, solving the fluxes
 for \(dR_1/dt=dR_2/dt=R_1=R_2=0\) yields a minimum influx \(J_{in}\) \[
 J_{in} = \frac{c_0^-D}{2l}\left(\frac{vl}{D}+\frac{(1+e^{\frac{L}{l}}-2e^{\frac{-L}{2l}(\frac{vl}{D}-1)})}{(1-e^{\frac{L}{l}})}\right)
 \] and if \(l_D,l_v\gg L\) we also obtain a minimum advection velocity
@@ -2304,27 +2184,29 @@ in figure \ref{fig:phasediagramapprox} .
 \begin{figure}
 \hypertarget{fig:phasediagramapprox}{%
 \centering
-\includegraphics{source/figures/pdf/phaseapprox.pdf}
-\caption{Caption.}\label{fig:phasediagramapprox}
+\includegraphics[width=0.8\textwidth]{source/figures/pdf/phaseapprox.pdf}
+\caption{Analytically derived phase diagram of droplets on the edges of the system.}\label{fig:phasediagramapprox}
 }
 \end{figure}
 
-We observe six `phases' and that all these cross at a single point. Note
+We observe six configurations and that all these cross at a single point. Note
 some sort of symmetry exists: considering the area above the diagonal of
 the plot and following it clockwise from the origin, we first observe no
 droplets, then a droplet on the left, followed by either a droplet on
 the left or right and finally the area where its possible for a single
-droplet on the left or right or two droplets to exist. Below the
+droplet on the left or right or two droplets simultaneously to exist. Below the
 diagonal we observe an analogous trajectory, where instead of a single
 droplet on the left we now have a droplet on the right. Considering the
-flow problem we presented in the previous section this symmetry makes
+problem concentration profile without the droplet we presented in the previous section this symmetry makes
 perfect sense: for low \(v/J_{in}\) the concentration will be highest on
-the left hence favouring droplets being formed on the left. For high
+the left hence droplets will be formed on the left. For high
 \(v/J_{in}\) exactly the opposite happens and droplets on the right are
-favoured. All phases intersect at a single point. Expanding the crossing
+favoured. For high enough $v$ and $J_{in}$, droplets on both sides can be formed.
+
+Observe that all phases intersect at a single point. Expanding the crossing
 of the minimal fluxes for \(l_D,l_v\gg L\) we obtain \[
 v_{cross}=\frac{aL}{2}
-\] which is similar to equations \ref{eq:minadv}, meaning that the
+\] which is similar to equations \ref{eq:minadv}. This means that the
 intersection at this point is a system property and not just a
 side-effect of our parameter choice. In figure
 \ref{fig:phasediagramnumerical} we plot the results of numerically
@@ -2333,27 +2215,22 @@ solving the equations.
 \begin{figure}
 \hypertarget{fig:phasediagramnumerical}{%
 \centering
-\includegraphics{source/figures/pdf/Numericalphase.pdf}
-\caption{Caption.}\label{fig:phasediagramnumerical}
+\includegraphics[width=0.8\textwidth]{source/figures/pdf/Numericalphase.pdf}
+\caption{Phase diagram }
+\label{fig:phasediagramnumerical}
 }
 \end{figure}
 
 The red solid and dashed lines represent the minimum influx required for
 respectively a droplet on the left and right. The black dashed line
-corresponds to \(dR_{left}/dt=0\) in the two droplet model, while the
-dotted-dashed line is \(dR_{right}/dt=0\). Since only the line this line
-is determined numerically, all the other lines exactly match what is
-plotted in figure \ref{fig:phasediagramapprox}. Contrary to this
-plot however, \(dR_{right}/dt=0\) is not vertical. This is because
-\ref{eq:minadv} has been derived assuming that both the left and
+corresponds to \(dR_1/dt=0\) in the two droplet model, while the
+dotted-dashed line is \(dR_2/dt=0\). Contrary to equation \ref{eq:minadv}, this is not perfectly vertical. This is because \ref{eq:minadv} has been derived assuming that both the left and
 right droplet appear at the same time; in reality, one of the droplet
 can have a non-zero radius before a second droplet appears. Numerically
-we also find that all the phases are connected through some critical
-point. To see why this happens, consider the crossing of the two minima
-\(J_{in}\). At this point, the concentration profile is such that the
-concentration on each side of the system is similar: \(dR/dt=R=0\) on
-both sides and by changing \(J_{in}\) or \(v\) any of the phases can be
-reached.
+we also find that all the configurations are connected through some critical
+point. To see why this happens, consider the crossing of the two minimum influxes as determined by equations \ref{eq:jminleft} and \ref{eq:jminright}. At this point, the concentration profile is such that the concentration on each side of the system is similar: \(dR/dt=R=0\) on
+both sides. By changing \(J_{in}\) or \(v\) any of the configurations can be
+reached from this point and hence all the lines cross at a single point.
 
 We now have several areas where multiple configurations are stable.
 Which one exactly depends on where the initial droplet is formed. Thus,
