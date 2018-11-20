@@ -134,14 +134,11 @@
 \chapter*{Abstract}\label{abstract}}
 \addcontentsline{toc}{chapter}{Abstract}
  The Golgi apparatus is a key component in intracellular
-trafficking, maturing and directing proteins essential to the cell.
-Despite years of research, a model coupling Golgi size and function to
-the cells' transport properties is lacking. In this thesis we develop
-such a model, describing the Golgi as an active droplet. New
-experimental data sheds more insight in the spatial organization of the
-trafficking and I have also devised two new methods relying on image
-gradients and neural networks to analyze this data and confront it with
-our model.
+trafficking, altering and directing proteins essential to the cell.
+Despite years of research, a model coupling Golgi to the intracellular transport is lacking. In this thesis we develop such a model. We analyse new experimental data to investigate if intracellular transport can be described by an advection diffusion equation using two novel methods based on image gradients and neural networks. Neither of the two methods proved able to answer to answer this question however. We also theoretically study if the Golgi can be modelled as an active, phase separated droplet in the advective-diffusive environment set up by the intracellular transport. We find that such a model can indeed explain several key observations such as the \emph{de novo} formation of the Golgi.
+
+
+
 
 \newpage
 
@@ -224,7 +221,7 @@ medial compartments.
 \begin{figure}
 \hypertarget{fig:Golgimodels}{%
 \centering
-\includegraphics{source/figures/png/Golgimodels.png}
+\includegraphics[width=0.9\textwidth]{source/figures/png/Golgimodels.png}
 \caption{\textbf{Left panel}: In the cisternal maturation model,
 compartments mature as a whole and thus change identity. \textbf{Right
 panel}: In the vesicle transport model, compartments are static objects
@@ -272,7 +269,7 @@ experimental data, as shown in figure \#fig:ratemodel.
 \begin{figure}
 \hypertarget{fig:ratemodel}{%
 \centering
-\includegraphics{source/figures/png/kineticmodel.png}
+\includegraphics[width=0.8\textwidth]{source/figures/png/kineticmodel.png}
 \caption{\textbf{Left panel}: First order rate model fitted to
 experimental data by 15 \textbf{Right panel}: Inferred concentration in
 ER, Golgi and PM using the fitted parameters from the left panel and
@@ -425,8 +422,6 @@ techniques thus require a nearly constant concentration, but the RUSH
 experiments show highly dynamical concentrations. Thus, none of the techniques we found
 are directly applicable to the RUSH data.
 
-\newpage
-
 As stated, we hypothesise that we can describe the intracellular process
 by an advection-diffusion equation and we wish to confront this with the
 RUSH data. The question we are thus asking is a rather general one: how
@@ -512,8 +507,10 @@ temporal derivatives of our data, we can fit the model. Although the
 concept seems trivial, its implementation is not. Data is rarely
 noiseless and obtaining accurate derivatives from noisy data is
 notoriously hard, but it forms the heart of our method. In the case of biological data, segmentation into sub-areas is often required and the coefficients \(\lambda_i\) might
-not be constant but space- and time- dependent. The process of
-fitting the data thus has several steps:
+not be constant but space- and time- dependent. 
+
+\newpage
+The process of fitting the data thus has several steps:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -750,6 +747,12 @@ type of intracellular transport and thus not of interest to us. The
 linear increase and common pattern suggests that the transport
 properties are not concentration dependent at these concentrations. We now study the time derivative of the fluorescence. We have plotted it at frame 0, 20 50 and 100 in figure \ref{fig:timederiv}.
 
+Although figure \ref{fig:fluorescence} has shown that $c\propto I$ is a doubtful assumption, an increase in fluorescence will mean an increase in concentration. Areas where the time derivative is positive thus correspond to a concentration increase, whereas areas with a negative time derivative correspond to a concentration decrease. In figure \ref{fig:timederiv}, positive areas are shaded, while negative are shaded blue. As expected, the Golgi shows up in each
+cell as a bright red object. Note however that we also observe red areas
+towards the edges of the cells. As the concentration close to the Golgi
+decreases due to trafficking, the blue area moves outwards and slowly takes over the red area. As to the cause of this outer red ring in each cell, we speculate this is caused by a diffusion: reporters exiting the ER through the ERES initially diffuse, increasing the concentration in some areas. 
+
+
 \begin{figure}
 \hypertarget{fig:timederiv}{%
 \centering
@@ -759,10 +762,6 @@ ManII RUSH experiments.\label{fig:timederiv}}
 }
 \end{figure}
 
-Although figure \ref{fig:fluorescence} has shown that $c\propto I$ is a doubtful assumption, an increase in fluorescence will mean an increase in concentration. Areas where the time derivative is positive thus correspond to a concentration increase, whereas areas with a negative time derivative correspond to a concentration decrease. In figure \ref{fig:timederiv}, positive areas are shaded, while negative are shaded blue. As expected, the Golgi shows up in each
-cell as a bright red object. Note however that we also observe red areas
-towards the edges of the cells. As the concentration close to the Golgi
-decreases due to trafficking, the blue area moves outwards and slowly takes over the red area. As to the cause of this outer red ring in each cell, we speculate this is caused by a diffusion: reporters exiting the ER through the ERES initially diffuse, increasing the concentration in some areas. 
 
 \hypertarget{analysis-of-ls-fit}{%
 \section{Analysis of least-squares fit}\label{analysis-of-ls-fit}}
@@ -793,6 +792,12 @@ depth after studying the advection profiles, which we show in figure
 \ref{fig:advection}. In the four panels we show the inferred
 velocity in the \(\hat{x}\) and \(\hat{y}\) direction in the upper two panels, and the magnitude and angle in the lower two.
 
+Similar to the diffusion, we observe patterns both in time and space
+bigger than our fitting window, meaning that the fit is not completely
+random. On the other hand, we are not able to discern any specific flow patterns from the figures in \ref{fig:advection}. For example, we would expect a rainbow-like pattern pointing towards the Golgi
+ in the lower right corner, but no such pattern is observed.
+ 
+
 \begin{figure}
 \hypertarget{fig:advection}{%
 \centering
@@ -803,14 +808,7 @@ magnitude and angle.}\label{fig:advection}
 }
 \end{figure}
 
-Similar to the diffusion, we observe patterns both in time and space
-bigger than our fitting window, meaning that the fit is not completely
-random. On the other hand, we are not able to discern any specific flow patterns from the figures in \ref{fig:advection}. For example, we would expect a rainbow-like pattern pointing towards the Golgi
- in the lower right corner, but no such pattern is observed.
- 
-To gain more insight into
-our fit, we analyse a single pixel in time. Figure
-\ref{fig:timepixel} shows the diffusion constant and advection velocities as fitted at this pixel as a function of time. The scaled and translated intensity of the pixel is plotted by the black dashed line as a reference.
+
 
 
 \begin{figure}
@@ -823,6 +821,10 @@ show the correlation.}\label{fig:timepixel}
 }
 \end{figure}
 
+To gain more insight into
+our fit, we analyse a single pixel in time. Figure
+\ref{fig:timepixel} shows the diffusion constant and advection velocities as fitted at this pixel as a function of time. The scaled and translated intensity of the pixel is plotted by the black dashed line as a reference.
+
 The signal of this pixel remains roughly constant for the first 10 frames and then decreases to noise level. Note that during this initial constant phase, the diffusion constant is negative. Once the signal starts
 decreasing, or, in other words, cargo starts flowing, we
 see a physical diffusion constant and non-zero velocities. Once the
@@ -832,7 +834,7 @@ other words, our method seems to work when the signal is changing but
 struggling when the signal is either constant or at noise level. We
 observe similar behaviour in other pixels, so we contribute the unphysical diffusion values to constant and noise-level signal.
 
-Using the Einstein Stokes relation, the diffusion constant of a vesicle with a 50nm radius should be on the order of 5$\mu m^2/s$. Although this is an upper bound, as the vesicle can hardly be considered freely diffusing through the cytoplasm, this is still several orders of magnitude higher than the observed diffusion constants of $10^{-4}\mu m^2/s$. One possible explanation for this difference is the `mixing' of the transport fluorescence with the fluorescence of the
+Using the Einstein-Stokes relation, the diffusion constant of a vesicle with a 50nm radius should be on the order of 5$\mu m^2/s$. Although this is an upper bound, as the vesicle can hardly be considered freely diffusing through the cytoplasm, this is still several orders of magnitude higher than the observed diffusion constants of $10^{-4}\mu m^2/s$. One possible explanation for this difference is the `mixing' of the transport fluorescence with the fluorescence of the
 ER. After the addition of biotin, the fluorescent cargo gets released,
 but still has a finite residence time in the ER. Since the obtained
 images are projected over an axis, changes in fluorescence we observe
@@ -875,6 +877,7 @@ has the following structure:
   apply it to our RUSH data.
 \end{itemize}
 
+\newpage
 \hypertarget{neural-networks}{%
 \section{Neural Networks}\label{neural-networks}}
 
@@ -1094,6 +1097,8 @@ calculated too. In the next section we show that automatic
 differentiation enables easy encoding of physics into a neural network,
 leading to a so-called Physics Informed Neural Network (PINN).
 
+\newpage
+
 \hypertarget{physics-informed-neural-networks-1}{%
 \section{Physics Informed Neural
 Networks}\label{physics-informed-neural-networks-1}}
@@ -1289,7 +1294,7 @@ physics-informed part of the cost function, this is not unexpected.
 \begin{figure}
 \hypertarget{fig:summary_constantD}{%
 \centering
-\includegraphics{source/figures/pdf/summary_constantD_varyingPINN.pdf}
+\includegraphics[width=0.9\textwidth]{source/figures/pdf/summary_constantD_varyingPINN.pdf}
 \caption{We show the training data and predicted concentration profile
 in the upper left and right panels. The lower right panel shows the
 inferred diffusion field while the lower left panel shows the CDF of the
@@ -1313,7 +1318,7 @@ able to accurately infer a coefficient field from noisy data.
 \begin{figure}
 \hypertarget{fig:summary_varyingD}{%
 \centering
-\includegraphics{source/figures/pdf/summary_varyingD_varyingPINN.pdf}
+\includegraphics[width=0.9\textwidth]{source/figures/pdf/summary_varyingD_varyingPINN.pdf}
 \caption{We show the training data and predicted concentration profile
 in the upper left and right panels. The lower right panel shows the
 inferred diffusion field while the lower left panel shows the CDF of the
@@ -1325,7 +1330,7 @@ concentration.}\label{fig:summary_varyingD}
 \begin{figure}
 \hypertarget{fig:projectionD}{%
 \centering
-\includegraphics{source/figures/pdf/projection.pdf}
+\includegraphics[width=0.8\textwidth]{source/figures/pdf/projection.pdf}
 \caption{Projection of the inferred diffusion profile along the time
 axis.}\label{fig:projectionD}
 }
@@ -1534,7 +1539,7 @@ non-trivial phase-separated solution can be found as well using Maxwells tangent
 
 Having defined the boundary conditions at the interface, the stationary concentration profile (i.e. $dc/dt=0$) inside and outside the droplet can be solved. From these concentration profiles the fluxes at the interface which determine the droplet growth can be calculated. We show this in the next section.
 
-
+\newpage
 \hypertarget{fluxes-activity-and-interfaces}{%
 \subsection{Fluxes, activity and
 interfaces}\label{fluxes-activity-and-interfaces}}
@@ -1885,7 +1890,7 @@ environment. We plot the stable radius of the droplet in figure
 concentration in \ref{fig:minconnodecay} . We have used the
 following parameters: \(D=1, k=0.1, c_0^+=0.9\).
 
-\begin{figure}
+\begin{figure}[t]
     \centering
     \begin{subfigure}[t]{0.5\textwidth}
         \centering
@@ -1952,7 +1957,7 @@ state radii and positions in figures \ref{fig:rstabledecay} and
 \ref{fig:xstabledecay}.
 
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.5\textwidth}
         \centering
@@ -2072,7 +2077,7 @@ and a dilute area of concentration \(c_0^-\). Phase separation is usually approa
  
 Thermodynamics show that stability requires \(d^2f/dc^2>0\). In areas where \(d^2f/dc^2<0\), fluctuations keep growing and the system will phase separate. For the free energy density
 given by \ref{eq:energydensity}, the area between the two inflection
-points \(c=(c_0^++c_0^-)/2\pm\sqrt{3}(c_0^+-c_0^-)\) is unstable. Thus,
+points (see the vertical lines in figure \ref{fig:freeenergy}) \(c=(c_0^++c_0^-)/2\pm\sqrt{3}(c_0^+-c_0^-)\) is unstable. Thus,
 if the concentration in the dilute phase reaches the lower inflection point, a droplet will form. On the other hand, if the concentration in the dense phase becomes lower than upper inflection point, a dilute phase will form.  
 
 
@@ -2271,6 +2276,19 @@ varying expressions are then used to improve the first step estimate.
 In the second part of the thesis we have investigated if the Golgi could be described as a phase separated droplet in a diffusive-advective environment. In the process, we also studied the effect of advection on active droplets and found that it compacts them. We showed that droplets can indeed phase separate in such an environment and switch position between the edges of the system depending on the magnitude of advection. Active droplets move by growing on one side and shrinking on the other and we thus speculate that cisternal maturation can actually be responsible for moving the stacks from their location in the ribbon to an ERES when the microtubules are depolymerised. However, our model also showed the possibility for two droplets to exist simultaneously in the ribbon and at the ERES - a situation not observed in cells. We also note that our model allowed several stable configurations to exist at a given parameter set. More work is required to investigate if any of these states are preferred over one another, probably through simulations or numerically solving the complete Cahn-Hilliard equation. We have also modelled the Golgi as a droplet of immature cargo, including a conversion term but otherwise completely neglecting mature cargo. Future work should incorporate this by for example switching to a two-component model. Furthermore, we note that dynamics could be added to the model, as the advection-diffusion equation has a time dependent solution through Greens' functions. 
 
 \section{Afterword}
+
+When people ask me why I did my masters project in Paris at Institut Curie I always answer it's sort of an escalated joke. When Remy told me he was going to Institut Curie for his post-doc we discussed the research done there and it seemed really interesting, so when he jokingly asked me why I wouldn't do my masters project there I thought, 'why not?' and a few weeks later I was boarding a TGV to Paris to discuss possible projects with Pierre. Now, having lived in Paris for nearly a year, I haven't regretted the decision one second. Well, except for when I'm filling in another form for HR - I seem to have gotten the full 'French treatment'. So Remy, I guess I owe you a thanks for that joke. We'll get to that PhD later.  
+
+The scientific world is a small place. Having decided on a project with Pierre as my supervisor, I thought Kees would make for a good supervisor in the Netherlands and upon telling him about my project he responded that he knew Pierre from back in the day. Pierre and Kees, thanks for having given me the freedom to follow what I found interesting (hence the chapter on neural networks), but also asking the right questions to make me realise that most of my crazy ideas wouldn't work. Your advice and guidance has kept this thing on track. 
+
+I'll keep working with Pierre and Remy as I'm starting my PhD here in Paris in January. We'll be working on applying physics informed neural networks to biophysical problems, specifically the actin cortex. The last year I've found out that I really enjoy working on the interface of physics, biology and computer science, so that's exactly what I'm going to do the next three years. 
+
+My PhD is not going to be at Curie, meaning that I'm not going to be seeing the people of UMR168 everyday anymore. And that's making me a little bit sad, since I can't put into words how much fun the last year has been. Allison, Efe, Amit, Jean-Patrick, Anne-Marie, Thibaut, Michael, Joanna, Julienne, Maj (yes, even you), and whoever else I've forgotten (sorry about that), thanks. 
+
+Despite the fun I've had and all the different things I've learned (who knew biology could be so complex?), it wasn't always easy. About six weeks into my project a man whom I might best describe as a second father to me unexpectedly passed away. He always pushed me to not bitch and work harder, telling me how he'd been stupid and failed. Always reminding me he'd be there at my graduation. But he won't, and so I dedicate this to him. 
+
+\emph{Jan, deze is voor jou.}
+
 
 \footnotesize
 
