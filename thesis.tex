@@ -23,7 +23,7 @@
 \usepackage{caption}
 \usepackage{tocloft}
 % TP: end hack
-
+\usepackage{hyperref}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
@@ -131,10 +131,7 @@
 \hypertarget{abstract}{%
 \chapter*{Abstract}\label{abstract}}
 \addcontentsline{toc}{chapter}{Abstract}
-
-Title: Quantifying the Golgi
-
-Abstract: The Golgi apparatus is a key component in intracellular
+ The Golgi apparatus is a key component in intracellular
 trafficking, maturing and directing proteins essential to the cell.
 Despite years of research, a model coupling Golgi size and function to
 the cells' transport properties is lacking. In this thesis we develop
@@ -156,17 +153,17 @@ our model.
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
-The cell uses thousands of proteins and lipids to function and many of
+The cell uses thousands of proteins and lipids to function. Many of
 these are produced in the Endoplasmic Reticulum (ER), an organelle found
 in eukariotic cells. Upon exiting the ER, these proteins and lipids are
 then transported throughout the cell in a process known as intracellular
 transport. Key component in this intracellular trafficking is the Golgi
 apparatus, an organelle responsible for biochemically maturing proteins
 and directing them to the right location. Intense research over the last
-years has identified key players,\textsuperscript{1},\textsuperscript{2}
+years has identified key players,\textsuperscript{1,2}
 but an integrated model coupling Golgi size and function to the
 intracellular transport is
-lacking\textsuperscript{3},\textsuperscript{4}. In this thesis, we seek
+lacking\textsuperscript{3,4}. In this thesis, we seek
 to propose such a model.
 
 \hypertarget{the-secretory-pathway-biology-101-for-physicists}{%
@@ -178,7 +175,7 @@ referred to as ER Exit Sites - ERES. At these sites, cargo is packaged
 into a lipid bilayer and this package, known as a vesicle, buds off into
 the cytoplasm\textsuperscript{5}. ERES are located throughout the cell
 and thus the vesicles need to be transported to their destination: the
-Golgi apparatus. In general, we can recognize two different trafficking
+Golgi apparatus. In general, we can recognise two different trafficking
 modes: diffusive and directive\textsuperscript{6}. In the directive
 mode, molecular motors pull vesicles along microtubules by hydrolysing
 ATP. Microtubules (MTs) are long tubular polymers spread throughout the
@@ -187,10 +184,10 @@ transport. They are organised around objects known as MicroTubular
 Organisation Centers (MTOCs). The primary MTOC is the centrosome, an
 organelle located next to the nucleus, but strong evidence exists that
 the Golgi apparatus acts a MTOC
-too\textsuperscript{7},\textsuperscript{8}.
+too\textsuperscript{7,8}.
 
-Microtubules are polarized and have two distinct ends, indicated as the
-(+) and (-). Different molecular motors are utilized for transport
+Microtubules are polarised and have two distinct ends, indicated as the
+(+) and (-). Different molecular motors are utilised for transport
 towards each end, with dynein being (-)-directed and kinesin
 (+)-directed\textsuperscript{9}. Vesicles are often attached to multiple
 motors of both types, binding and unbinding constantly, making this
@@ -200,23 +197,23 @@ can also completely detach from all molecular motors. The vesicle will
 then move through the cytoplasm in a diffusive way, until it reattaches
 to a microtubule. Note that diffusive mode is a deceptively simple name,
 as the cytoplasm is not a simple fluid; it is packed with other cellular
-components, giving rise to effects such as anomolous diffusion or
+components, giving rise to effects such as anomalous diffusion or
 crowding.
 
 The intracellular trafficking transports the vesicles towards the Golgi,
-where the cargo undergoes biochemical maturation and is sorted before
+where the cargo undergoes biochemical modification (a process generally referred to as maturation) and is sorted before
 being sent to their destination. The Golgi thus acts as a sort of
-post-office of the cell, receiving cargo, repackaging and sending it to
+post-office of the cell, receiving cargo, repackaging it and sending it to
 the right destination\textsuperscript{11}. Although the function of the
 Golgi is similar for different cell types, its appearance is strongly
 dependent on it. In plants for example, the Golgi is distributed
 throughout the cell in separate but fully functional subunits known as
 stacks\textsuperscript{12} , whereas in mammals all these stacks are
-localized close to the nucleus in a single organelle known as the
+localised close to the nucleus in a single organelle known as the
 \emph{Golgi Ribbon}\textsuperscript{7}. A stack consists of a number of
 stacked compartments of a disk-like shape called \emph{cisternae}. These
 are membrane enclosed objects containing the enzymes responsible for
-biochemically altering proteins, a process generally referred to as
+biochemically altering the proteins, a process generally referred to as
 maturing. Proteins move through the Golgi in a particular direction and
 the Golgi thus has distinct entry and exit faces. These are known
 respectively as the cis and trans face, with the cisternae being labeled
@@ -224,45 +221,43 @@ analogously. The cisternae in the middle of the stack are referred to as
 medial compartments.
 
 \begin{figure}
-\hypertarget{fig:golgimodels}{%
+\hypertarget{fig:Golgimodels}{%
 \centering
-\includegraphics{source/figures/png/golgimodels.png}
+\includegraphics{source/figures/png/Golgimodels.png}
 \caption{\textbf{Left panel}: In the cisternal maturation model,
 compartments mature as a whole and thus change identity. \textbf{Right
 panel}: In the vesicle transport model, compartments are static objects
 and cargo is being transported from compartment to compartment by
-vesicles. Image taken from 13.}\label{fig:golgimodels}
+vesicles. Image taken from 13.}\label{fig:Golgimodels}
 }
 \end{figure}
 
-At the cis-face vesicles fuse with the golgi and release their cargo
+At the cis-face vesicles fuse with the Golgi and release their cargo
 into a compartment, while their lipid bilayer becomes part of the
-compartment membrane. Exactly how maturation then happens is hotly
-debated\textsuperscript{14},\textsuperscript{13}. The two main competing
+compartment membrane. Exactly how maturation then happens is debated\textsuperscript{13,14}. The two main competing
 explanations are the \emph{cisternal maturation} and \emph{vesicular
-transport} models. In figure fig.\ref{fig:golgimodels} we show the
+transport} models. In figure \ref{fig:Golgimodels} we show the
 structure of the Golgi and and a schematic view of each model. In the
-cisternal maturation model (left panel of fig.\ref{fig:golgimodels}),
+cisternal maturation model (left panel of \ref{fig:Golgimodels}),
 the compartments mature as a whole, changing identity from cis to medial
 and finally to trans. Trans compartments are recycled into cis
 compartments by retrograde vesicular transport. In the vesicular
-transport model (see right panel of fig.\ref{fig:golgimodels}), the
+transport model (see right panel of \ref{fig:Golgimodels}), the
 vesicles move in the opposite direction. Rather than constantly changing
 identity, in this model cisternae are static entities with a defined
 task and cargo is moved from one compartment to the next by vesicles.
 The debate could thus be settled by analysing the direction of the
-vesicles, but so far this has proven elusive.
-
-At the trans-face, the cargo is encapsulated again in a lipid bilayer
+vesicles, but so far this has proven elusive. At the trans-face, the cargo is encapsulated again in a lipid bilayer
 and is transported to its destination, similar to pre-Golgi
 intracellular transport.
 
-\hypertarget{quantitative-models-of-the-golgi}{%
+
+\hypertarget{quantitative-models-of-the-Golgi}{%
 \subsection{Quantitative models of the
-Golgi}\label{quantitative-models-of-the-golgi}}
+Golgi}\label{quantitative-models-of-the-Golgi}}
 
 The Golgi has been intensively studied by biologists for many years, but
-very few attempts at quantification appear to have been made: our
+very few attempts at quantifying the link between the Golgi and the intracellular transport appear to have been made: our
 research only turned up a single attempt by Hirschberg et
 al\textsuperscript{15}, where the authors present a model for the
 trafficking of VSVG virus from the ER to the plasma membrane. The
@@ -284,77 +279,62 @@ their model. Image reprinted from 15.}\label{fig:ratemodel}
 }
 \end{figure}
 
-We reprint their main result in figure fig.\ref{fig:ratemodel}.
+We reprint their main result in figure \ref{fig:ratemodel}.
 Although this model describes the experimental data, it is a
-phenomological model and reduces the entiry system to a few rate
+phenomenological model and reduces the entire system to a few rate
 parameters \(k_{i\to i+1}\). These rate parameters are not coupled to
-any of the underlying processes and hence this model doesn't offer any
+any of the underlying processes and hence this model does not offer any
 insight into the system. Furthermore, the model lacks any spatial
 dependence of the concentration.
 
 \hypertarget{this-thesis}{%
 \section{This thesis}\label{this-thesis}}
-
-In this thesis we propose a model which couples intracellular transport
-to the Golgi. We hypothesize that we can describe the Golgi as an
-\emph{active, phase separated droplet} and the intracellular transport
-with an advection-diffusion equation. We will confront our model with
-experimental data. The group of Frank Perez at Institut Curie has
-developed a new technique called RUSH\textsuperscript{16}, which allows
-us to study the intracellular transport from the ER to the Golgi and
-beyond using fluorescence microscopy. In the next sections, we justify
-the description of the Golgi as an active phase-separated droplet and
-how we intend to perform the data analysis of the experimental data.
+Interestingly, studies have shown that the Golgi is able to form \emph{de novo}\textsuperscript{8}, meaning
+that in cells from which the Golgi has been removed, it will automatically reappear. In this thesis we propose a model which couples the intracellular transport
+to the Golgi in order to explain this by describing the Golgi as an \emph{active, phase separated droplet} and the intracellular transport by an advection-diffusion process. Our model is not restricted to the formation-phase of the Golgi: as we have linked the intracellular transport to the Golgi, it also predicts a spatial distribution of the cargoes being trafficked by intracellular transport when the Golgi is functioning properly. 
+This allows us to confront our model with experimental data gathered by the team of Frank Perez at Institut Curie. This team has developed a new technique called RUSH\textsuperscript{16}, which is used to study the intracellular transport from the ER to the Golgi and
+beyond using fluorescence microscopy. In the next sections we introduce the experimental data, how we intend to analyse it and justify
+the description of the Golgi as a phase separated droplet.
 
 \hypertarget{experimental-data}{%
 \subsection{Experimental data}\label{experimental-data}}
 
-The transport of vesicles from the ERES to the Golgi is both diffusive
-and directive and a technique known as RUSH (Retention Using Selective
+RUSH (Retention Using Selective
 Hooks) has recently been developed\textsuperscript{16} in the team of
-Frank Perez at Institut Curie to study this trafficking. RUSH allows
-precise timing of the release of proteins from the ER and can be used to
-follow the secretory pathway from the ER to the Golgi and even
-post-golgi using fluorescent live-cell imaging. Several other methods
-have been developed (\textbf{???}--golgi\_1997,
-\textbf{???}--golgi\_2018), but lack the non-toxicity, timing and
-versatility of the RUSH technique.
+Frank Perez at Institut Curie to study intracellular trafficking from the ER to the Golgi and even
+post-Golgi using fluorescent live-cell imaging.
 
 \begin{figure}
 \hypertarget{fig:RUSH}{%
 \centering
-\includegraphics{source/figures/png/RUSH.png}
+\includegraphics[width=0.65\textwidth]{source/figures/png/RUSH.png}
 \caption{Schematic overview of the RUSH system. Image taken from
 16}\label{fig:RUSH}
 }
 \end{figure}
 
-Figure fig.\ref{fig:RUSH} shows the principle of the RUSH system.
-Inside the ER, a core streptavidin is fused to it using a hook protein.
+Figure \ref{fig:RUSH} shows the principle of the RUSH system.
+Inside the ER, a core streptavidin is fused to the ER using a hook protein.
 Another protein known as a streptavidin-binding-protein (SBP) binds to
 streptavidin, but connected to the SBP are also the protein to be
 transported (`reporter') and a fluorescent protein. Upon the addition of
 biotin, the SBP is released from the streptavidin as the biotin binds to
-it. The SBP-reporter-fluorescent complex then exits the ER and can be
-followed the entire secretory pathway with fluorescence microscopy.
+the streptavidin. The SBP-reporter-fluorescent complex then exits the ER and can be
+followed the entire secretory pathway with fluorescence microscopy. 
 
-The RUSH technique can be used for many different proteins, but in this
+Because the addition of biotin is a nearly instantaneous process, RUSH allows for precise timing of release of the report complex. Another advantage is its versatility, as it can be used for many different proteins. In this
 thesis we mainly focus on the \(\alpha\)-mannosidase-II, generally
-referred to as ManII. The ManII protein resides in the Golgi apparatus
-and thus upon reaching it will remain there. This means that the data we
-obtain will only contain transport \emph{towards} the golgi, greatly
-simplifying the analysis as we won't have to post and pre-golgi traffic.
-Figure fig.\ref{fig:manII} shows two frames in a typical RUSH
-experiment of ManII trafficking. The left panel shows an image obtained
-just after the addition of the biotion, so that most of the cargo is
-still retained in the ER. A later frame is shown on the right: we can
-observe the localization of fluorescence in the Golgi, while there's
-still fluorescence in the rest of the cells.
+referred to as ManII. The ManII protein is retained in the Golgi apparatus
+after trafficking, meaning that the data we
+obtain will only contain transport \emph{towards} the Golgi, greatly
+simplifying the analysis as we will not have to separate pre and post-Golgi trafficking.
+Figure \ref{fig:manII} shows two frames containing three cells (denoted by the black dashed line) in a typical RUSH
+experiment of ManII trafficking.  Initially, all the cargo is retained in the ER and the fluorescence should thus be diffuse throughout the cell around the nucleus. This is shown in the left panel: in all cells we observe the fluorescence in a ring around a dark centre. Once the ManII is trafficked, the Golgi will show up as a bright object. This is shown in the right panel, where we have denoted the location of the Golgi by the red circle. However, some of the cargo is either still in the ER or being trafficked, considering the fluorescence outside of the Golgi.
 
 \begin{figure}
 \hypertarget{fig:manII}{%
 \centering
-\includegraphics{source/figures/pdf/frames.pdf}
+\includegraphics{source/figures/png/frames.png}
 \caption{Two frames of the ManII transport images using the RUSH
 technique.}\label{fig:manII}
 }
@@ -367,8 +347,8 @@ Vesicles exiting the ERES are transported towards the ER over the
 microtubules. This is a stochastic process with the proteins detaching
 from and (re-) attaching to the microtubules randomly, while the
 vesicles move diffusely once detached. Several models have been
-developed to describe such intracellular transport processes (6, 17),
-many in the light of virus trafficking (18, 19, 20). In general, these
+developed to describe such intracellular transport processes \textsuperscript{6, 17},
+many in the light of virus trafficking \textsuperscript{18, 19, 20}. In general, these
 models assume a two population model, with one population being cargo
 attached to a microtubule and another cargo freely diffusing in the
 cytoplasm. If one assumes that the timescale for attaching and detaching
@@ -377,33 +357,36 @@ two populations can be assumed to be in equilibrium. In this assumption,
 known as a quasi-steady-state reduction, the two population model
 reduces to a Fokker-Planck equation. As the Fokker-Planck equation is
 functionally equivalent to an advection-diffusion equation, we
-hypothesize that we can model protein transport using an
-advection-diffusion equation: \[
-\partial_t c = D\nabla^2c-v\nabla c
-\] where \(c\) is the concentration of the cargo, \(D\) a diffusion
-coefficient and \(v\) an advection velocity. Equation eq.\ref{eq:adeq}
+hypothesise that we can model protein transport using an
+advection-diffusion equation
+: 
+\begin{equation}
+	\label{eq:advdiff}
+	\partial_t c = \nabla (D\nabla c-\vec{v} c)
+\end{equation}
+
+ where \(c\) is the concentration of the cargo, \(D\) a diffusion
+coefficient and \(v\) an advection velocity. Equation \ref{eq:advdiff}
 is thus the model we fit our data to. Note that the fluorescence images
 obtained from the RUSH experiment return an intensity \(I\) and not a
 concentration \(c\), and hence we make the assumption \(c \propto I\).
-We now now turn to the model describing the Golgi.
 
 Many biological processes and reactions require a high concentration of
 some protein or lipid to occur. This can be achieved by physically
 separating proteins inside a membrane (consider the lysosome), but the
-cell contains several membraneless organelles. These organelles thus
+cell contains several membrane-less organelles. These organelles thus
 require a different means of reaching high concentrations and the prime
 candidate is liquid-liquid phase separation. In this process a mixture
-of two different liquids A and B separates into two phases, one rich in
+of liquids A and B separates into two phases, one rich in
 A and one rich in B, due to the interactions between them. Phase
-separation can thus produce membraneless domains with a high
-concentration. It has been proposed as a model for early
+separation can thus produce domains with a high
+concentration without membranes. It has been proposed as a model for early
 protocells\textsuperscript{21} and is able to correctly describe several
 phenomena such as P-granules\textsuperscript{22} and centrosome
 growth\textsuperscript{23}.
 
-We hypothesize we can use a similar description for the Golgi, as its
-biogenesis contains strong clues which point towards phase separation.
-First and foremost, the Golgi is able to form \emph{de novo}, meaning
+We use a similar description for the Golgi, as its
+biogenesis contains strong clues which point towards phase separation as the process driving the biogenesis. The Golgi is able to form \emph{de novo}, meaning
 that in cells from which the Golgi has been removed, it will reappear
 without any specific action. Ronchi et al\textsuperscript{8} studied
 this in detail and found three phases of growth. In the first phase,
@@ -412,22 +395,11 @@ and the vesicles disappear either due to fusion with the ER or
 degradation. In the second phase larger stack-like structures are
 formed, while in the third phase all these structures are clustered in a
 single location; the Golgi Ribbon is formed. Phase two has the markings
-of a concentration-dependent phase separation. Once a critical
-concentration is reached, the mixed state becomes unstable and the
-mixture phase-separates into a dilute and dense phase. The dense phase
-would then correspond to a stack.
+of a concentration-dependent phase separation: once a critical
+concentration of vesicles is reached, the mixed state becomes unstable and the vesicles aggregate and fuse to form a Golgi stack. When such an transition occurs, not all vesicles in the system aggregate: an equilibrium between single vesicles and the aggregated vesicles will exist. Coarse graining such a system yields a dilute phase with a low concentration of vesicles and a dense phase. Interpreting this dense phase as the Golgi and the dilute phase as the cytoplasm, we thus describe the Golgi as a phase separated droplet.  Also note that by describing the systems in terms of some coarse-grained vesicle concentration, we can apply phase separation - a theory normally used to describe membrane-less organelles - to a membrane delimited organelle: the Golgi. 
 
-One crucial point we've neglected so far is that the Golgi isn't a
-membraneless organelle and neither is the cargo. Hence, a
-phase-separation description should be inappropriate. Using a
-description in which we consider the vesicles to be the phase-separating
-liquid, we think we can use a phase-separation description however. The
-dense phase would then correspond to the Golgi, while the dilute phase
-would correspond to the cytoplasm with the vesicles. Such models predict
-droplets growing to infinity and research has shown that in reality the
-Golgi has a finite size. By accounting for the maturation of the cargo,
-making our droplet \emph{active} in the process, finite radii can be
-obtained. We thus model the Golgi as an \emph{active phase-separated
+The Golgi is highly dynamical organelle, taking up and budding off vesicles constantly and our model needs to account for this. We neglect the precise form of maturation (i.e. cisternal maturation versus vesicular transport)
+and model the maturation by considering two populations, immature and mature, with the immature population being converted into mature inside the droplet. This makes the droplet \emph{active} and we thus describe the Golgi as an \emph{active phase-separated
 droplet}.
 
 \hypertarget{biological-image-analysis}{%
@@ -435,32 +407,31 @@ droplet}.
 
 Image analysis is a lively and ongoing subject in cell biology, with
 many new methods being developed constantly, especially with
-quantization in
-mind\textsuperscript{24},\textsuperscript{25},\textsuperscript{26},\textsuperscript{27}.
+quantisation in
+mind\textsuperscript{24, 25, 26, 27}.
 Techniques for quantifying intracellular transport roughly fall into two
 categories: single particle tracking (SPT) or correlation spectroscopy.
 SPT tracks fluorescent proteins or beads moving through the cell on a
 frame-to-frame basis, so that each particle's trajectory can be
-reconstructed. These trajectories can then be analyzed to obtain
+reconstructed. These trajectories can then be analysed to obtain
 information about the transport. The fluorescent movies obtained from
-the RUSH experiments are not clear enough to accurately localize the
-vesicles, so that SPT can not be used to analyze the transport. Methods
+the RUSH experiments are not clear enough to accurately localise the
+vesicles, so that SPT can not be used to analyse the transport. Methods
 based on correlation
-spectroscopy\textsuperscript{28},\textsuperscript{29},\textsuperscript{30}
-rely on a general relationship between the fluctuations and the
+spectroscopy\textsuperscript{28, 29, 30} rely on a general relationship between the fluctuations and the
 underlying density of particles and transport properties. These
-techniques are most suitable for a stationary signal, whereas the RUSH
-experiments are highly dynamical. Thus, none of the techniques we found
+techniques thus require a nearly constant concentration, but the RUSH
+experiments show highly dynamical concentrations. Thus, none of the techniques we found
 are directly applicable to the RUSH data.
 
-As stated, we hypothesize that we can describe the intracellular process
+As stated, we hypothesise that we can describe the intracellular process
 by an advection-diffusion equation and we wish to confront this with the
-RUSH data. The question we're thus asking is a rather general one: how
+RUSH data. The question we are thus asking is a rather general one: how
 do we fit some spatiotemporal (nD+1) data to a model? More specifically,
 since a model is most often presented in the form of a partial
 differential equation (i.e.
-\(df/dt = \alpha df/dx+\beta d^2f/dx^2+...\)), for what parameters
-\(\alpha, \beta...\) is the temporal evolution of a given dataset best
+\(df/dt = \alpha(x, t) df/dx+\beta(x, t) d^2f/dx^2+...\)), for what parameters
+\(\alpha(x), \beta(x)...\) is the temporal evolution of a given dataset best
 described? We have developed and evaluated two different methods. Our
 first method approaches the problem rather directly by calculating
 spatial and temporal derivatives directly from the data using a
@@ -468,7 +439,7 @@ technique known as image gradients. Our second method is based on a
 recently developed technique based on neural
 networks\textsuperscript{31}. We will show that by encoding physics into
 the neural network, we are not only able to infer the optimal
-parameters, but even an optimal parameter \emph{field}.
+parameters (i.e. $\alpha(x,t)=\alpha_0$), but even an optimal parameter \emph{field} $\alpha(x,t)$.
 
 \hypertarget{structure-and-main-questions}{%
 \subsection{Structure and main
@@ -476,8 +447,7 @@ questions}\label{structure-and-main-questions}}
 
 The rest of this thesis is divided into two parts. In the first part we
 show the two model fitting methods we have developed and apply them to
-the RUSH experimental data. The second part discusses the model we have
-developed for the Golgi. In a chapter-by-chapter breakdown, we have the
+the RUSH experimental data. In the second part we connect the model we have for the intracellular transport to that of the Golgi and theoretically investigate it. In a chapter-by-chapter breakdown, we have the
 following:
 
 \begin{itemize}
@@ -519,38 +489,28 @@ following:
 \chapter{Model fitting}\label{model-fitting}}
 
 In this chapter we introduce the method we have developed for fitting a
-model in the form of a PDE to spatiotemporal data. We start with a
-section describing the general idea and subsequent sections elaborate on
-each step. The method principaly works for any type of data and model,
-but was developed originally to analyze data from the RUSH experiments.
-We have chosen to illustrate the effects of each step with RUSH
-experimental data instead of synthetic data.
+model in the form of a PDE to spatiotemporal data. We start off with the general concept and subsequent section will elaborate on each step.
 
-\hypertarget{the-concept}{%
-\section{The concept}\label{the-concept}}
-
-Assume we have acces to experimental data of some process \(f(x,t)\).
-Parallely, we have also developed a model describing this process, but
-it is the form of a PDE: \begin{equation}
-\partial_t f(x,t) = \lambda_1 \nabla^2f(x,t)+\lambda_2\nabla f(x,t) +\lambda_3 f(x,t) +\lambda_4
-\label{eq:PDE}\end{equation} We now wish to investigate if this model
-fits the data \(f(x,t)\) and find the optimal value of coefficients
-\(\lambda_i\). To do so, we consider each spatial term in \(f(x,t)\) in
-eq.\ref{eq:PDE} as some variable \(x_i\) but \(\partial_t f\) as \(y\),
+Assume we have access to experimental data of some process \(f(x,t)\).
+Parallelly, we have also developed a model describing this process, but
+it is in the form of a PDE: 
+\begin{equation}
+	\label{eq:PDEone}
+	\partial_t f(x,t) = \lambda_1 \nabla^2f(x,t)+\lambda_2\nabla f(x,t) +\lambda_3 f(x,t) +\lambda_4
+\end{equation} 
+We now wish to investigate if this model fits the data \(f(x,t)\) and what coefficient values \(\lambda_i\) best describe the dataset.
+To do so, we consider each term on the right of equation \ref{eq:PDEone} in \(f(x,t)\) as some variable \(x_i\) and \(\partial_t f\) as \(y\),
 so that we can rewrite it as: \[
 y = \lambda_1 x_1+\lambda_2x_2 +\lambda_3 x_3 +\lambda_4
 \]
-
-If we thus can find the variables \(x_i\) and \(y\), we can perform some
+If we thus can find the variables \(x_i\) and \(y\), we can perform a
 fitting procedure such as least squares to obtain the coefficients
 \(\lambda_i\). In other words, if we can calculate the spatial and
 temporal derivatives of our data, we can fit the model. Although the
-concept seems trivial, its implementation is all but. Data is rarely
+concept seems trivial, its implementation is not. Data is rarely
 noiseless and obtaining accurate derivatives from noisy data is
-notoriously hard, but forms the heart of our method. It's also possible
-to have distinct models in different areas of the data, so that we need
-to segment the data. Furthermore, the coefficients \(\lambda_i\) might
-not be constant but could be space- and time- dependent. The process of
+notoriously hard, but it forms the heart of our method. In the case of biological data, segmentation into sub-areas is often required and the coefficients \(\lambda_i\) might
+not be constant but space- and time- dependent. The process of
 fitting the data thus has several steps:
 
 \begin{enumerate}
@@ -568,83 +528,60 @@ fitting the data thus has several steps:
 
 In the next sections, we describe each step separately. Note that the
 method we present here has been developed empirically: there's no
-theoretical background as to why this particular combination should work
-optimally. Instead, it's been developed while analyzing the data,
-adapting each step on the go. However, we have found several parallel to
-another method from machine vision known as optical
-flow\textsuperscript{32}.
+theoretical background as to why this particular combination should work. Instead, it's been developed by analysing the data,
+adapting each step on the go. Nonetheless, the resulting process is general and presents a new tool to quantify fluorescence microscopy. To illuminate the process, we have thus chosen to illustrate the effects of each step with RUSH experimental data instead of synthetic data.
+
 
 \hypertarget{step-1---smoothing-and-denoising}{%
 \section{Step 1 - Smoothing and
 denoising}\label{step-1---smoothing-and-denoising}}
 
-The first step in our pipeline is to denoise and smooth the data. The
-smoothing is necessary for accurately calculating the derivatives.
-Denoising still is a very active area of research (especially in life
-sciences) and dozens of different methods exist\textsuperscript{35}. For
-example, one could Fourier transform the signal and use a high pass
-filter, but this would also get rid of small and sharp features. After
+The first step is to denoise and smooth the data, which is required for accurately calculating the derivatives.
+This is a very active area of research (especially in life
+sciences) and several methods exist\textsuperscript{35}. After
 evaluating several methods, we have settled on the so-called `WavInPOD'
-method, introduced by 36 in 2016. In 37 they show that this methods
-outperforms several other advanced methods. WavInPOD combines Proper
+method, introduced in 2016 by the authors of [36]. They show that this methods
+outperforms several other advanced methods\textsuperscript{37} by combining two existing methods: Proper
 Orthogonal Decomposition (POD) with Wavelet filtering (Wav). Both
-subjects are vast (especially Wavelet transform) and we're only
-interested in the result of the technique, so we only present a short
-introduction here, adapted from 36.
+subjects are vast (especially Wavelet transform) and as we are only
+interested in the result, we only present a short
+introduction here, adapted from [36].
 
-POD is a so-called dimensionality reduction technique and is very
-closely related to the more well-known Principal Component Analysis
-(PCA) in statistics. In physics it's ofen used to analyze turbulent
-flows\textsuperscript{38}. In POD we wish to describe a function as a
-sum over its variables:
+POD is closely related to Principal Component Analysis (PCA) in statistics and is already used in physics to analyse turbulent flows \textsuperscript{38}. Similar to other transformations such as the Fourier transform, we wish to expand a function as the sum over a set of orthogonal functions:
 
-\[
-f(x,t)=\sum_n^r \alpha_n(x)\phi_n(t)
-\]
+\begin{equation}
+	\label{eq:POD}
+	f(x,t)=\sum_{n=1}^r E_n\alpha_n(x)\phi_n(t)
+\end{equation}
+
 
 where \(\alpha_n\) and \(\phi_n\) are called respectively the spatial
-and temporal modes. Associated with each mode \(n\) is an energy-like
-quantity \(E_n\). Modes with a higher `energy' \(E_n\) contribute more
-to the signal \(f\) than modes with a lower energy and we can thus
-approximate the signal by selecting the \(k\) modes with the highest
-energy. A typical log10 energy spectrum has a `knee' in the values, as
-shown in figure fig.\ref{fig:eigen} . Modes with an energy below the
-knee are noise, and modes above signal.
+and temporal modes and $E_n$ indicates the relative strength of each mode. However, contrary to a Fourier transform, the orthogonal functions are not some predetermined set, but are determined from the data. More specifically, the data is decomposed into its eigenvectors $\alpha_n$ and $\phi_n$, with $E_n$ being the eigenvalues. Modes with high eigenvalues $E_n$ 'contribute more' to the behaviour of $f(x,t)$ than modes with lower eigenvalues and we can use this observation to denoise data by letting the sum of equation \ref{eq:POD} only run over the most important modes. In fact, when plotting the sorted $log10$ spectrum of $E_n$, a 'knee' is observed: modes above the knee constitute the signal, whereas modes below are essentially noise.  We show the eigenvalue spectrum of the ManII data in figure \ref{fig:eigen}.
 
 \begin{figure}
 \hypertarget{fig:eigen}{%
 \centering
 \includegraphics{source/figures/pdf/eigenspectrum.pdf}
-\caption{Caption.}\label{fig:eigen}
+\caption{Eigenvalue spectrum of the POD of the ManII data. We have placed the cutoff at mode 27.}\label{fig:eigen}
 }
 \end{figure}
 
-The wavelet transform is very similar to the Fourier transform, but uses
-wavelets as its basis. A fourier transform gives the frequency domain
-with infinite precision, but tells nothing about the locality of the
-frequencies (.i.e when each frequency is present in a signal). By using
-a wavelet (a wave whose amplitude is only non-zero for a finite time),
-we sacrifice precision in the frequency domain but gain information on
-the locality instead. Performing a wavelet transform transforms the
-signal into the sum of an approximation and its details and we can
-filter this analogous to a fourier filter. Due to its locality however,
-noise is filtered out, by sharpness is retained.
+Note that although a knee is visible, exactly where to place the mode cutoff is not clear. Techniques to consistently determine the cutoff exist\textsuperscript{38, 39}, but yielded unsatisfactory performance when applied to the shown spectrum. We thus determined the cutoff by hand by checking the if the data after applying the POD still showed the same trend and features.
 
+ Consider an oscillation consisting of two frequencies $f_1$ and $f_2$. Initially, the signal is solely composed of $f_1$, but after some time the frequency is switched to $f_2$. Fourier transforming such a signal would yield two delta peaks at $f_1$ and $f_2$: it returns with infinite precision which frequencies are present in the signal, but not when. In a wavelet transform, this infinite precision in the frequency domain is traded for information in the time domain by the uncertainty theorem: a wavelet transform won't give back the frequencies $f_1$ and $f_2$ with infinite precision, but it will state when they are present. 
+ 
+ In practice, wavelet transforming returns the signal as an approximation plus a set of details for each datapoint. We can then filter the signal by applying by some sort of cutoff to the details. Note that cutting off the details will only change the signal locally; we thus do not lose any sharpness anywhere else in the data as one would with Fourier filtering.
 WavinPOD combines these two techniques by applying wavelet filtering to
-the POD modes. In detail, one first decomposes the problem with a POD
-transformation. The energy spectrum of this transformation is shown in
-figure fig.\ref{fig:eigen} and we select a cutoff of 27. All retained
+the POD modes. First, the dataset is decomposed into its POD modes and the energy spectrum is analysed to select a cutoff mode. All retained
 modes are wavelet filtered and are then retransformed to give the
-denoised and smoothed signal. In figure fig.\ref{fig:filtered} we show
+denoised and smoothed signal. In figure \ref{fig:filtered} we show
 the results of the smoothing in the time and spatial domain. In the left
 panel we show the signal of a single pixel in time, while we plot a line
 of pixels in a single frame in the right panel. The red lines denote the
 original (unfiltered) signal, the blue line the effect of just applying
-a POD and the black one the result of the WavInPOD technique. Note that
-the effect of the wavelet filtering is to smooth the signal
+POD filtering and the black one the result of the WavInPOD technique. Note that the effect of the wavelet filtering is to smooth the signal
 significantly and in comparing the original data to the filtered data
-that we've retained the sharpness of the features whilst obtaining a
-smooth signal.
+that we've retained the sharpness of the features whilst obtaining a significantly smoother signal.
 
 \begin{figure}
 \hypertarget{fig:filtered}{%
@@ -664,69 +601,67 @@ After having denoised the images, we calculate the spatial and temporal
 derivatives. Obtaining correct numerical derivatives is hard and becomes
 much more so in the presence of noise\textsuperscript{40}. Next to a
 finite-difference scheme, one can for example (locally) fit a polynomial
-and take its derivative or use a so-called
-tikhonov-regularizer\textsuperscript{41}. The computational cost of
-these methods is high however and they don't scale well to dimensions
-higher than one. For our spatial derivatives these methods are thus not
-available. In fact, obtaining the gradient of a 2D discrete grid has
-another subtlety which we need to adress.
+and take its derivative.\textsuperscript{41} However, the computational cost of these methods is high and they do not scale well to dimensions
+higher than one. We thus require an alternative method. In fact, obtaining the gradient of a 2D discrete grid has another subtlety which we need to address.
 
 Naively, one could obtain the gradient of a 2D grid by taking the
 derivative using a finite difference scheme with respect to the first
 and second axis. If there are features on the scale of the
-discretization (\(\sim\) few pixels), such an operation will lead to
-artifacts and underestimate the gradient. These issues have long been
+discretisation (\(\sim\) few pixels), such an operation will lead to
+artefacts and underestimate the gradient. These issues have long been
 known and several techniques have been developed to accurately calculate
 the gradient of an `image'. The most-used image-gradient technique is
-the so-called Sobel operator. It belongs to a set of operations known as
-\emph{kernel operators}. Kernel operators are expressed as a matrix and
-by convolving this matrix with the matrix on which the operation is to
-be performed, we obtain the result of the operator. We show this for the
-Sobel operator.
-
-Consider a basic central finite difference scheme:
+the so-called Sobel operator and we derive its structure here. Consider a basic central finite difference scheme:
 
 \[
-\frac{df}{dx}\approx\frac{f(x_{i+1})-f(x_{i-1})}{2h}
+\frac{df(x_i)}{dx}\approx\frac{f(x_{i+1})-f(x_{i-1})}{2h}
 \]
 
-where \(h\) is defined as \(x_{i+1}-x_{i}\). In terms of a kernel
-operator, we rewrite this as \[
-\frac{1}{2}\cdot
+where \(h\) is defined as \(x_{i+1}-x_{i}\). Applying this operation to a set of three pixels thus returns the derivative of the middle pixel. We can rewrite this as a matrix $S$
+ \[
+S=\frac{1}{2}\cdot
 \begin{bmatrix}
-1 & 0 & -1
+-1 & 0 & 1
 \end{bmatrix}
-\] By convolving this matrix with the matrix \(A\) we obtain the
-derivative of \(A\): \[
+\] 
+which, when applied \emph{element wise} to the three pixels, returns the middle pixels' derivative. Applying the matrix $S$ element wise to each point in a dataset is known as an convolution and convolving a matrix $A$ with the matrix $S$ yields its derivative:
+ \[
 \partial_xA\approx A*\frac{1}{2}\begin{bmatrix}
-1 & 0 & -1
+-1 & 0 & 1
 \end{bmatrix}
-\] \includegraphics{source/figures/pdf/derivative.pdf}
+\] 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{source/figures/pdf/derivative.pdf}
+	\caption{In the left panel we show how a finite difference operator would be applied to the black pixel. The right panel shows this for the Sobel operator.}
+	\label{fig:Sobel}
+\end{figure}
 
-As stated, this operation is inaccurate and introduces artifacts. To
+As stated, this operation is inaccurate and introduces artefacts. To
 improve this, we wish to include the pixels on the diagonal of the pixel
 we're performing the operation on as well (see figure
-fig.\ref{fig:Sobel} ). The distance between the diagonal pixels and the
+\ref{fig:Sobel}). The distance between the diagonal pixels and the
 center pixel is not 1 but \(\sqrt{2}\) and the diagonal gradient also
 needs to be decomposed into \(\hat{x}\) and \(\hat{y}\), introducing
-another factor \(\sqrt{2}\). The kernel thus obtained is the classic
-\(3\times3\) Sobel filter:where we have set \(h=1​\), as the distance
-between pixels is one by definition. \[
+another factor \(\sqrt{2}\). We thus obtain the classic
+\(3\times3\) Sobel filter in the $\hat{x}$ and $\hat{y}$ direction:  \[
 \mathbf G_x=\frac{1}{8}\cdot
 \begin{bmatrix}
-1 & 0 & -1\\
-2 & 0 & -2\\
-1 & 0 & -1
+-1 & 0 & 1\\
+-2 & 0 & 2\\
+-1 & 0 & 1
+\end{bmatrix}
+\mathbf G_y=\frac{1}{8}\cdot
+\begin{bmatrix}
+-1 & -2 & -1\\
+0 & 0 & 0\\
+1 & 2 & 2
 \end{bmatrix}
 \]
 
 Increasing the size of the Sobel filter increases its accuracy and we've
-implemented a 5x5 operator. Implementing the derivative operation as a
-kernel method is also beneficial from a computational standpoint, as
-convolutional operations are very efficient. The Sobel filter is usually
-applied to an image and hence is often said to calculate the
-image-gradient, but due to its separability is possibe to scale this
-method to an arbitrary number of dimensions.
+implemented a 5x5 operator. The matrix implementation is also beneficial from a computational standpoint, as convolutional operations are very efficient and one can derive a Sobel operator for arbitrary dimensions. Separate methods to calculate second order derivatives exist, we simply apply the Sobel operator twice. We also make use the derivatives to segment the movie. We show this in the next section. 
+
 
 \hypertarget{step-3---segmentation}{%
 \section{Step 3 - Segmentation}\label{step-3---segmentation}}
@@ -735,113 +670,47 @@ In the case of the RUSH data, obtained images and movies often contain
 multiple cells. Each of these cells can be further segmented into two
 more areas of interest: the cytoplasm, which is were we want to fit our
 model and the Golgi apparatus. We wish to make a mask which allows us to
-separate the cells from the backgroud and themselves and divide each
-cell into cytoplasm or Golgi. Figure fig.\ref{fig:manII} shows four
+separate the cells from the background and divide each
+cell into cytoplasm or Golgi. Figure \ref{fig:manII} shows two
 typical frames in the MANII transport cycle. Note that no sharp edges
-can be observed, especially once the MANII localizes in the Golgi. No
+can be observed, especially once the MANII localises in the Golgi. No
 bright field images were available as well, together making use of
-techniques such as described in 42 unavailable. We have thus developed
-two methods which allow us to segment the image and the cells, based on
-Voronoi diagrams and the intensity.
-
-\hypertarget{voronoi-diagram}{%
-\subsection{Voronoi diagram}\label{voronoi-diagram}}
-
-Consider again the frame on the left of figure fig.\ref{fig:manII} Note
-that in early frames such as this one, the cargo (i.e.~fluorescence) is
-spread circumnuclear. Applying a simple intensity based segmentation
-gives us a number of separate areas, which \emph{very} roughly
-correspond to a cell. We can then pinpoint each cells' respective
-center. Given \(n\) points, Voronoi tesselation divides the frame into
-\(n\) areas, where point \(i\) is the closest point for each position in
-area \(A_i\). The hidden assumption here is thus that each pixel belongs
-to the cell center it's closest too. Although this is a very big
-assumption, in practice we've found this to be reasonable. Furthermore,
-one can add `empty' points to make the diagram match observations.
-Assuming small movements of the cell, this isn't an issue either for
-this technique, as we are assigning an area to each cell instead of very
-precisely bounding it. This also allows us to calculate the Voronoi
-diagram in the early frames and apply the segmentation to the entire
-movie. The result of this segmentation for MANII is shown in figure
-fig.\ref{fig:voronoi}. Each cell centre is denoted by a dot, while the
-lines denote the border between each voronoi cell.
-
-\begin{figure}
-\hypertarget{fig:voronoi}{%
-\centering
-\includegraphics{source/figures/pdf/Voronoi.pdf}
-\caption{The obtained mask. Red dots are cell centers, dashed lines
-infinite edges and solid lines finite edges.}\label{fig:voronoi}
-}
-\end{figure}
-
-\hypertarget{intensity}{%
-\subsection{Intensity}\label{intensity}}
-
-The Voronoi technique works very well for an area-based approach, but
-for analyzing our fitting data we would like a more precise mask -
-although we still don't require pixel-level accuracy. From the movies,
-the Golgi is clearly visible and we can separate the cytoplasm from the
-background, with a big `gray' area inbetween. We thus turn to an
-intensity based approach. We have developed the following approach for
-localizing the Golgi:
+techniques such as described in [42] unavailable. We have thus developed our own method which depends on the intensity and its time derivative. It consists of four steps:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Normalize the intensity \(I\) between 0 and 1.
+  Normalize the intensity \(I\) and its time derivative between 0 and 1.
 \item
-  Sum all the frames in time: \(\sum_n I(x, y, t_n)\). A typical result
-  is shown in figure fig.\ref{fig:mask} .
-\item
+  Sum all the frames over some quantity. To separate the Golgi, we determined \(\sum_n I(x, y, t_n)\), while we calculated \(\log_{10}\left(\sum_nI(x,y,t_n)\cdot\partial_tI(x,y,t_n)\right)\) for the cytoplasm. 
+ \item
   Threshold the image to obtain the mask. This is either done
   automatically through an Otsu threshold or by manually adjusting the
   threshold until desired result.
 \item
-  The mask is postprocessed by filling any potential holes inside the
+  The mask is post-processed by filling any potential holes inside the
   mask.
 \end{enumerate}
 
-This procedure was unable to reliably separate the background from the
-cytoplasm. Noting that while the cytoplasm might not have the intensity
-as the golgi, its time derivative should be higher than the rest of the
-areas. We replace step two by
-\(\log_{10}\left(\sum_nI(x,y,t_n)\cdot\partial_tI(x,y,t_n)\right)\),
-where the time derivative has been normalized between 0 and 1. Figure
-fig.\ref{fig:mask} shows our final results. The upper two panels show
+We show this process in figure \ref{fig:mask}. The upper two panels show
 the images obtained after performing the summing operation for the Golgi
-and cytoplasm respectively, while the lower left panel shows the final
-mask obtained after thresholding these two images. For comparison, we
-plot frame to compare the mask to.
+and cytoplasm (also referred to as 'active area') respectively, while the lower left panel shows the final mask obtained after thresholding these two images. For comparison, we have plotted a frame of the data to compare the mask to. 
 
 \begin{figure}
 \hypertarget{fig:mask}{%
 \centering
-\includegraphics{source/figures/pdf/segmenting.pdf}
+\includegraphics[width=0.7\textwidth]{source/figures/pdf/segmenting.pdf}
 \caption{Four panels showing the different stages of making the mask.
-From segmenting the upper two panels we determine the golgi and active
-area, leading to the mask in the lower left. Compare the to the lower
-right.}\label{fig:mask}
+From segmenting the upper two panels we determine the Golgi and active
+area, leading to the mask in the lower left. This can be compared to the actual data in the lower right frame. }\label{fig:mask}
 }
 \end{figure}
 
 \hypertarget{step-4---fitting}{%
 \section{Step 4 - Fitting}\label{step-4---fitting}}
 
-The final step in our method is to fit the our model to the data. By
-calculating the derivatives, we have reduced our PDE-model to a generic
-model, which allows us to use virtually any fitting method. For
-simplicity, we use least-squares, but one could use a Bayesian method to
-obtain not only the fit, but also the uncertainty.
-
-Equation eq.\ref{eq:PDE} assumes a model with constant coefficients. In
-reality, coefficients will be spatially and even temporally varying. To
-circumvent this issue, we assume the coefficients can be assumed to be
-locally constant. We thus assume that for a small area we can fit the
-model using constant coefficients. We perform this operation for every
-datapoint in a sliding-window manner, as shown in figure
-fig.\ref{fig:slidingwindow}, thus ending up with a coefficient field.
+The final step in our method is to fit our model to the data. By having determined both the spatial and temporal derivatives, we have effectively reduced the movie to an $m$ by $n$ sized dataset, where $m$ is the number of datapoints and $n$ the amount of features calculated. In the case of the RUSH data movie, $m$ is number of pixels multiplied by the number of frames, while $n=5$ as we calculate $\partial_x I, \partial_{xx} I, \partial_y I, \partial_{yy} I$ and $\partial_t I$. The fitting thus becomes a generic problem, which can be solved by virtually any fitting method. We use least-squares, but one could use for example a Bayesian method. Each fitting method assumes that the fitting parameters are constant across a dataset however. Given the nature of the cell, the diffusion constant and advection will not be constant: they will be spatially dependent and it is not unlikely that they will show some temporal dependence as well. On a small enough scale however, we can reasonably approximate these fields as constant and here we can perform a fit. To not lose any spatial resolution and prevent artefacts, we use the sliding-window technique, which is illustrated in figure \ref{fig:slidingwindow}. In a small window around a pixel, we perform the fitting procedure, thus yielding the diffusion coefficient and advection velocity for that pixel. We then move the window to the next pixel, thus finding diffusion and advection fields with a similar resolution as the data. In the next chapter we apply this method to the RUSH experimental data.
 
 \begin{figure}
 \hypertarget{fig:slidingwindow}{%
@@ -855,58 +724,30 @@ pixel.}\label{fig:slidingwindow}
 }
 \end{figure}
 
-In the next chapter we apply this method to the RUSH experimental data.
 
 \hypertarget{data-analysis}{%
 \chapter{Data analysis}\label{data-analysis}}
 
-In this chapter we apply the method developed in the previous chapter to
-experimental data obtained using the RUSH technique. Our first section
-introduces the RUSH technique and discusses our model for the
-intracellular transport. In the following section we discuss the
-experimental data, investigate the fluorescence curves of several areas
-of interest. and gain more insight into the data by studying its time
-derivative. We then present a linear least squares fit and show that
-this can lead to unphysical results. We end with a short section of both
-recommendations for the experimentalists as well as a number of ways to
-improve the method.
+In this chapter we apply the method developed in the previous chapter to the ManII experimental data obtained using the RUSH technique. We first present an initial analysis of the data by investigating the fluorescence curves of several areas of interest and study movies' time derivative. We then analyse the results of the least squares fit.  
 
 \hypertarget{initial-analysis}{%
 \section{Initial analysis}\label{initial-analysis}}
 
-We first study the evolution of the fluorescence in two ways, plotting
-both the mean fluorescence for each frame and the mean fluorescence in
-the golgi region. To get rid of the background in our statistics, we
-normalize the fluorescence between before computing the mean. The left
-panel of frame \#fig:fluorescence shows the average fluorescence of each
-frame and shows a significant drop of almost \(30\%\) between the
-initial and final frame. We observe a strong initial drop and a slower
-decay after roughly frame 100, which can probably be attributed to
-photobleaching. The transition between the two decays roughly matches
-the saturation of the fluorescence in the Golgi (see the right panel),
-casting strong doubts on our assumption that \(c\propto I\).
-Compensating for this is possible (see 15), but requires significant
-effort on the experimentalists' part and if the difference between two
-subsequent frames is small the effect on our fit is neglegible.
+We stated in the introduction that we assume that the concentration is proportional to the intensity of the fluorescence, $c\propto I$. To test this assumption, we plot the time-evolution of the fluorescence of the entire cell. We normalise the fluorescence between 0 and 1 before computing the mean over each frame, to get rid of the background in our statistics. The left panel of frame \ref{fig:fluorescence} shows the average fluorescence of each frame, normalised on the maximum average intensity. In the right panel we plot the same quantity but for the fluorescence in each of the three cells' Golgi. Note a significant drop of almost \(30\%\) in total fluorescence between the initial and final frame. We recognise two regimes: a strong initial drop up until frame 100 and a slower decay after. The right panel shows a saturation of the fluorescence in the Golgi after frame 100, so we attribute the decrease in total fluorescence after frame 100 to photobleaching. 
+The first regime is more troublesome, as this strong decrease is not explained by photobleaching and thus casts strong doubts on our assumption that $c \propto I$. Since this drop is spread out over a hundred frames, on a frame-to-frame basis this effect can be neglected in our model.
 
-.\includegraphics{source/figures/pdf/general_fluorescence.pdf}
+\begin{figure}
+	\centering
+	\label{fig:fluorescence}
+	\includegraphics{source/figures/pdf/general_fluorescence.pdf}
+	\caption{\textbf{Left panel:} Normalised total fluorescence per frame. \textbf{Normalised fluorescence in each of the three cells' Golgi. }}
+\end{figure}
 
-In the right panel we show the fluorescence in the Golgi ROI for each of
-the three cells. Specifically, we plot the mean intensity in each ROI,
-normalized on the maximum intensity and compensated for the loss of
-fluorescence as shown in the left panel. Interestingly, we observe that
-all three curves roughly follow a similar pattern. Although one of the
-cells (blue line) seems to have some sort of delay, the fluorescence
-seems to increase in a linear way up to frame 100, when the fluorescence
-saturates. The purple cell shows a significant drop at frame 200, but
-since the ManII protein remains in the Golgi, this is not caused by any
+In the right panel we observe that all three curves show a roughly linear increase in fluorescence. The blue line seems to have some sort of delay, but also increases linearly after this delay. The cell indicated by the purple line shows a significant drop at frame 200, but
+since the ManII protein is retained in the Golgi, this is not caused by any
 type of intracellular transport and thus not of interest to us. The
 linear increase and common pattern suggests that the transport
-properties are not concentration dependent at these concentrations.
-
-To perform our fit in the next section, we have also determined the time
-derivative of the dataset, \(\partial_tI\). We plot this for four
-different frames in figure fig.\ref{fig:timederiv} .
+properties are not concentration dependent at these concentrations. We now study the time derivative of the fluorescence. We have plotted it at frame 0, 20 50 and 100 in figure \ref{fig:timederiv}.
 
 \begin{figure}
 \hypertarget{fig:timederiv}{%
@@ -917,28 +758,19 @@ ManII RUSH experiments.}\label{fig:timederiv}
 }
 \end{figure}
 
-Areas where the derivative is positive (thus were the concentration
-increases) are coloured red, while areas where the concentration
-decreases are coloured blue. As expected, the Golgi shows up in each
+Although figure \ref{fig:fluorescence} has shown that $c\propto I$ is a doubtful assumption, an increase in fluorescence will mean an increase in concentration. Areas where the time derivative is positive thus correspond to a concentration increase, whereas areas with a negative time derivative correspond to a concentration decrease. In figure \ref{fig:timederiv}, positive areas are shaded, while negative are shaded blue. As expected, the Golgi shows up in each
 cell as a bright red object. Note however that we also observe red areas
-towards the edges of the cell. As the concentration close to the Golgi
-decreases, the red area moves outwards and slowly takes over the blue
-area. This could be caused by ERES acting as a in that area, but given
-that ERES are located throughout the cell it seems more likely such a
-pattern would be caused by diffusion.
+towards the edges of the cells. As the concentration close to the Golgi
+decreases due to trafficking, the blue area moves outwards and slowly takes over the red area. As to the cause of this outer red ring in each cell, we speculate this is caused by a diffusion: reporters exiting the ER through the ERES initially diffuse, increasing the concentration in some areas. 
 
 \hypertarget{analysis-of-ls-fit}{%
-\section{Analysis of LS-fit}\label{analysis-of-ls-fit}}
+\section{Analysis of least-squares fit}\label{analysis-of-ls-fit}}
 
-In this section we analyse results of the least squares fit. We've used
-a 7x7 window in the spatial domain to perform the sliding window
-operation, fitting each frame of the movie independently. We analyse the
-diffusion, advection and the error of our fit. These fits are movies and
-we're hence unable to print them - please find our these movies at our
-GitHub. In figure fig.\ref{fig:diff_ls} we show two typical inferred
-diffusion fields in the upper row, just after addition of the biotin
-(frame 4) and halfway to the complete saturation of the Golgi (frame
-40).
+In this section we present the results of our least squares fit. We have used
+a 7 by 7 pixels area in the spatial domain to perform the sliding window
+operation and have fitted each frame of the movie independently. The sliding window operation returns diffusion and advection fields the same size as our data. Due to the physical limitations of print media, we only show several frames of the results here. Since a picture is worth more than a thousand words, an animation of 272 frames must be worth a book and we refer the reader to our \href{https://github.com/GJBoth/Masters-thesis}{Github} to find the full results.
+
+We show the inferred diffusion field at frame 4 and 40 in figure \ref{fig:diff_ls}, together with the distribution of diffusion coefficients throughout the entire movie and the fraction of positive diffusion constants per frame. 
 
 \begin{figure}
 \hypertarget{fig:diff_ls}{%
@@ -951,101 +783,68 @@ of time.}\label{fig:diff_ls}
 }
 \end{figure}
 
-Another problem is that we observe many areas with a negative
--unphysical- diffusion coefficient. In the lower left panel we plot the
-distribution of values. Analysis shows that roughly \(40\%\) of the
-inferred field has a negative diffusion coefficient. In the lower right
-panel we have calculated this fraction as a function of time. It shows
+We observe structures larger than the fitting window which, although varying in time, do not differ greatly no a frame-to-frame basis. This means that our fit is capturing at least some of the underlying dynamics. On the other hand, we observe many areas with a negative diffusion coefficient and the inferred diffusion coefficients are on the order of $10^{-4}\mu m^2/s$- orders of magnitude than expected. In the lower left panel we plot the distribution of values, which shows that roughly \(60\%\) of the inferred field has a positive diffusion coefficient. In the lower right panel we have determined this fraction as a function of time. It shows
 that, save for a few initial frames, this fraction is not (strongly)
-time-dependent. Results are slightly skewed though, since many
-coefficients are negative but extremely close to zero (e.g
-\(-10^{-4}\)). Negative diffusion coefficients correspond to clustering,
+time-dependent. Note however that results are skewed due to its strong peak around 0; many coefficients are negative but extremely close to zero (e.g
+\(-10^{-5}\)). Negative diffusion coefficients could indicate to clustering,
 but could also be the result of an incorrect fit. We investigate this in
 depth after studying the advection profiles, which we show in figure
-fig.\ref{fig:advection} . In the four panels we show the inferred
-velocity in the \(\hat{x}\) and \(\hat{y}\) direction, the magnitude of
-the velocity and the angle.
+\ref{fig:advection}. In the four panels we show the inferred
+velocity in the \(\hat{x}\) and \(\hat{y}\) direction in the upper two panels, and the magnitude and angle in the lower two.
 
 \begin{figure}
 \hypertarget{fig:advection}{%
 \centering
-\includegraphics{source/figures/pdf/Fit_LSconstrainedadvection.pdf}
+\includegraphics{source/figures/pdf/advection.pdf}
 \caption{Analysis of the velocity fields. The upper rows show
-respectively \(v_x\) and \(v_y\), wwhile the lower row shows the
+respectively \(v_x\) and \(v_y\), while the lower row shows the
 magnitude and angle.}\label{fig:advection}
 }
 \end{figure}
 
 Similar to the diffusion, we observe patterns both in time and space
 bigger than our fitting window, meaning that the fit isn't completely
-random. On the other hand, we are not able to discern any specific flow
-from the figures in fig.\ref{fig:advection}. To gain more insight into
-our fit, we analyze a single pixel in time. Figure
-fig.\ref{fig:timepixel} shows the diffusion and advection velocities as
-a function of time. We've plotted a scaled and translated signal of that
-pixel in a black dashed line. This pixel is initially constant and then
-decreases to noise level. Note that initially, while the signal is
-constant, the diffusion constant is negative. Once the signal starts
-decreasing, or, in other words, cargo starts flowing from that pixel, we
-see a physical diffusion constant and non-zero velocities. Once the
-signal returns to around noise-level at pixel 50, the inferred
-velocities and diffusion constant seem to become random around 0. In
-other words, our method seems to work when cargo is flowing, but
-struggling when the signal is either constant or at noise level. We
-observe similar behaviour in other pixels, so we contribute (most of)
-the unphysical diffusion values to constant and noise-level signal.
-Performing the fit with the diffusion constant constrained to be larger
-than zero lead to the negative coefficients in the free fit to being set
-to zero.
+random. On the other hand, we are not able to discern any specific flow patterns from the figures in \ref{fig:advection}. For example, we would expect a rainbow-like pattern pointing towards the Golgi
+ in the lower right corner, but no such pattern is observed.
+ 
+To gain more insight into
+our fit, we analyse a single pixel in time. Figure
+\ref{fig:timepixel} shows the diffusion constant and advection velocities as fitted at this pixel as a function of time. The scaled and translated intensity of the pixel is plotted by the black dashed line as a reference.
+
 
 \begin{figure}
 \hypertarget{fig:timepixel}{%
 \centering
-\includegraphics{source/figures/pdf/Fit_LSgeneral_fit.pdf}
+\includegraphics{source/figures/pdf/general_fit.pdf}
 \caption{Diffusion and advection velocities of a single pixel in time.
-We've plotted (scaled and translated) signal as a black dashed line to
-find any correlation.}\label{fig:timepixel}
+We've plotted the scaled and translated signal as a black dashed line to
+show the correlation.}\label{fig:timepixel}
 }
 \end{figure}
 
-This doesn't completely explain the magnitude of the coefficients
-though, which is significantly lower than expected. One possibility is
-the `mixing' of the transport fluorescence with the fluorescence of the
+The signal of this pixel remains roughly constant for the first 10 frames and then decreases to noise level. Note that during this initial constant phase, the diffusion constant is negative. Once the signal starts
+decreasing, or, in other words, cargo starts flowing, we
+see a physical diffusion constant and non-zero velocities. Once the
+signal returns to around noise-level around frame 50, the inferred
+velocities and diffusion constant seem to become random around 0. In
+other words, our method seems to work when the signal is changing but
+struggling when the signal is either constant or at noise level. We
+observe similar behaviour in other pixels, so we contribute the unphysical diffusion values to constant and noise-level signal.
+
+Using the Einstein Stokes relation, the diffusion constant of a vesicle with a 50nm radius should be on the order of 5$\mu m^2/s$. Although this is an upper bound, as the vesicle can hardly be considered freely diffusing through the cytoplasm, this is still several orders of magnitude higher than the observed diffusion constants of $10^{-4}\mu m^2/s$. One possible explanation for this difference is the `mixing' of the transport fluorescence with the fluorescence of the
 ER. After the addition of biotin, the fluorescent cargo gets released,
 but still has a finite residence time in the ER. Since the obtained
 images are projected over an axis, changes in fluorescence we observe
 can be both due to intracellular transport as well as processes inside
 the ER. If these processes have different timescales, this can strongly
-affect the inferred coefficients.
-
-Another possibility is that we've assumed that a concentration of
-fluorescent particles leads to some sort of `mean-field' fluorescence
-which we can describe by an advection-diffusion equation. Once the size
-of the particles becomes on the order of the pixel size, this assumption
-breaks down. In the case of the ManII trafficking, the pixels are
-roughly two to three times the size of a vesicle, meaning that we are at
-the limits of the `mean-field' assumption.
+affect the inferred coefficients. 
+Also note that we've assumed that the intensity of a pixel describes a coarse-grained concentration which we can describe by an advection-diffusion equation. Once the size of the vesicles becomes on the order of the pixel size, this assumption breaks down. In the case of the ManII trafficking, the pixels are roughly two to three times the size of a vesicle, meaning that we are at the limits of our assumption. 
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
 We've applied the method developed in the previous chapter to the RUSH
-trafficking data of the ManII protein. Although our fit shows patterns
-in the coefficient fields larger than our fitting window, pointing at
-some underlying pattern, we're unable to make any conclusions about our
-model. It's been shown that the model seems to perform well when the
-data is transient, i.e.~when cargo is actually flowing. However, for
-most of the time the data is either constant or at noise level,
-preventing us from making any conclusions.
-
-Improvements to our method fall roughly into two categories. The first
-category concerns improvements to the calculation of the derivatives.
-We've implemented a rather basic 5x5 Sobel filter, but implementing more
-advanced methods which would result in more accurate derivatives would
-probably make the biggest improvement. The second category would be
-improve the fitting procedure. The most obvious candidate is
-implementing some sort of Bayesian method which would return not just
-the most probable coefficient, but the entire probability distribution.
+trafficking data of the ManII protein. Both the diffusion and the advection fields show patterns larger than the fitting window, but no clear structure can be discovered. Furthermore, roughly 40\% of the diffusion coefficients were negative, but we also can attribute many of these negative values to either extremely close to zero or a wrong fit due to constant data. Concludingly, we're unable to determine if intracellular transport can be described by an advection-diffusion equation. We present our recommendations to the experimentalists and possible improvements of the fitting method in the conclusion. 
 
 \hypertarget{physics-informed-neural-networks}{%
 \chapter{Physics Informed Neural
@@ -1055,13 +854,13 @@ In the previous chapters we showed the difficulties in fitting a model
 in the form of a partial differential equation to spatio-temporal data.
 The method we developed was a classical numerical approach, separating
 the problem into several substeps such as denoising, smoothing and
-numerical differentiation. In this chapter we present an alternative
+numerical differentiation. The main weak points of the developed method are the calculation of numerical derivatives and its rather crude fitting method. In this chapter we present an alternative
 technique, generally referred to as Physics Informed Neural Networks
-(PINNs), which has already shown impressive performance in fitting
+(PINNs), which solves these issues. Although only recently introduced, it has already shown impressive performance in fitting
 models and numerically solving
-equations\textsuperscript{43},\textsuperscript{44},\textsuperscript{45},\textsuperscript{31},\textsuperscript{46}.
-As neural networks are a new technique in phyics, this chapter also
-served as introduction to neural networks in general. The chapter thus
+equations\textsuperscript{31, 43, 44, 45, 46}.
+Neural networks are a new technique in physics and this chapter also
+serves as an introduction to neural networks in general. The chapter
 has the following structure:
 
 \begin{itemize}
@@ -1073,16 +872,13 @@ has the following structure:
   \textbf{Physics Informed Neural networks} - In this second part we
   introduce the concept behind PINNs, use it to solve a toy problem and
   apply it to our RUSH data.
-\item
-  \textbf{Conclusion} - Finally we summarize the results and
-  observations from the previous sections.
 \end{itemize}
 
 \hypertarget{neural-networks}{%
 \section{Neural Networks}\label{neural-networks}}
 
 Normally when programming a computer to perform some task, we break the
-problem into smaller pieces and writing down precise instructions.
+problem into smaller pieces and write down precise instructions.
 Often, a model of the underlying process is also needed to transform
 some input into an output. The performance of the algorithm is then only
 as good as the underlying model and when dealing with complex processes,
@@ -1104,7 +900,7 @@ following section has been strongly inspired by his presentation.}
 
 At the basis of each neural network lies the neuron. It transforms
 several inputs into an output in a two-step process. In the first step,
-the inputs \(x\) are multiplied with a weight vector \(w\) and a bias
+the inputs \(x\) are multiplied with a weight matrix \(w\) and a bias
 \(b\) is added: \[
 z = w\mathbf{x}+b
 \] \(z\) is called the weighted input and is transformed in the second
@@ -1120,7 +916,7 @@ exist, each having its benefits. Several neurons in parallel constitute
 a \emph{layer} and several layers can be connected to create a network.
 The layers in the middle of the network are referred to as \emph{hidden
 layers}. An example of such a network with two hidden layers is shown in
-figure fig.\ref{fig:neuralnetwork}.
+figure \ref{fig:neuralnetwork}.
 
 \begin{figure}
 \hypertarget{fig:neuralnetwork}{%
@@ -1135,10 +931,10 @@ inbetween are referred to as hidden layers.}\label{fig:neuralnetwork}
 \hypertarget{training}{%
 \subsection{Training}\label{training}}
 
-Consider again equation eq.\ref{eq:activation}. In a network with
+Consider again equation \ref{eq:activation}. In a network with
 multiple layers, it is useful to express the activation \(a^l\) of layer
 \(l\) in the activation of layer \(l-1\), so that
-eq.\ref{eq:activation} becomes : \begin{equation}
+\ref{eq:activation} becomes : \begin{equation}
 a^l = \sigma(z^l) = \sigma(w^la^{l-1}+b^l)
 \label{eq:weighted_input}\end{equation} where \(w^l\) and \(b^l\) are
 respectively the weight matrix and bias of layer \(l\). As stated,
@@ -1160,9 +956,9 @@ comes down to minimizing the cost function. Such minimization problems
 are solved by gradient descent techniques.
 
 Gradient descent techniques are based on the fact that given some
-position, the fastest way to reach the minimum from that position is by
+position, the minimum from that position can be reached by
 following the steepest descent. Thus, given a function \(f(\mathbf{x})\)
-to minimize w.r.t to \(\mathbf{x}\), we guess an initial position
+to minimize with respect to \(\mathbf{x}\), we guess an initial position
 \(x_n\) and iteratively update it until it converges:
 
 \begin{equation}
@@ -1171,11 +967,9 @@ to minimize w.r.t to \(\mathbf{x}\), we guess an initial position
 
 \(\gamma\) is known as the learning rate and sets the `stepsize'.
 Although this is an iterative technique, if the minimization problem is
-convex (i.e.~no local minima), gradient descent is guaranteed to
+convex (i.e. no local minima), gradient descent is guaranteed to
 converge to it. Note that gradient descent requires calculation of the
-derivative w.r.t to the variables of the function to be minimized. In
-other words, one needs to know the derivative of the cost function w.r.t
-each of the weights and biases in the network. A naive finite difference
+derivative with respect to to the variables of the function to be minimized. In other words, one needs to know the derivative of the cost function with respect to each of the weights and biases in the network. A naive finite difference
 scheme would quickly grow computationally untractable, even for networks
 with just two hidden layers. Alternatives to gradient descent exist, but
 all require calculation of the derivatives. In the next section we
@@ -1206,7 +1000,7 @@ We can rewrite this using the chain rule as:
 \]
 
 The second term on the right is always zero except when \(j=k\), so the
-summation can be dropped. Given equation eq.\ref{eq:activation}, we
+summation can be dropped. Given equation \ref{eq:activation}, we
 note that \(\partial a^l_{j}/\partial z^l_{j} = \sigma'(z^l_j)\). For
 the last layer \(l = L\), we can directly calculate the derivative,
 resulting in:
@@ -1215,25 +1009,25 @@ resulting in:
 \delta^L_j =  |a^L_j-y_j|\sigma'(z^L_j)
 \label{eq:backprop1}\end{equation}
 
-Equation eq.\ref{eq:backprop1} relates the error in the output layer to
+Equation \ref{eq:backprop1} relates the error in the output layer to
 its activation and weighted input. Again using the chain rule, we can
 express the error in a layer \(l\), \(\delta^{l}_j\) ,in terms of the
 error in the next layer, \(\delta^{l+1}_j\): \[
 \delta^l_j = \sum_k \frac{\partial C}{\partial z^{l+1}_{k}}\frac{\partial z^{l+1}_{k}}{\partial z^l_{j}} = \sum_k \delta^{l+1}_k\frac{\partial z^{l+1}_{k}}{\partial z^l_{j}}
 \]
 
-Using equation eq.\ref{eq:weighted_input}, we obtain after
+Using equation \ref{eq:weighted_input}, we obtain after
 substitution:
 
 \begin{equation}
 \delta^l_j = \sum_k\delta^{l+1}_kw^{l+1}_{kj}\sigma'(z^l_j)
 \label{eq:backprop2}\end{equation}
 
-Equation eq.\ref{eq:backprop1} gives us the error in the final layer,
-while equation eq.\ref{eq:backprop2} allows us to propagate the error
+Equation \ref{eq:backprop1} gives us the error in the final layer,
+while equation \ref{eq:backprop2} allows us to propagate the error
 back through the network - hence the algorithm is named backpropagation.
 Two more expressions are needed to relate the error in each neuron
-\(\delta^l_j\) to the derivatives w.r.t. the weights and biases. Making
+\(\delta^l_j\) to the derivatives with respect to. the weights and biases. Making
 use yet again of the chain rule gives the last two backpropagation
 relations: \begin{equation}
 \frac{\partial C}{\partial b^l_{j}}\frac{\partial b^l_{j}}{\partial z^l_{j}}=\frac{\partial C}{\partial b^l_{j}}=\delta^l_j
@@ -1252,14 +1046,14 @@ algorithm. It consists of four steps:
 \item
   Complete a forward pass, i.e., calculate \(a^L_j\).
 \item
-  Calculate the error in the final layer using eq.\ref{eq:backprop1}
-  and propagate it backwards using eq.\ref{eq:backprop2} to obtain the
-  error in each neuron. Using eq.\ref{eq:backprop3} and
-  eq.\ref{eq:backprop4}, calculate the derivatives required for the
+  Calculate the error in the final layer using \ref{eq:backprop1}
+  and propagate it backwards using \ref{eq:backprop2} to obtain the
+  error in each neuron. Using \ref{eq:backprop3} and
+  \ref{eq:backprop4}, calculate the derivatives required for the
   minimizer.
 \item
   Perform a minimization step (e.g.~equation
-  eq.\ref{eq:gradientdescent}) and update the weights and biases.
+  \ref{eq:gradientdescent}) and update the weights and biases.
 \item
   Return to step one until the minimization algorithm in step three
   converges.
@@ -1274,8 +1068,8 @@ hard to calculate a symbolic derivative of a complex function \(f\). One
 could then turn to numerical differentiation using some finite
 difference scheme or locally fitting a polynomial whose derivative is
 then calculated. All these methods require relative closely spaced data
-and are very sensitive to noise. Automatic differentiation allows for
-the high precision calculation of numerical derivatives. At its
+and are very sensitive to noise. Automatic differentiation is a third type of differentiation which allows for
+the precise calculation of derivatives. At its
 fundamental level, any computational operation, no matter how complex,
 is a long string of elementary operations whose derivative is easily
 determined. Using the chain rule, we can then calculate the derivative
@@ -1291,7 +1085,7 @@ f' = w_5' = w_4'+w_1' = (w_2'w_3+w_2w_3')+w_1'
 of \(f\) in quantities we know and indeed, after filling in the
 remaining derivatives we obtain \(f' = w_2 =b\). Note the similarity to
 backpropagation; in automatic differentiation we are only interested in
-the final expression on the right of equation eq.\ref{eq:autodiff},
+the final expression on the right of equation \ref{eq:autodiff},
 whereas in backpropagation we wish to know the intermediate derivatives
 (i.e. \(w_5', w_4'\)) too. Back propagation is thus a version of
 automatic differentiation in which the intermediate values are
@@ -1304,7 +1098,7 @@ leading to a so-called Physics Informed Neural Network (PINN).
 Networks}\label{physics-informed-neural-networks-1}}
 
 In this section we introduce Physics Informed Neural Networks (PINNs), a
-recently developed technique\textsuperscript{46},\textsuperscript{31}
+recently developed technique\textsuperscript{31, 46}
 which merges physical models and neural networks. We first introduce how
 PINNs encode physical laws and models in neural networks and discuss why
 this yields such a powerful technique. This is illustrated by applying
@@ -1323,7 +1117,7 @@ model which describes the temporal evolution of this dataset:
 \label{eq:PDE}\end{equation} We now wish to know which value for the
 parameters \(\lambda_i\) best describes the dataset \(u(x,t)\). Naively,
 one could train a neural network on a training set created by
-numerically solving eq.\ref{eq:PDE} for different values
+numerically solving \ref{eq:PDE} for different values
 \(\lambda_{i}\) and then feed this network the experimental data
 \(u(x,t)\). Although theoretically this yields the correct result, for
 complex processes such as a Navier-Stokes flow or the Schrodinger
@@ -1331,12 +1125,12 @@ equation this quickly grows intractable due to the massive amount of
 training data required for an accurate prediction.
 
 PINNs circumvent this issue by directly encoding physical laws and
-models such as eq.\ref{eq:PDE} into the neural network. We can write
+models such as \ref{eq:PDE} into the neural network. We can write
 any PDE as: \begin{equation}
 g = -\partial_t u + f(1, u, u_x, u_xx, u^2, ...)
 \label{eq:PIcost}\end{equation}
 
-This function \(g\) can be added to the costfunction, because to satisfy
+This function \(g\) can be added to the cost function, because to satisfy
 the PDE, \(g \to 0\): \[
 \mathcal{L} = \frac{1}{2n}\sum_i|u_i-a^L_i|^2 + \frac{l}{n}\sum_i|g_i|^2
 \]
@@ -1344,7 +1138,7 @@ the PDE, \(g \to 0\): \[
 where \(l\) sets the effective strength of the two terms. By adding
 \(g\) to the cost function, it acts as `physics-regularizer' and
 unphysical solutions are penalized; we have thus encoded the physics
-directly into the neural network. Note that while we know the form of
+directly into the neural network. Since neural networks also return high precision derivatives through automatic differentiation, equation \ref{eq:PIcost} can be accurately determined. Note that while we know the form of
 \(g\), its coefficients \(\lambda_i\) are unknown. However, we can treat
 the coefficients as variables of the cost function, i.e.
 \(\mathcal{L}(w^l,b^l, \lambda)\) and thus by training the network on
@@ -1357,7 +1151,7 @@ coefficients, but also coefficient \emph{fields}. Instead of treating
 the coefficients as a variable to be optimized, we add another output to
 the network. Such a network is known as a multi-output PINN and the
 difference between a single and multi output network is shown in figure
-fig.\ref{fig:PINN}. PINNs can also be used to numerically solve PDEs.
+\ref{fig:PINN}. PINNs can also be used to numerically solve PDEs.
 By removing the mean squared error term from the cost function but
 adding initial values and boundary conditions, training the network will
 now result in the network learning the solution to the PDE \(g\), whilst
@@ -1412,14 +1206,14 @@ to the papers of M. Raissi et al (46, 31).
 \subsubsection{Constant diffusion
 coefficient}\label{constant-diffusion-coefficient}}
 
-We first numerically solve equation eq.\ref{eq:toyproblem} with a
+We first numerically solve equation \ref{eq:toyproblem} with a
 diffusion coefficient of \(D(x) = D_0 = 0.1\) between \(t=0\) and
 \(t=0.5\). Using a spatial and temporal resolution of 0.01, our total
 dataset consists of 5151 samples, while we have configured the neural
 network with 6 hidden layers of 20 neurons each and have set
-\(\lambda=1\). The left panel of figure fig.\ref{fig:constantD} shows
+\(\lambda=1\). The left panel of figure \ref{fig:constantD} shows
 the ground truth (i.e.~the numerical solution of equation
-eq.\ref{eq:toyproblem}) and the absolute error w.r.t to the groundtruth
+\ref{eq:toyproblem}) and the absolute error with respect to to the groundtruth
 of the neural network output.
 
 \begin{figure}
@@ -1445,7 +1239,7 @@ practical interest. We add \(5\%\) white noise to the data of the
 previous problem and train the network on this noisy dataset. Note that
 the network is now doing two tasks in parallel: it's both denoising the
 data and performing a fit. In the left panel of figure
-fig.\ref{fig:error_constantD_noisy} we show the concentration profile
+\ref{fig:error_constantD_noisy} we show the concentration profile
 at times \(t = 0, 0.1\) and \(0.5\), with the prediction of the PINN
 superimposed in black dashed lines at each time. On the right panel we
 show the absolute error with respect to the ground truth. Observe that
@@ -1474,7 +1268,7 @@ two output neural network. We first test this on the noisy constant
 diffusion (\(D_0=0.1\)) dataset of the previous problem. In this case,
 while the neural network is allowed to assign a different diffusion
 constant to each point in the spatiotemporal domain, it should return
-\(D=0.1\) for each. Figure fig.\ref{fig:summary_constantD} shows a
+\(D=0.1\) for each. Figure \ref{fig:summary_constantD} shows a
 summary of the results in four panels. In the upper left we show the
 data on which the network is trained, while the upper right panel shows
 the predicted concentration profile. Note the excellent match between
@@ -1503,13 +1297,13 @@ concentration.}\label{fig:summary_constantD}
 }
 \end{figure}
 
-In figure fig.\ref{fig:summary_varyingD} we show a similar analysis for
+In figure \ref{fig:summary_varyingD} we show a similar analysis for
 data with a non-constant diffusion field. Equation
-eq.\ref{eq:toyproblem} has been numerically solved on a grid consisting
+\ref{eq:toyproblem} has been numerically solved on a grid consisting
 of 50000 points and diffusion constant profile
 \(D(x) = 0.2 + 0.1\tanh(x)\). Remarkably, the neural network is able to
 accurately infer the network with \(85\%\) of the diffusion field having
-an error of less than \(10\%\). In figure fig.\ref{fig:projectionD} we
+an error of less than \(10\%\). In figure \ref{fig:projectionD} we
 show the inferred diffusion profiles in more detail by projecting them
 along the time axis. Observe that, yet again, the error is largest where
 the signal is lowest. Nonetheless, we've proven that a neural network is
@@ -1554,35 +1348,33 @@ network gives the following results:
 fitting gives \(D=0.049, v_x=-0.046, v_y=0.013\). These results are
 completely different: the least squares predicts a diffusion constant
 and velocity roughly on the same order, whereas the neural network
-predicts a neglegibly small diffusion constant. The direction and size
+predicts a negligibly small diffusion constant. The direction and magnitude
 of the advection is different as well. To gain more insight into the
 fit, we study the concentration profiles of frame 5 as given by the
 original noisy signal, the output of the neural network, the filtered
-signal and the reconstructed signal of the least-squares fit. This is
-done by propagating the first frame using the calculated time derivative
-with the optimal fit parameters. The result is show in figure
-fig.\ref{fig:nnconstant}.
+signal and the reconstructed signal of the least-squares fit. The signal is
+reconstructed by propagating the first frame using the calculated time derivative with the optimal fit parameters. The result is shown in figure
+\ref{fig:nnconstant}.
 
 \begin{figure}
 \hypertarget{fig:nnconstant}{%
 \centering
 \includegraphics{source/figures/pdf/NN_Man_constant.pdf}
-\caption{Caption.}\label{fig:nnconstant}
+\caption{In the upper right panel we show the unfiltered data of our subset for frame 5. The upper right panel shows the inferred profile by the PINN, while the lower two panels show respectively the filtered data and the data reconstructed from the least squares fit.}\label{fig:nnconstant}
 }
 \end{figure}
 
-As can be observed from figure \#fig:NNconstant, the inferred
+As can be observed from figure \ref{fig:nnconstant}, the inferred
 concentration profile by the neural network matches the raw data very
-well, while the least squares fit does not. Since we have take a 10 by
+well, while the least squares fit does not. Since we have taken a 10 by
 10 pixel patch of the data, this a fairly small scale and seeing such a
-good fit to the data might mean we're fitting to the noise. Later frames
-reveal an inferred concentration profile less like the raw data however,
-but, concludingly, although the neural network seems to outperform the
-least-squares method, no clear verdict can be rendered.
+close resemblance to the raw data might mean our model is fitted to the noise instead of the signal. Later frames
+reveal an inferred concentration profile less like the raw data however. Concludingly, the neural network seems to outperform the
+least-squares method, but due to the small scale of our data, no clear verdict can be rendered. Increasing the scale of our data however make a cost function with constant coefficients unlikely. 
 
 In the previous section we proved that PINNs are able to infer
 coefficient fields. We now try to infer the coefficient fields for our
-subset of data. In figure fig.\ref{fig:nnfull} we show the result for a
+subset of data. In figure \ref{fig:nnfull} we show the result for a
 single frame.
 
 \begin{figure}
@@ -1598,33 +1390,26 @@ concentration profile, the diffusion coefficient and advection and in
 the lower right corner the physics informed cost \(g\) per frame.
 Observe that the diffusion and advection profiles are exactly equal.
 Inspection of the concentration profile derivates
-\(c_t, c_x, c_{yy}...\) shows no aberrant behaviour, meaning that the
+\(c_t, c_x, c_{yy}...\) shows no aberrant behaviour, implying that the
 neural network is functioning properly. These diffusion and advection
 profiles thus minimize the cost function but having similar coefficient
-constants at each point is incredible, also considering the diffusion
-coefficient obtained in the constant coefficient model is orders of
+values at each point is unlikely. Recall also that the diffusion
+coefficient obtained in the constant coefficient model above is orders of
 magnitude smaller than the advection. Inspection of the physics informed
 part of cost function shows that is on the order of \(10^{-3}\).
-Although one to two orders of magnitude higher than synthetic data, for
-real experimental data this does not seem suspiciously high. Does this
-then mean we're fitting to noise? Considering we're only using a 10 by
-10 pixels spatial area and 30 frames, that is strong a possibility.
-However, this doesn't explain why the coefficient fields are exactly
-similar. Concludingly, the inferred coefficient fields are clearly
-incorrect, but we cannot pinpoint why, as the neural network seems to
-perform correctly.
+Although one to two orders of magnitude higher a cost for synthetic data, for
+real experimental data this does not seem suspiciously high. Concludingly, our results are clearly incorrect, but the neural network seems to
+perform properly. 
 
-\hypertarget{golgi-as-a-phase-separated-droplet}{%
+\hypertarget{Golgi-as-a-phase-separated-droplet}{%
 \chapter{Golgi as a phase separated
-droplet}\label{golgi-as-a-phase-separated-droplet}}
+droplet}\label{Golgi-as-a-phase-separated-droplet}}
 
 In this second part of the thesis we develop a model linking the Golgi
 function and size to the properties of the intracellular transport. We
 start with a general section on phase separation, followed by a section
-where we introduce an approximation. This approximation, known as the
-effective-droplet approximation, makes phase separation analytically
-tractable. We then introduce our model and its biological justification.
-The results of our model will be presented in the next section.
+where we introduce an approximation known as the
+effective-droplet approximation. This approximation makes the phase separation analytically tractable. We then introduce our model and its biological justification; the results of our model will be presented in the next section.
 
 \hypertarget{phase-separation}{%
 \section{Phase separation}\label{phase-separation}}
@@ -1662,16 +1447,16 @@ energy:
 where \(\delta F/\delta c\) is a functional derivative, as we minimize
 with respect to the concentration \emph{profile}. Solving such an
 equation is generally not possible due to the third order terms of the
-free energy density function, but in 1D equation eq.\ref{eq:euler} has
+free energy density function, but in 1D equation \ref{eq:euler} has
 been solved to yield: \begin{equation}
 c(x) = \frac{c_0^-+c_0^+}{2}+\frac{c_0^+-c_0^-}{2}\tanh\left(\frac{x}{w}\right)
 \label{eq:domainwall}\end{equation} where \(w=\sqrt{\kappa/b}\) is the
 width of the boundary. When we quench a system from a mixed stated into
 a phase separated state (a process known as spinodal decomposition), the
 actual concentration profile is a far cry from equation
-eq.\ref{eq:domainwall}. Inside the system, maze-like domains form and
+\ref{eq:domainwall}. Inside the system, maze-like domains form and
 keep growing untill a single dense and dilute phase are left. This is
-shown in figure fig.\ref{fig:maze}.
+shown in figure \ref{fig:maze}.
 
 \begin{figure}
 \hypertarget{fig:maze}{%
@@ -1696,7 +1481,7 @@ j = -m \nabla \mu
 \]
 
 where \(m\) is a coefficient characterizing the mobility. Equation
-eq.\ref{eq:euler} also gives us an expression for the chemical
+\ref{eq:euler} also gives us an expression for the chemical
 potential, so that we finally obtain the \emph{Cahn-Hilliard equation}:
 
 \[
@@ -1704,7 +1489,7 @@ potential, so that we finally obtain the \emph{Cahn-Hilliard equation}:
 \]
 
 It is this equation which governs the behaviour observed in figure
-fig.\ref{fig:maze}. Due to its non-linearity and fourth order
+\ref{fig:maze}. Due to its non-linearity and fourth order
 derivatives simply solving the Cahn-Hilliard is usually forsaken in
 favour of deriving a scaling relation, which relates the domain growth
 speed \(dR/dt\) to the domain size \(R\) or some other system
@@ -1714,14 +1499,14 @@ effective droplet approximation, as we do in the next section.
 \hypertarget{effective-droplet}{%
 \section{Effective droplet}\label{effective-droplet}}
 
-Consider again equation eq.\ref{eq:domainwall}. If \(w\ll1\), we can
+Consider again equation \ref{eq:domainwall}. If \(w\ll1\), we can
 approximate the system by describing it as two bulk phases, separated by
 an interface. If we apply correct boundary conditions at the interface,
 we can essentially split the system into two separate problems for the
 dense and dilute phase and match them at the interface. We thus model
 the phase separated system as a droplet which exchanges material with
 its environment through its interface, as shown in figure
-fig.\ref{fig:effectivedroplet}
+\ref{fig:effectivedroplet}
 
 \begin{figure}
 \hypertarget{fig:effectivedroplet}{%
@@ -1734,7 +1519,7 @@ black dashed line effective droplet.}\label{fig:effectivedroplet}
 
 By assuming the interface to be at thermodynamic equilibrium, the growth
 of the droplet is described in terms of the fluxes across the interface.
-Consider again equation eq.\ref{eq:euler}. As we can neglect the
+Consider again equation \ref{eq:euler}. As we can neglect the
 interfacial term, we have \(\mu = f'(c)\). In each bulk phase, we
 linearize the chemical potential around it's equilibrium density
 (\(c_0^-\) or \(c_0^+\)) to yield: \begin{equation}
@@ -1750,7 +1535,7 @@ as we show in the next section and chapter.
 
 By introducing the interface and breaking the problem into two separate
 parts, we need two new boundary conditions to solve equations such as
-eq.\ref{eq:diffusion}. By assuming the interface to be at thermodynamic
+\ref{eq:diffusion}. By assuming the interface to be at thermodynamic
 equilibrium, we will derive a set of boundary conditions independent of
 the position, size or kinetic parameters of the droplet. Consider such a
 phase-separated system with an infinitely thin interface. The total free
@@ -1785,7 +1570,7 @@ conditions due to the Laplace pressure, but one can show that this leads
 to an extra term which scales with \(1/R\)\textsuperscript{48}.
 
 Having defined boundary conditions, equations such as
-eq.\ref{eq:diffusion} can be solved. Although one could solve these
+\ref{eq:diffusion} can be solved. Although one could solve these
 equations fully time-dependent using Green's functions, we assume a
 quasi-steady state so that \(dc/dt=0\).This will give us the
 concentration profiles in and outside the droplet, droplet growth
@@ -1835,12 +1620,12 @@ We now make the droplet \emph{active} by adding a chemical reaction in
 the droplet which decays the droplet material A into some other other
 material B. Assuming material B diffuses very fast and is thus always in
 equilibrium, we ignore material B and describe solely \(A\). Adding a
-decay term to equation eq.\ref{eq:diffusion} gives: \begin{equation}
+decay term to equation \ref{eq:diffusion} gives: \begin{equation}
 D\nabla^2c-kc=0
 \label{eq:activity}\end{equation} where \(k\) is a decay constant.
-Solving equation eq.\ref{eq:activity} will always give a convex
+Solving equation \ref{eq:activity} will always give a convex
 solution and hence a finite \(J_{in}\). A typical concentration profile
-for an active droplet is shown in figure fig.\ref{fig:activedroplet}.
+for an active droplet is shown in figure \ref{fig:activedroplet}.
 
 \begin{figure}
 \hypertarget{fig:activedroplet}{%
@@ -1875,7 +1660,7 @@ Solving this set of equations for \(dx\) and \(dR\) gives:
 \frac{dx_0}{dt}=\frac{1}{2\Delta c}(v_l+v_r)
 \label{eq:position}\end{equation}
 
-Combining these equations with equation eq.\ref{eq:interfacespeed}
+Combining these equations with equation \ref{eq:interfacespeed}
 finally relates the growth and movement of the droplet to the fluxes
 across the interface: \[
 \frac{dR}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=R}-J_{in}^{x=-R})+(J_{out}^{x=-R}-J_{out}^{x=R})\right]
@@ -1885,7 +1670,7 @@ across the interface: \[
 \frac{dx_0}{dt}=\frac{1}{2\Delta c}\left[(J_{in}^{x=-R}+J_{in}^{x=R})-(J_{out}^{x=-R}+J_{out}^{x=R})\right]
 \]
 
-Studying equations eq.\ref{eq:radius} and eq.\ref{eq:position} shows
+Studying equations \ref{eq:radius} and \ref{eq:position} shows
 that movement only happens if the fluxes are asymmetrical; the droplet
 center is displaced because one side of the droplet grows faster than
 the other. This imbalance is caused by a concentration gradient and thus
@@ -1898,8 +1683,8 @@ equations to model the Golgi and couple it to the intracellular
 transport through the calculations of the fluxes \(J_{out}\). We do so
 in the next section.
 
-\hypertarget{golgi-as-an-active-droplet}{%
-\section{Golgi as an active droplet}\label{golgi-as-an-active-droplet}}
+\hypertarget{Golgi-as-an-active-droplet}{%
+\section{Golgi as an active droplet}\label{Golgi-as-an-active-droplet}}
 
 In the introduction we justified using a phase-separation approach to
 describe the Golgi. In this section we develop our model for the Golgi
@@ -1909,7 +1694,7 @@ description.
 
 We can recognize four different populations in our system: immature
 cargo -heading to the Golgi-, mature cargo, -originating from the Golgi
-and which is produced from immature cargo in the golgi-, the Golgi
+and which is produced from immature cargo in the Golgi-, the Golgi
 itself and the cytoplasm, which acts as the solute. We start by reducing
 this set of populations to a system described by a single concentration
 \(c\). Assuming maturation from the Golgi as a oneway process,
@@ -1949,9 +1734,9 @@ D\partial_x^2 c(x) - v\partial_xc(x)-ac(x)=0
 
 with \(v\) an advection velocity and \(a\) some decay constant. Solving
 this equation will lead to a concentrion profile with a gradient and we
-thus model our golgi as an active droplet growing in a concentration
+thus model our Golgi as an active droplet growing in a concentration
 gradient, inspired by 51. A study of the biogenesis of the
-golgi\textsuperscript{8} shows that stacks are transported to the ribbon
+Golgi\textsuperscript{8} shows that stacks are transported to the ribbon
 over the microtubules, so we thus add the advection also to the dense
 phase: \begin{equation}
 D\partial_x^2 c(x) - v\partial_xc(x)-kc(x)=0
@@ -2036,7 +1821,7 @@ by the diffusion \(l_D=\sqrt{D/k}\) and a lengthscale set by the
 advection \(l_v=2D/v\): \[
 \frac{1}{l^{\pm}} = \sqrt{\frac{k}{D}+\left(\frac{v}{2D}\right)^2}\pm\frac{v}{2D}=\sqrt{\frac{1}{l_D^2}+\frac{1}{l_v^2}}\pm\frac{1}{l_{v}}.
 \] We have defined symmetric boundary conditions for the droplet,
-\(c(R)=c(-R)=c_0^+\). Solving equation eq.\ref{eq:cgeneral} with these
+\(c(R)=c(-R)=c_0^+\). Solving equation \ref{eq:cgeneral} with these
 boundary conditions will lead to a convex concentration profile. We can
 thus associate \(l^-\) with \(x<0\), the left side of the droplet, and
 \(l^+\) with \(x>0\), the right side. In a system without advection we
@@ -2045,7 +1830,7 @@ symmetric around \(c(0)\). If \(v>0\) however, we have \(l^- >l^+\) and
 the droplet is no longer symmetric around \(c(0)\); rather, the position
 of the minimum concentration moves right, while the minimum
 concentration itself increases. This is shown in figure
-fig.\ref{fig:concprofile}, where we have plotted a concentration
+\ref{fig:concprofile}, where we have plotted a concentration
 profile for \(v=0\) in blue and \(v>0\) in orange.
 
 \begin{figure}
@@ -2061,8 +1846,8 @@ increases and that its location moves right.}\label{fig:concprofile}
 For a diffusive-advective flow, the flux is determined by
 \(J(x) = -D\partial_xc(x)+vc(x)\) and applying this to the droplet
 concentration yields the fluxes. The fluxes itself are not particularly
-insightful, but considering equations eq.\ref{eq:radius} and
-eq.\ref{eq:position}, we can define a \emph{maturation flux}
+insightful, but considering equations \ref{eq:radius} and
+\ref{eq:position}, we can define a \emph{maturation flux}
 \(J_{mat} = J_{in}^{x=R}-J_{in}^{x=-R}\) and a \emph{positional flux}
 \(J_{pos} = J_{in}^{x=R}+J_{in}^{x=-R}\), so that \begin{equation}
 \frac{dR}{dt}=\frac{1}{2\Delta c}\left[J_{mat}+(J_{out}^{x=-R}-J_{out}^{x=R})\right]
@@ -2079,11 +1864,11 @@ J_{in}^{x=R}-J_{in}^{x=-R} = (-D\partial_xc(x)+vc(x))|_{x=R}-(-D\partial_xc(x)+v
 \] The maturation flux does have a dependence on the advection through
 its effect on the concentration profile. Since \(J_{rad}\) is solely
 determined by the diffusive flux and the solutions of
-eq.\ref{eq:cgeneral} are convex, the fluxes at the two interfaces have
+\ref{eq:cgeneral} are convex, the fluxes at the two interfaces have
 opposite signs. More so, \(J_{in}^{x=R}<0\) and \(J_{in}^{x=-R}>0\), so
 that \(J_{mat}<0\). This means that the droplet will shrink unless
 sustained by some influx from outside the droplet, as can be seen from
-equation eq.\ref{eq:drdtalt}. If the maturation flux is exactly
+equation \ref{eq:drdtalt}. If the maturation flux is exactly
 balanced by this influx, the droplet radius remains stable. Whereas
 passive droplets will grow to an infinite radius, active droplets remain
 at a finite radius due to their suppresion of the Ostwald
@@ -2100,9 +1885,9 @@ J_{mat}=-2c_0^+kR.
 \label{eq:Jmatapprox}\end{equation} Effectively, we have approximated
 the concentration profile inside the droplet as \(c(x)=c_0^+\), so that
 the flux lost due to decay with rate \(-k\) for a droplet with size
-\(2R\) indeed gives equation eq.\ref{eq:Jmatapprox}. One would thus
+\(2R\) indeed gives equation \ref{eq:Jmatapprox}. One would thus
 expect that the limit of \(R\to \infty\) would yield an infinite flux
-but taking the limit of eq.\ref{eq:Jmat} gives \[
+but taking the limit of \ref{eq:Jmat} gives \[
 \lim_{R\to\infty} = -2c_0^+\sqrt{kD},
 \] which does not yield the shocking result that
 \(\infty = \sqrt{D/k}\), but that the flux saturates for
@@ -2112,7 +1897,7 @@ concentration, the flux saturates. In this regime, the effective droplet
 theory is not valid and hence we require that \(R<l_D\). In the case of
 an advected droplet this is a more subtle point, as advection increases
 the minimum concentration inside the droplet (as can be seen in figure
-fig.\ref{fig:concprofile}). We study this numerically in the next
+\ref{fig:concprofile}). We study this numerically in the next
 section.
 
 The positional flux \(J_{pos}\) is the internal flux which leads to
@@ -2127,7 +1912,7 @@ equals \(2c_0^+v\), but in an active droplet we need to take into
 account the internal diffusion. Recall that the diffusive fluxes point
 inwards and hence are aligned antiparallely, whereas the advective
 fluxes are aligned parallely. The net flux at the two interfaces is thus
-different, leading to equation eq.\ref{eq:Jpos} instead of \(2c_0^+v\).
+different, leading to equation \ref{eq:Jpos} instead of \(2c_0^+v\).
 
 We now turn to the fluxes on the outside of the droplet. A droplet of
 radius \(R\) at position \(x_0\) has its interfaces at \(x_0 \pm R\) and
@@ -2142,11 +1927,11 @@ J_{out}^{x=R} = -c_0^{out}D\frac{Pe_-Pe_+(1-e^{\frac{-x_2+L}{l}})}{l_+Pe_-+e^{\f
 \label{eq:rightflux}\end{equation}
 
 Although not particularly enlightening, we note the similarity between
-the second term of eq.\ref{eq:leftflux} and eq.\ref{eq:rightflux}. The
+the second term of \ref{eq:leftflux} and \ref{eq:rightflux}. The
 flux on the left of the droplet has anothe term in \(J_{in}\),
 accounting for the source we have placed at the left boundary. In the
-next section we study the phase diagram equations eq.\ref{eq:Jmat},
-eq.\ref{eq:Jpos}, eq.\ref{eq:leftflux} and eq.\ref{eq:rightflux} give
+next section we study the phase diagram equations \ref{eq:Jmat},
+\ref{eq:Jpos}, \ref{eq:leftflux} and \ref{eq:rightflux} give
 rise to.
 
 \hypertarget{free-droplet}{%
@@ -2180,8 +1965,8 @@ J_{rad}\approx -2 c_0^+kR
 J_{pos}\approx2 c_0^+v 
 \label{eq:posfluxapprox}\end{equation}
 
-Putting these expressions in equations eq.\ref{eq:drdtalt} and
-eq.\ref{eq:dxdtalt} gives \begin{equation}
+Putting these expressions in equations \ref{eq:drdtalt} and
+\ref{eq:dxdtalt} gives \begin{equation}
 \frac{dR}{dt} \approx \frac{1}{2\Delta c}(J_{in}-2 c_0^+kR),
 \label{eq:drdtapproxnodecay}\end{equation}
 
@@ -2203,8 +1988,8 @@ We now study this system numerically. As the fluxes on the outside of
 the droplet are independent of the velocity, we are in fact studying the
 effect of advection on an active droplet, irrespective of its
 environment. We plot the stable radius of the droplet in figure
-fig.\ref{fig:stableradnodecay} and the corresponding minimum
-concentration in fig.\ref{fig:minconnodecay} . We have used the
+\ref{fig:stableradnodecay} and the corresponding minimum
+concentration in \ref{fig:minconnodecay} . We have used the
 following parameters: \(D=1, k=0.1, c_0^+=0.9\).
 
 \begin{figure}
@@ -2231,13 +2016,13 @@ valid.}\label{fig:minconnodecay}
 Note that the stable radius of small droplets is independent of the
 velocity, but that we do observe some dependence for bigger droplets.
 However, concurrently with the size increase is the minimum
-concentration decrease, as shown in figure fig.\ref{fig:minnodecay} .
+concentration decrease, as shown in figure \ref{fig:minnodecay} .
 For very low \(v\) and high \(J_{in}\), the concentration even drops to
 0.4 - a concentration corresponding to the dilute well of the free
 energy and thus clearly unphysical. Increasing \(v\) raises the minimum
 concentration, while also slightly decreasing the radius of the droplet.
 To understand this decrease in radius, consider again figure
-fig.\ref{fig:concprofile}. Calculating some average concentration
+\ref{fig:concprofile}. Calculating some average concentration
 \(\bar{c}=\frac{1}{V}\int c(x)dV\), it is clearly visible that this is
 higher for the advected droplet. Estimating the maturation flux as
 \(J_{mat}\propto -2Rk\bar{c}\), an advected droplet thus has a higher
@@ -2248,13 +2033,13 @@ R = \frac{J_{in}}{2k\bar{c}}.
 \label{eq:jmathandwavy}\end{equation} Since both \(J_{in}\) and \(k\)
 are fixed, \(R\) must decrease and thus advection compacts active
 droplets. The superimposed dashed line in figure
-fig.\ref{fig:stableradnodecay} corresponds to \(dx_0/dt=0\) and thus
+\ref{fig:stableradnodecay} corresponds to \(dx_0/dt=0\) and thus
 represents the stable droplets for which \(dR/dt=dx_0/dt=0\). Observe
 that for small \(v\) it indeed shows a linear dependence between
 \(J_{in}\) and \(v\) as predicted, but that for higher \(v\) we do
 observe some non-linearity. Due to the low concentrations those areas
 are unphysical however. We now investigate the stability of this line by
-perturbing eq.\ref{eq:drdtapproxnodecay} around \(R_{stable}\). We
+perturbing \ref{eq:drdtapproxnodecay} around \(R_{stable}\). We
 obtain \[
 \frac{d\delta r}{dt}=-2c_0^+k\delta r.
 \] Since both \(k>0\) and \(c_0^+>0\), any fluctutations cancel; the
@@ -2263,13 +2048,13 @@ independent of the position in the system as the outside fluxes are
 constant. By including decay outside the droplet, i.e. \(a\neq 0\), the
 outside fluxes will become dependent on the position of the droplet.
 
-We solve equations eq.\ref{eq:Jmat}, eq.\ref{eq:Jpos},
-eq.\ref{eq:leftflux} and eq.\ref{eq:rightflux} numerically by finding
+We solve equations \ref{eq:Jmat}, \ref{eq:Jpos},
+\ref{eq:leftflux} and \ref{eq:rightflux} numerically by finding
 the \(x_0^*\) and \(R^{*}\) for which \(dx_0/dt=dR/dt=0\) inside our
 system, i.e. \(0<x_0^*<L\), \(0<R^*<L/2\). Using
 \(k=0.3, a=0.1, D=1 ,c_0^-=0.1,c_0^+=0.9, L=5\) , we plot the steady
-state radii and positions in figures fig.\ref{fig:rstabledecay} and
-fig.\ref{fig:xstabledecay}.
+state radii and positions in figures \ref{fig:rstabledecay} and
+\ref{fig:xstabledecay}.
 
 \begin{figure}
 \hypertarget{fig:rstabledecay}{%
@@ -2313,18 +2098,18 @@ the case anymore. For a droplet at a fixed point \(x_0\), increasing
 increasing \(v\) also increases the maturation flux inside the droplet,
 the increase of the outside flux is dominant and hence the droplet
 radius increases with increasing \(v\). Also observe in figure
-fig.\ref{fig:xstabledecay} that increasing \(v\) decreases \(x_0\).
+\ref{fig:xstabledecay} that increasing \(v\) decreases \(x_0\).
 Increasing the flow thus leads to the droplet moving further up that
 flow, a very counterintuitive situation. To see why this happens,
 consider a droplet of fixed radius \(R\) at position \(x_0\).
-Remembering equation eq.\ref{eq:jmathandwavy}, increasing \(v\)
+Remembering equation \ref{eq:jmathandwavy}, increasing \(v\)
 increases \(\bar{c}\), which can only be compensated by a higher influx
 \(J_{in}\). In a system with decay and advection, the influx is higher
 upstream and hence the droplet moves upstream.
 
 We study the stability of these steady states by plotting \(dx_0/dt\)
 and \(dR/dt\) at \(J_{in} = 0.18\) and \(v=0.1\) in figures
-fig.\ref{fig:drdtdecay} and fig.\ref{fig:dxdtdecay}.
+\ref{fig:drdtdecay} and \ref{fig:dxdtdecay}.
 
 \begin{figure}
 \hypertarget{fig:drdtdecay}{%
@@ -2395,7 +2180,7 @@ We thus ask at which concentration the dilute and dense phases becomes
 unstable. For the thermodynamics we know that stability requires
 \(d^2f/dc^2>0\). In areas where \(d^2f/dc^2<0\), fluctuations keep
 growing and the system will phase separate. For the free energy density
-given by eq.\ref{eq:energydensity}, the area between the two inflection
+given by \ref{eq:energydensity}, the area between the two inflection
 points \(c=(c_0^++c_0^-)/2\pm\sqrt{3}(c_0^+-c_0^-)\) is unstable. Thus,
 if the concentration in the dense phase becomes lower than upper
 inflection point, a dilute phase will form. On the other hand, if the
@@ -2418,9 +2203,9 @@ We obtain: \begin{equation}
 \label{eq:jminright}\end{equation}
 
 where \(l\) is a lengthscale defined as \(l=D/\sqrt{4aD+v^2}\).
-Equations eq.\ref{eq:jminleft} and eq.\ref{eq:jminright} represent the
+Equations \ref{eq:jminleft} and \ref{eq:jminright} represent the
 minimum influx required to form a droplet on the left or right and we
-plot these two curves in figure fig.\ref{fig:minJconc}
+plot these two curves in figure \ref{fig:minJconc}
 
 \begin{figure}
 \hypertarget{fig:minJconc}{%
@@ -2433,7 +2218,7 @@ side.}\label{fig:minJconc}
 
 The blue line shows the minimum \(J_{in}\) for the left side of the
 system, while the orange line shows the minimum for the right. We can
-recognize four areas in figure fig.\ref{fig:minJconc}. Below both the
+recognize four areas in figure \ref{fig:minJconc}. Below both the
 blue and the orange line, the concentration never reaches the lower
 inflection point and thus no droplets will be formed. In the area below
 the orange line but above the blue line, only a droplet on the left is
@@ -2446,13 +2231,13 @@ point at both sides of the system.
 This approach only determines when a droplet is formed and does not
 yield any information about the size and stability of such newly-formed
 droplets. In fact, we require the existence of a stable droplet with
-non-zero radius in areas where figure fig.\ref{fig:minJconc} predicts a
+non-zero radius in areas where figure \ref{fig:minJconc} predicts a
 droplet is formed. We investigate this in the next section
 
 Above both lines the concentration is high enough on both sides. This
 plot onyl tells us when phase-separation should happen; it doesn't tell
 if it does. We investigate this in the next section by comparing the
-phase diagram of figure fig.\ref{fig:minJconc} with the phase diagram
+phase diagram of figure \ref{fig:minJconc} with the phase diagram
 of the effective droplet model.
 
 \hypertarget{effective-droplet-2}{%
@@ -2471,12 +2256,12 @@ the following: \begin{equation}
 \text{Right: } J_{in} =ac_0^-l\left(e^{-\frac{L}{2l}(\frac{vl}{D}-1)}-e^{-\frac{L}{2l}(\frac{vl}{D}+1)}\right)
 \label{eq:jminrighted}\end{equation}
 
-Note that these equations have the same form as eq.\ref{eq:jminleft}
-and eq.\ref{eq:jminright}, save for some prefactor. Defining the
-minimum flux as defined by equations eq.\ref{eq:jminleft} and
-eq.\ref{eq:jminright} as \(J^{AD}\) and the minimum flux as calculated
-by the effective droplet model in equations eq.\ref{eq:jminlefted} and
-eq.\ref{eq:jminrighted} we obtain the same ratio for both the left and
+Note that these equations have the same form as \ref{eq:jminleft}
+and \ref{eq:jminright}, save for some prefactor. Defining the
+minimum flux as defined by equations \ref{eq:jminleft} and
+\ref{eq:jminright} as \(J^{AD}\) and the minimum flux as calculated
+by the effective droplet model in equations \ref{eq:jminlefted} and
+\ref{eq:jminrighted} we obtain the same ratio for both the left and
 right sides: \[
 \frac{J^{AD}}{J^{ED}} = \frac{(3-\sqrt{3})c_0^++(3+\sqrt{3})c_0^-}{6c_0^-}
 \] Note that \(J^{AD}>J^{ED}\) if \(c_0^+>c_0^-\). In other words, the
@@ -2485,7 +2270,7 @@ flux required to form a droplet if the concentration in the dense phase
 is higher than the concentration in the dilute phase, which it is by
 definition. We thus see that a stable droplet with a non-zero radius is
 guaranteed to exist if phase separation should occur as determined by
-equations eq.\ref{eq:jminleft} and eq.\ref{eq:jminright}. A second
+equations \ref{eq:jminleft} and \ref{eq:jminright}. A second
 criterium would be mass conservation: the mass in a separated system
 should be similar to the mass in a phase separated system. Given any
 concentration profile (either above or below critical concentration)
@@ -2514,7 +2299,7 @@ J_{in} = \frac{c_0^-D}{2l}\left(\frac{vl}{D}+\frac{(1+e^{\frac{L}{l}}-2e^{\frac{
 \(v^*\): \begin{equation}
 v^*=\frac{aL}{2}
 \label{eq:minadv}\end{equation} We plot the corresponding phase diagram
-in figure fig.\ref{fig:phasediagramapprox} .
+in figure \ref{fig:phasediagramapprox} .
 
 \begin{figure}
 \hypertarget{fig:phasediagramapprox}{%
@@ -2539,10 +2324,10 @@ the left hence favouring droplets being formed on the left. For high
 favoured. All phases intersect at a single point. Expanding the crossing
 of the minimal fluxes for \(l_D,l_v\gg L\) we obtain \[
 v_{cross}=\frac{aL}{2}
-\] which is similar to equations eq.\ref{eq:minadv}, meaning that the
+\] which is similar to equations \ref{eq:minadv}, meaning that the
 intersection at this point is a system property and not just a
 side-effect of our parameter choice. In figure
-fig.\ref{fig:phasediagramnumerical} we plot the results of numerically
+\ref{fig:phasediagramnumerical} we plot the results of numerically
 solving the equations.
 
 \begin{figure}
@@ -2558,9 +2343,9 @@ respectively a droplet on the left and right. The black dashed line
 corresponds to \(dR_{left}/dt=0\) in the two droplet model, while the
 dotted-dashed line is \(dR_{right}/dt=0\). Since only the line this line
 is determined numerically, all the other lines exactly match what is
-plotted in figure fig.\ref{fig:phasediagramapprox}. Contrary to this
+plotted in figure \ref{fig:phasediagramapprox}. Contrary to this
 plot however, \(dR_{right}/dt=0\) is not vertical. This is because
-eq.\ref{eq:minadv} has been derived assuming that both the left and
+\ref{eq:minadv} has been derived assuming that both the left and
 right droplet appear at the same time; in reality, one of the droplet
 can have a non-zero radius before a second droplet appears. Numerically
 we also find that all the phases are connected through some critical
